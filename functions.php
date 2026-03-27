@@ -18,7 +18,7 @@ if (!function_exists('freska_register_sidebar')) {
 /* Get icon SVG HTML */
 function freska_get_icon_svg_html( $icon_file_name ) {
     if ( empty( $icon_file_name ) ) {
-        return 'Error: Invalid file name or file name is missing.';
+        return 'Error: Invalid file name or file name is missing.'; 
     }
 
     $icon_file_name = sanitize_file_name( $icon_file_name );
