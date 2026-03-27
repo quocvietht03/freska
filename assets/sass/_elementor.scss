@@ -1,0 +1,140 @@
+.elementor-element {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
+}
+.elementor-widget-heading .elementor-heading-title {
+  span {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+  }
+
+  a {
+    display: inline-block;
+    color: $color-accent !important;
+    text-decoration: underline;
+  }
+}
+
+.elementor-headline,
+.elementor-widget-image img {
+  margin: 0;
+}
+
+.elementor-widget-text-editor {
+  .elementor-widget-container,
+  .elementor-text-editor {
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+  > *:last-child {
+    margin-bottom: 0;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    color: inherit;
+    margin: 0 0 16px;
+  }
+}
+
+.elementor-widget-icon {
+  line-height: 0;
+}
+
+.elementor-button .elementor-button-icon {
+  display: flex;
+}
+
+.elementor-image-box-img img {
+  margin: 0;
+}
+
+.elementor-pagination {
+  @extend .__bt-pagination-style;
+  display: block;
+  .page-numbers {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    padding: 0px 5px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    &:nth-child(2) {
+      &.current {
+        margin-left: 0 !important;
+      }
+    }
+    &:nth-last-child(2) {
+      &.current {
+        margin-right: 0 !important;
+      }
+    }
+    &.prev,
+    &.next {
+      font-size: inherit;
+      svg {
+        position: relative;
+        top: 2px;
+      }
+    }
+  }
+
+  span {
+    &.prev,
+    &.next {
+      display: none;
+    }
+  }
+}
+
+.elementor-widget-form {
+  .elementor-field,
+  .elementor-field-textual {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .elementor-form {
+    ::-webkit-input-placeholder {
+      opacity: 1 !important;
+    }
+
+    ::-moz-placeholder {
+      opacity: 1 !important;
+    }
+
+    :-ms-input-placeholder {
+      opacity: 1 !important;
+    }
+
+    .elementor-field,
+    .elementor-field-textual {
+      padding: 0 8px;
+    }
+  }
+
+  .elementor-form[name="Contact With Us"] {
+    .elementor-field-type-submit {
+      justify-content: center;
+
+      .elementor-button {
+        flex-basis: auto;
+      }
+    }
+  }
+}
