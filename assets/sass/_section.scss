@@ -1,1 +1,27 @@
-// Section styles
+.__bt-heading-style {
+    @media (min-width: 1200px) and (max-width: 1439.98px) {
+        font-size: 55px;
+    }
+
+    @media (min-width: 1025px) and (max-width: 1199.98px) {
+        font-size: 45px;
+    }
+}
+
+body {
+    --width-body: 100%;
+}
+.elementor-element {
+    @media (min-width: 1350px) {
+        &.bt-col-container-left {
+            padding-left: max(60px, calc((var(--width-body) + 5px - var(--container-max-width)) / 2));
+        }
+        &.bt-col-container-right {
+            padding-right: max(60px, calc((var(--width-body) + 5px - var(--container-max-width)) / 2));
+        }
+    }
+}
+
+.elementor-element {
+  
+}

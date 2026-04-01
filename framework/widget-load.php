@@ -46,15 +46,73 @@ class ElementorWidgets
 	{
 
 		$this->widgets = array(
-			'mobile-menu',
 			'site-information',
 			'site-social',
 			'site-copyright',
+			'site-notification',
+			'instagram-posts',
+			'recent-posts',
+			'banner-product-slider',
 			'page-breadcrumb',
+			'mobile-menu',
+			'megamenu',
+			'post-loop-item',
+			'post-loop-item-style-1',
+			'post-loop-item-style-2',
+			'post-loop-item-style-3',
+			'post-grid',
+			'product-loop-item',
+			'product-spotlight-item',
+			'product-category-item',
+			'product-wishlist',
+			'product-compare',
+			'highlighted-heading',
+			'mini-cart',
+			'list-faq',
+			'bt-accordion',
+			'account-login',
+			'search-product',
+			'search-product-style-1',
+			'brand-slider',
+			'product-showcase',
+			'product-showcase-style-1',
+			'product-showcase-style-2',
+			'heading-animation',
+			'mini-wishlist',
+			'mini-compare',
+			'product-tooltip-hotspot',
+			'product-overlay-hotspot',
+			'product-popup-hotspot',
+			'product-testimonial',
+			'product-testimonial-slider',
+			'testimonial-slider',
+			'countdown',
+			'our-teams',
+			'our-store',
+			'locale-switcher',
+			'site-icon-payment',
+			'vertical-banner-slider',
+			'order-tracking',
+			'accordion-hotspot',
+			'product-testimonial-item',
+			'location-list'
 
 		);
 
 		return $this->widgets;
+	}
+
+	/**
+	 * backend_styles
+	 *
+	 * Load required core files.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function backend_styles()
+	{
+		wp_enqueue_style('freska-backend-editor', get_template_directory_uri() . '/framework/widgets/backend.css', array(), false);
 	}
 
 	/**
@@ -67,8 +125,8 @@ class ElementorWidgets
 	 */
 	public function widget_styles()
 	{
-		// https://developer.wordpress.org/reference/functions/wp_enqueue_style/
-		// wp_enqueue_style( $handle, $src, $deps, $ver, $media );
+		wp_enqueue_style('swiper-slider', get_template_directory_uri() . '/assets/libs/swiper/swiper.min.css', array(), false);
+		wp_enqueue_style('magnific-popup', get_template_directory_uri() . '/assets/libs/magnific-popup/magnific-popup.css', array(), false);
 	}
 
 	/**
@@ -81,10 +139,49 @@ class ElementorWidgets
 	 */
 	public function widget_scripts()
 	{
-		// https://developer.wordpress.org/reference/functions/wp_register_script/
-		// wp_register_script( $handle, $src, $deps, $ver, $args );
+		wp_register_script('swiper-slider', get_template_directory_uri() . '/assets/libs/swiper/swiper.min.js', array('jquery'), '', true);
+		wp_register_script('elementor-widgets',  get_template_directory_uri() . '/framework/widgets/frontend.js', ['jquery'], '', true);
+		wp_register_script('magnific-popup', get_template_directory_uri() . '/assets/libs/magnific-popup/jquery.magnific-popup.js', array('jquery'), '', true);
+	}
 
-		wp_register_script('freska-widgets',  get_template_directory_uri() . '/framework/widgets/frontend.js', ['jquery'], '', true);
+	/**
+	 * Check if Elementor Pro is active
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @return bool
+	 */
+	public static function is_elementor_pro_active()
+	{
+		// Check if Elementor Pro class exists
+		if (class_exists('ElementorPro\Plugin')) {
+			return true;
+		}
+
+		// Fallback: Check if plugin is active
+		if (!function_exists('is_plugin_active')) {
+			include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+		}
+
+		return is_plugin_active('elementor-pro/elementor-pro.php');
+	}
+	
+	/**
+	 * Get list of widgets that require Elementor Pro
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @return array
+	 */
+	private function get_elementor_pro_widgets()
+	{
+		return array(
+			'instagram-posts',
+			'banner-product-slider',
+			'brand-slider',
+			'testimonial-slider',
+			'product-testimonial-slider',
+		);
 	}
 
 	/**
@@ -97,22 +194,61 @@ class ElementorWidgets
 	 */
 	private function include_widgets_files()
 	{
+		$elementor_pro_widgets = $this->get_elementor_pro_widgets();
+		$is_elementor_pro_active = self::is_elementor_pro_active();
 
-		foreach ( $this->widgets_list() as $widget ) {
+		foreach ($this->widgets_list() as $widget) {
+			// Skip widgets that require Elementor Pro if Elementor Pro is not active
+			if (in_array($widget, $elementor_pro_widgets) && ! $is_elementor_pro_active) {
+				continue;
+			}
+
 			$widget_file = get_template_directory() . '/framework/widgets/' . $widget . '/widget.php';
-			
+
 			// Only require if file exists and class is not already declared
-			if ( file_exists( $widget_file ) && ! class_exists( $widget ) ) {
+			if (file_exists($widget_file) && ! class_exists($widget)) {
 				require_once $widget_file;
 			}
 
 			// Include skins safely
 			$skins_path = get_template_directory() . '/framework/widgets/' . $widget . '/skins/';
-			foreach ( glob( $skins_path . '*.php' ) as $filepath ) {
-				if ( file_exists( $filepath ) ) {
-					include $filepath;
+			if (is_dir($skins_path)) {
+				foreach (glob($skins_path . '*.php') as $filepath) {
+					if (file_exists($filepath)) {
+						include $filepath;
+					}
 				}
 			}
+		}
+	}
+
+	/**
+	 * Register widget with Elementor Pro check
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @param string $class_name Full class name
+	 * @param string $widget_name Widget name for placeholder
+	 * @param string $widget_title Widget title for placeholder
+	 */
+	private function register_widget_with_pro_check($class_name, $widget_name, $widget_title)
+	{
+		$widgets_manager = \Elementor\Plugin::instance()->widgets_manager;
+
+		if (class_exists($class_name)) {
+			$widgets_manager->register_widget_type(new $class_name());
+		} elseif (class_exists('Elementor\Modules\Promotions\Widgets\Pro_Widget_Promotion')) {
+			// Create wrapper class to add e-widget-pro-promotion class
+			$placeholder = new class([], [
+				'widget_name' => $widget_name,
+				'widget_title' => $widget_title,
+			]) extends \Elementor\Modules\Promotions\Widgets\Pro_Widget_Promotion {
+				protected function get_html_wrapper_class()
+				{
+					return parent::get_html_wrapper_class() . ' e-widget-pro-promotion';
+				}
+			};
+			$widgets_manager->register_widget_type($placeholder);
 		}
 	}
 
@@ -128,7 +264,7 @@ class ElementorWidgets
 	{
 
 		$elements_manager->add_category(
-			'bt-freska',
+			'freska',
 			[
 				'title' => esc_html__('Freska', 'freska')
 			]
@@ -149,11 +285,93 @@ class ElementorWidgets
 		$this->include_widgets_files();
 
 		// Register Widgets
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\FreskaMobileMenu\Widget_FreskaMobileMenu());
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\FreskaSiteInformation\Widget_FreskaSiteInformation());
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\FreskaSiteSocial\Widget_FreskaSiteSocial());
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\FreskaSiteCopyright\Widget_FreskaSiteCopyright());
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\FreskaPageBreadcrumb\Widget_FreskaPageBreadcrumb());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\SiteInformation\Widget_SiteInformation());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\SiteNotification\Widget_SiteNotification());
+
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\SiteSocial\Widget_SiteSocial());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\SiteCopyright\Widget_SiteCopyright());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\RecentPosts\Widget_RecentPosts());
+
+
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\PageBreadcrumb\Widget_PageBreadcrumb());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\MobileMenu\Widget_MobileMenu());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\MegaMenu\Widget_MegaMenu());
+
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\PostLoopItem\Widget_PostLoopItem());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\PostLoopItemStyle1\Widget_PostLoopItemStyle1());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\PostLoopItemStyle2\Widget_PostLoopItemStyle2());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\PostLoopItemStyle3\Widget_PostLoopItemStyle3());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\PostGrid\Widget_PostGrid());
+
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductLoopItem\Widget_ProductLoopItem());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductSpotlightItem\Widget_ProductSpotlightItem());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductCategoryItem\Widget_ProductCategoryItem());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductWishlist\Widget_ProductWishlist());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductCompare\Widget_ProductCompare());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\AccountLogin\Widget_AccountLogin());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\SearchProduct\Widget_SearchProduct());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\SearchProductStyle1\Widget_SearchProductStyle1());
+
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\HighlightedHeading\Widget_HighlightedHeading());
+
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\MiniCart\Widget_MiniCart());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ListFaq\Widget_ListFaq());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\BtAccordion\Widget_BtAccordion());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\HeadingAnimation\Widget_HeadingAnimation());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\MiniWishlist\Widget_MiniWishlist());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\MiniCompare\Widget_MiniCompare());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductTooltipHotspot\Widget_ProductTooltipHotspot());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductPopupHotspot\Widget_ProductPopupHotspot());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductTestimonial\Widget_ProductTestimonial());
+
+
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\CountDown\Widget_CountDown());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\OurTeams\Widget_OurTeams());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\OurStore\Widget_OurStore());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\LocaleSwitcher\Widget_LocaleSwitcher());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductOverlayHotspot\Widget_ProductOverlayHotspot());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\IconPayment\Widget_IconPayment());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductShowcase\Widget_ProductShowcase());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductShowcaseStyle1\Widget_ProductShowcaseStyle1());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductShowcaseStyle2\Widget_ProductShowcaseStyle2());
+
+
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\VerticalBannerSlider\Freska_VerticalBannerSlider());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\OrderTracking\Widget_OrderTracking());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\AccordionHotspot\Widget_AccordionHotspot());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductTestimonialItem\Widget_ProductTestimonialItem());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\LocationList\Widget_LocationList());
+
+
+		// Register widgets that require Elementor Pro
+		$this->register_widget_with_pro_check(
+			'FreskaElementorWidgets\Widgets\InstagramPosts\Widget_InstagramPosts',
+			'bt-instagram-posts',
+			__('Instagram Posts', 'freska')
+		);
+		$this->register_widget_with_pro_check(
+			'FreskaElementorWidgets\Widgets\BannerProductSlider\Widget_BannerProductSlider',
+			'bt-banner-product-slider',
+			__('Banner Product Slider', 'freska')
+		);
+
+		$this->register_widget_with_pro_check(
+			'FreskaElementorWidgets\Widgets\BrandSlider\Widget_BrandSlider',
+			'bt-brand-slider',
+			__('Brand Slider', 'freska')
+		);
+		$this->register_widget_with_pro_check(
+			'FreskaElementorWidgets\Widgets\ProductTestimonialSlider\Widget_ProductTestimonialSlider',
+			'bt-product-testimonial-slider',
+			__('Product Testimonial Slider', 'freska')
+		);
+
+		$this->register_widget_with_pro_check(
+			'FreskaElementorWidgets\Widgets\TestimonialSlider\Widget_TestimonialSlider',
+			'bt-testimonial-slider',
+			__('Testimonial Slider', 'freska')
+		);
+
 	}
 
 	/**
@@ -166,6 +384,8 @@ class ElementorWidgets
 	 */
 	public function __construct()
 	{
+		// Enqueue backend editor styles
+		add_action('elementor/editor/after_enqueue_styles', [$this, 'backend_styles']);
 
 		// Register widget styles
 		add_action('elementor/frontend/after_register_styles', [$this, 'widget_styles']);

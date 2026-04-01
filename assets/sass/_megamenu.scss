@@ -1,0 +1,582 @@
+/* Mega Menu Styles for Utenzo Theme */
+
+/* Main Mega Menu Container */
+.bt-elwg-megamenu--default {
+  position: relative;
+
+  &.bt-megamenu-js-pending {
+    .bt-megamenu-dropdown {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    .menu-item-has-megamenu .bt-submenu-indicator svg {
+      transform: none !important;
+    }
+  }
+
+  .bt-megamenu-wrapper {
+    position: relative;
+  }
+
+  @media (max-width: 1024px) {
+    overflow: visible;
+  }
+
+  /* Main Menu List */
+  .bt-megamenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  .bt-megamenu {
+    > li {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+
+      /* Submenu Indicator */
+      .bt-submenu-indicator {
+        margin-left: 6px;
+        flex-shrink: 0;
+        color: var(--e-global-color-primary, #183f91);
+        fill: var(--e-global-color-primary, #183f91);
+
+        svg {
+          width: 12px;
+          position: relative;
+          top: 2px;
+          transition: 0.3s ease;
+        }
+      }
+
+      &:hover .bt-submenu-indicator svg {
+        transform: rotate(-180deg);
+      }
+
+      /* Main Menu Links */
+      > a {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 26px;
+        text-transform: capitalize;
+        color: var(--e-global-color-primary, #183f91);
+        padding: 15px;
+      }
+
+      &.current-menu-item > a {
+        color: var(--e-global-color-accent, #ffce52);
+      }
+
+      /* Mega Menu Items */
+      &.menu-item-has-megamenu {
+        &:has([class*="bt-megamenu-horizontal-"]) {
+          position: static;
+        }
+
+        &:has([class*="bt-megamenu-horizontal-center-to-item"]) {
+          position: relative;
+        }
+
+        .sub-menu {
+          display: none;
+        }
+
+        > a {
+          position: relative;
+        }
+
+        /* Mega Menu Dropdown */
+        .bt-megamenu-dropdown {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          z-index: 999;
+          opacity: 0;
+          visibility: hidden;
+          box-sizing: border-box;
+
+          .elementor {
+            width: 100%;
+          }
+
+          /* Full Width Mega Menu */
+          &.bt-megamenu-full-width {
+            width: var(--fullwidth-mega);
+            left: calc(-1 * var(--left-mega-full));
+          }
+
+          /* Fit to Content Mega Menu */
+          &.bt-megamenu-fit-to-content {
+            width: auto;
+            min-width: 300px;
+
+            .elementor {
+              width: fit-content;
+              margin: 0 auto 30px auto;
+              > .elementor-element {
+                max-height: 75vh;
+                @extend .__scrollbar_style;
+              }
+            }
+
+            /* Horizontal Positioning */
+            &.bt-megamenu-horizontal-left {
+              left: 0;
+              right: auto;
+            }
+
+            &.bt-megamenu-horizontal-center {
+              left: var(--left-mega-center);
+            }
+
+            &.bt-megamenu-horizontal-center-to-item {
+              left: 50%;
+              transform: translateX(-50%);
+            }
+
+            &.bt-megamenu-horizontal-right {
+              left: auto;
+              right: 0;
+            }
+          }
+        }
+
+        /* Hover Effects */
+        &:hover .bt-megamenu-dropdown,
+        &.bt-megamenu-active .bt-megamenu-dropdown {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+
+      /* Sub Menu Styles */
+      .sub-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 200px;
+        background-color: #fff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        list-style: none;
+        margin: 0;
+        padding: 10px 0;
+
+        li {
+          display: block;
+          width: 100%;
+
+          a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 26px;
+            text-transform: capitalize;
+
+            &:hover {
+              background-color: rgba(0, 0, 0, 0.05);
+            }
+          }
+
+          &.current-menu-item > a {
+            color: var(--e-global-color-accent, #ffce52);
+          }
+        }
+
+        .sub-menu {
+          top: 0;
+          left: 100%;
+          margin-left: 5px;
+        }
+      }
+
+      &:hover > .sub-menu {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    /* Mega Menu Content Styling */
+    .menu-item span,
+    .elementor-heading-title,
+    .elementor-image-box-title a,
+    .elementor-icon-list-text {
+      position: relative;
+      display: inline-block;
+    }
+
+    .elementor-widget-image-box {
+      position: relative;
+
+      .elementor-image-box-img a:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+    }
+
+    /* Badge Styles */
+    sup {
+      font-weight: 600;
+      line-height: 1;
+      text-transform: uppercase;
+      color: #fff;
+      background: $color-primary;
+      border-radius: 2px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 3px 5px;
+      transform: translate(50%, -100%);
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 100%;
+        inset-inline-start: 10px;
+        border: 4px solid $color-primary;
+        border-bottom-color: transparent !important;
+        border-inline-end-color: transparent !important;
+        border-inline-end-width: 7px;
+        border-inline-start-width: 0;
+      }
+
+      &.red {
+        background: #f03e3e;
+
+        &:before {
+          border-color: #f03e3e;
+        }
+      }
+
+      &.orange {
+        background: #f0a750;
+
+        &:before {
+          border-color: #f0a750;
+        }
+      }
+
+      &.green {
+        background: #00706e;
+
+        &:before {
+          border-color: #00706e;
+        }
+      }
+    }
+  }
+  /* Vertical layout - desktop only, mobile uses horizontal menu style */
+  @media (min-width: 1025px) {
+    &.bt-megamenu--layout-vertical {
+      .bt-megamenu {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        width: 100%;
+        max-width: var(--max-width-item-vertical, 300px);
+        position: relative;
+      }
+
+      .bt-megamenu > li {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        position: static;
+        .bt-submenu-indicator svg {
+          transform: rotate(-90deg); /* Points right when closed */
+        }
+        &.menu-item-has-megamenu {
+          .bt-megamenu-dropdown {
+            top: 0;
+            left: 100%;
+            min-width: 300px;
+            width: var(--width-content-mega, 1000px);
+            > .elementor {
+              width: 100%;
+            }
+          }
+        }
+        &:not(.menu-item-has-megamenu) {
+          position: relative;
+        }
+        > a {
+          width: 100%;
+          justify-content: space-between;
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+        }
+      }
+
+      /* Submenu opens to the right in vertical layout */
+      .bt-megamenu > li .sub-menu {
+        top: 0;
+        left: 100%;
+        margin-top: 0;
+      }
+    }
+  }
+  /* Mobile Toggle Button */
+  .bt-megamenu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    transition: all 0.3s ease;
+
+    .bt-toggle-bar {
+      width: 100%;
+      height: 3px;
+      background-color: var(--e-global-color-primary, #183f91);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
+    &.bt-is-active {
+      .bt-toggle-bar:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+      }
+
+      .bt-toggle-bar:nth-child(2) {
+        opacity: 0;
+      }
+
+      .bt-toggle-bar:nth-child(3) {
+        transform: rotate(-45deg) translate(8px, -8px);
+      }
+    }
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 1024px) {
+    .bt-megamenu-toggle {
+      display: flex;
+
+      &.bt-toggle-align-left {
+        margin-left: 0;
+        margin-right: auto;
+      }
+
+      &.bt-toggle-align-center {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      &.bt-toggle-align-right {
+        margin-left: auto;
+        margin-right: 0;
+      }
+    }
+
+    .bt-megamenu-wrapper {
+      position: fixed;
+      top: calc(var(--top-mega-mobile, 0px) + var(--distance, 0px));
+      left: 0;
+      width: var(--fullwidth-mega, 100vw);
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      max-height: 75vh;
+      overflow-y: auto;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-20px);
+      transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease,
+        transform 0.3s ease;
+      &.bt-is-active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+    }
+
+    .bt-megamenu {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+
+      > li {
+        width: 100%;
+        display: block;
+        position: relative !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+        > a {
+          width: 100%;
+          padding: 15px 20px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        // Toggle icon for items with children
+        .bt-toggle-icon {
+          position: absolute;
+          right: 20px;
+          top: 15px;
+          bottom: 0;
+          width: 30px;
+          height: 30px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          z-index: 1;
+
+          &::before,
+          &::after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 2px;
+            background-color: $color-primary;
+            transition:
+              transform 0.3s ease,
+              opacity 0.3s ease;
+            transform-origin: center;
+          }
+
+          &::before {
+            transform: rotate(90deg);
+            opacity: 1;
+          }
+
+          &::after {
+            transform: rotate(0deg);
+            opacity: 1;
+          }
+        }
+
+        &.bt-is-active {
+          .bt-toggle-icon {
+            &::before {
+              transform: rotate(0deg);
+              opacity: 0;
+            }
+            &::after {
+              transform: rotate(0deg);
+            }
+          }
+        }
+
+        // Hide megamenu dropdown on mobile (will be shown via accordion)
+        &.menu-item-has-megamenu {
+          .bt-megamenu-dropdown {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            box-shadow: none;
+            display: none;
+            transition: none;
+            .elementor {
+              width: 100% !important;
+              > .elementor-element {
+                box-shadow: none !important;
+              }
+            }
+          }
+        }
+
+        // Sub-menu styling
+        .sub-menu {
+          position: static;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
+          box-shadow: none;
+          padding: 0;
+          margin: 0;
+          display: none;
+          background-color: rgba(0, 0, 0, 0.02);
+          transition: none;
+          li {
+            // Nested sub-menu
+            .sub-menu {
+              background-color: rgba(0, 0, 0, 0.03);
+              padding-left: 20px;
+              li a {
+                padding-left: 60px;
+              }
+            }
+          }
+        }
+
+        // Hide submenu indicator on mobile (using toggle icon instead)
+        .bt-submenu-indicator {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+/*
+* Label Menu Frontend Styles
+*/
+/*
+* Label Menu Frontend Styles
+*/
+.bt-menu-label {
+  display: inline-block;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--background-color, $color-accent);
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  padding: 3px 5px;
+  transform: translate(50%, -100%);
+  font-size: 10px;
+  vertical-align: super;
+  border-radius: 4px;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    inset-inline-start: 10px;
+    border: 4px solid var(--background-color, $color-accent);
+    border-bottom-color: transparent !important;
+    border-inline-end-color: transparent !important;
+    border-inline-end-width: 7px;
+    border-inline-start-width: 0;
+  }
+}
+

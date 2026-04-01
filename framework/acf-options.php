@@ -4,8 +4,8 @@
 function freska_add_theme_options_page() {
     if( function_exists('acf_add_options_page') ) {
         $option_page = acf_add_options_page(array(
-            'page_title'    => esc_html__('Theme Options', 'freska'),
-            'menu_title'    => esc_html__('Theme Options', 'freska'),
+            'page_title'    => esc_html__('Freska Theme Options', 'freska'),
+            'menu_title'    => esc_html__('Freska Options', 'freska'),
             'menu_slug'     => 'theme-options-page',
             'capability'    => 'edit_posts',
             'redirect'      => false
@@ -24,7 +24,7 @@ function freska_acf_json_save_point( $path ) {
 add_filter( 'acf/settings/save_json', 'freska_acf_json_save_point' );
 
 function freska_acf_json_load_point( $paths ) {
-	// remove original path (optional)
+	// refreskave original path (optional)
 	unset( $paths[0] );
 	// append path
 	$paths[] = get_template_directory() . '/framework/acf-options';
