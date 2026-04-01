@@ -1189,6 +1189,12 @@
             font-weight: 700;
             line-height: 140%;
 
+            &:hover {
+              a {
+                color: $color-white;
+              }
+            }
+
             @media (max-width: $break-md) {
               color: $color-black;
               line-height: 125%;
