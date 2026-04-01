@@ -277,15 +277,12 @@ class Widget_PostLoopItem extends Widget_Base {
 				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
-
+		
 		$this->add_control(
 			'date_style',
 			[
 				'label' => __('Date', 'freska'),
 				'type' => Controls_Manager::HEADING,
-				'condition' => [
-					'show_date' => 'yes',
-				],
 			]
 		);
 
@@ -375,7 +372,7 @@ class Widget_PostLoopItem extends Widget_Base {
 		$this->add_control(
 			'title_hover_color',
 			[
-				'label' => esc_html__('Color', 'freska'),
+				'label' => esc_html__('Color Hover', 'freska'),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .bt-post--title a:hover' => 'color: {{VALUE}};',
@@ -405,18 +402,6 @@ class Widget_PostLoopItem extends Widget_Base {
 			]
 		);
 	
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
-			[
-				'name' => 'excerpt_typography',
-				'label' => esc_html__('Typography', 'freska'),
-				'selector' => '{{WRAPPER}} .bt-post--excerpt',
-				'condition' => [
-					'show_excerpt' => 'yes',
-				],
-			]
-		);
-
 		$this->add_control(
 			'excerpt_color',
 			[
@@ -429,6 +414,71 @@ class Widget_PostLoopItem extends Widget_Base {
 					'show_excerpt' => 'yes',
 				],
 			]	
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'excerpt_typography',
+				'label' => esc_html__('Typography', 'freska'),
+				'selector' => '{{WRAPPER}} .bt-post--excerpt',
+				'condition' => [
+					'show_excerpt' => 'yes',
+				],
+			]
+		);
+
+		// Read More Button
+		$this->add_control(
+			'read_more_button_heading',
+			[
+				'label' => esc_html__('Read More Button', 'freska'),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => [
+					'show_read_more' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'read_more_color',
+			[
+				'label' => esc_html__('Color', 'freska'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .bt-post--button a' => 'color: {{VALUE}};',
+				],
+				'condition' => [
+					'show_read_more' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'read_more_hover_color',
+			[
+				'label' => esc_html__('Color Hover', 'freska'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .bt-post--button a:hover' => 'color: {{VALUE}};',
+				],
+				'condition' => [
+					'show_read_more' => 'yes',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'read_more_typography',
+				'label' => esc_html__('Typography', 'freska'),
+				'selector' => '{{WRAPPER}} .bt-post--button a',
+				'condition' => [
+					'show_read_more' => 'yes',
+				],
+			]
 		);
 
 		$this->end_controls_section();
