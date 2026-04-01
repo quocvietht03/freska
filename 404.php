@@ -9,8 +9,8 @@ get_header();
 		<div class="bt-container">
 			<div class="bt-404-error">
 				<h2><?php echo esc_html_e('404', 'freska'); ?></h2>
-				<h3><?php esc_html_e("Oops! That page can't be found.", 'freska'); ?></h3>
-				<p><?php esc_html_e("We're really sorry but we can't seem to find the page you were looking for.", 'freska') ?></p>
+				<h3><?php esc_html_e("Oops! That page can't be found.", "freska"); ?></h3>
+				<p><?php esc_html_e("We're really sorry but we can't seem to find the page you were looking for.", "freska") ?></p>
 				<a href="<?php echo esc_url(home_url()); ?>" class="bt-primary-btn bt-button bt-button-hover">
 					<?php echo esc_html_e('Back To Homepage', 'freska'); ?>
 					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">

@@ -8,7 +8,7 @@ get_template_part('framework/templates/site', 'titlebar');
 		<div class="bt-container">
 			<div class="bt-form-search">
 				<h2 class="bt-form-head"><?php esc_html_e('Need a new search?', 'freska') ?></h2>
-				<p class="bt-form-subhead"><?php esc_html_e("If you didn't find what you were looking for, try a new search!", 'freska') ?></p>
+				<p class="bt-form-subhead"><?php esc_html_e("If you didn't find what you were looking for, try a new search!", "freska") ?></p>
 				<?php get_search_form(); ?>
 			</div>
 			<?php
