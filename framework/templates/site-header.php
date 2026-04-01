@@ -16,7 +16,11 @@
           if (has_custom_logo()) {
             the_custom_logo();
           } else {
-            freska_logo();
+          ?>
+            <a href="<?php echo esc_url(home_url('/')); ?>">
+              <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/site-logo.png'); ?>" alt="Freska Logo" />
+            </a>
+          <?php
           }
           ?>
         </div>

@@ -8,15 +8,18 @@
 /*
 * Import
 */
-@import 'effect';
 @import 'header' ;
 @import 'footer';
 @import 'titlebar';
+@import 'megamenu';
+@import 'widget';
+@import 'block';
 @import 'form';
 @import 'comment';
+@import 'effect';
 @import 'blog';
-@import 'block';
-@import 'widget';
+@import '404';
 @import 'shop';
 @import 'elementor';
 @import 'section';
+ 

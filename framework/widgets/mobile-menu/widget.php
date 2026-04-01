@@ -1,12 +1,12 @@
 <?php
 
-namespace FreskaElementorWidgets\Widgets\FreskaMobileMenu;
+namespace FreskaElementorWidgets\Widgets\MobileMenu;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 
-class Widget_FreskaMobileMenu extends Widget_Base
+class Widget_MobileMenu extends Widget_Base
 {
 	private function get_available_menus() {
 		$menus = wp_get_nav_menus();
@@ -32,17 +32,17 @@ class Widget_FreskaMobileMenu extends Widget_Base
 
 	public function get_icon()
 	{
-		return 'eicon-posts-ticker';
+		return 'bt-bears-icon eicon-menu-toggle';
 	}
 
 	public function get_categories()
 	{
-		return ['bt-freska'];
+		return ['freska'];
 	}
 
 	public function get_script_depends()
     {
-        return ['freska-widgets'];
+        return ['elementor-widgets'];
     }
 
 	protected function register_content_section_controls()
