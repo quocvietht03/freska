@@ -45,13 +45,11 @@
       .bt-submenu-indicator {
         margin-left: 6px;
         flex-shrink: 0;
-        color: var(--e-global-color-primary, #183f91);
-        fill: var(--e-global-color-primary, #183f91);
+        color: $color-primary;
+        fill: $color-primary;
 
         svg {
           width: 12px;
-          position: relative;
-          top: 2px;
           transition: 0.3s ease;
         }
       }
@@ -70,14 +68,25 @@
         font-weight: 500;
         line-height: 26px;
         text-transform: capitalize;
-        color: var(--e-global-color-primary, #183f91);
+        color: $color-primary;
         padding: 15px;
       }
 
       &.current-menu-item > a {
-        color: var(--e-global-color-accent, #ffce52);
+        color: $color-accent;
       }
-
+      &.has-custom-icon {
+        > a {
+          > span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            > .bt-menu-icon {
+              display: inline-flex;
+            }
+          }
+        }
+      }
       /* Mega Menu Items */
       &.menu-item-has-megamenu {
         &:has([class*="bt-megamenu-horizontal-"]) {
@@ -198,7 +207,19 @@
           }
 
           &.current-menu-item > a {
-            color: var(--e-global-color-accent, #ffce52);
+            color: $color-accent;
+          }
+          &.has-custom-icon {
+            > a {
+              > span {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                > .bt-menu-icon {
+                  display: inline-flex;
+                }
+              }
+            }
           }
         }
 
@@ -222,6 +243,9 @@
     .elementor-icon-list-text {
       position: relative;
       display: inline-block;
+      &.bt-submenu-indicator {
+        display: inline-flex;
+      }
     }
 
     .elementor-widget-image-box {
@@ -579,4 +603,10 @@
     border-inline-start-width: 0;
   }
 }
-
+.bt-menu-icon {
+  display: inline-flex;
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}

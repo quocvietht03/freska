@@ -83,6 +83,10 @@
 					this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
 					this.st.mainClass = 'mfp-with-zoom mfp-img-mobile';
 				},
+				open: function () {
+					// Fix margin-right issue
+					$('body, html').css('margin-right', '0');
+				},
 				elementParse: function (item) { item.src = item.el.attr('src'); },
 			},
 			image: {
@@ -284,6 +288,9 @@
 				mainClass: 'mfp-fade',
 				callbacks: {
 					open: function () {
+						// Fix margin-right issue
+						$('body, html').css('margin-right', '0');
+						
 						// Check if this is product video popup
 						if (this.content.hasClass('bt-product-video__popup')) {
 							const videoPopup = this.content.find('.bt-video-embed');

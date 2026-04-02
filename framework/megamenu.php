@@ -60,6 +60,10 @@ add_filter('elementor/documents/register/post_types', 'freska_add_elementor_supp
 // Add Mega Menu options to menu item (available for all depths)
 function freska_megamenu_nav_menu_item_custom_fields($item_id, $item, $depth, $args, $id = '')
 {
+    // Get icon menu data for all depths
+    $icon_enabled = get_post_meta($item_id, '_freska_icon_enabled', true);
+    $icon_svg_url = get_post_meta($item_id, '_freska_icon_svg_url', true);
+
     // Get label menu data for all depths
     $label_enabled = get_post_meta($item_id, '_freska_label_enabled', true);
     $label_text = get_post_meta($item_id, '_freska_label_text', true);
@@ -97,6 +101,43 @@ function freska_megamenu_nav_menu_item_custom_fields($item_id, $item, $depth, $a
     }
 ?>
     <div class="freska-megamenu-fields description-wide">
+        <!-- Icon Menu - Available for all depths -->
+        <p class="field-icon-enable description">
+            <label for="edit-icon-enable-<?php echo esc_attr($item_id); ?>">
+                <input type="checkbox"
+                    id="edit-icon-enable-<?php echo esc_attr($item_id); ?>"
+                    name="menu-item[<?php echo esc_attr($item_id); ?>][_freska_icon_enabled]"
+                    value="1"
+                    <?php checked($icon_enabled, '1'); ?>
+                    class="freska-icon-enable" />
+                <?php esc_html_e('Enable Icon', 'freska'); ?>
+            </label>
+        </p>
+        <div class="freska-icon-dependent-fields" style="<?php echo esc_attr($icon_enabled === '1' ? '' : 'display: none;'); ?>">
+            <p class="field-icon-svg description description-wide">
+                <label for="edit-icon-svg-<?php echo esc_attr($item_id); ?>">
+                    <?php esc_html_e('SVG Icon', 'freska'); ?><br />
+                    <input type="url"
+                        id="edit-icon-svg-<?php echo esc_attr($item_id); ?>"
+                        name="menu-item[<?php echo esc_attr($item_id); ?>][_freska_icon_svg_url]"
+                        value="<?php echo esc_attr($icon_svg_url); ?>"
+                        class="widefat freska-icon-svg-url"
+                        placeholder="<?php esc_attr_e('SVG URL', 'freska'); ?>" />
+                    <?php if (!empty($icon_svg_url)) : ?>
+                        <div class="freska-icon-preview">
+                            <img src="<?php echo esc_url($icon_svg_url); ?>" alt="Icon preview" />
+                        </div>
+                    <?php endif; ?>
+                    <button type="button" class="button freska-upload-svg-button" data-item-id="<?php echo esc_attr($item_id); ?>">
+                        <?php esc_html_e('Upload SVG', 'freska'); ?>
+                    </button>
+                    <button type="button" class="button freska-remove-svg-button" data-item-id="<?php echo esc_attr($item_id); ?>" style="<?php echo esc_attr(!empty($icon_svg_url) ? '' : 'display: none;'); ?>">
+                        <?php esc_html_e('Remove Icon', 'freska'); ?>
+                    </button>
+                </label>
+            </p>
+        </div>
+        
         <!-- Label Menu - Available for all depths -->
         <p class="field-label-enable description">
             <label for="edit-label-enable-<?php echo esc_attr($item_id); ?>">
@@ -236,6 +277,13 @@ function freska_megamenu_save_nav_menu_item($menu_id, $menu_item_db_id, $args)
     }
 
     $menu_item_data = $_POST['menu-item'][$menu_item_db_id];
+
+    // Save icon menu options (available for all depths)
+    $icon_enabled = isset($menu_item_data['_freska_icon_enabled']) && $menu_item_data['_freska_icon_enabled'] === '1' ? '1' : '0';
+    update_post_meta($menu_item_db_id, '_freska_icon_enabled', $icon_enabled);
+
+    $icon_svg_url = isset($menu_item_data['_freska_icon_svg_url']) ? esc_url_raw($menu_item_data['_freska_icon_svg_url']) : '';
+    update_post_meta($menu_item_db_id, '_freska_icon_svg_url', $icon_svg_url);
 
     // Save label menu options (available for all depths)
     $label_enabled = isset($menu_item_data['_freska_label_enabled']) && $menu_item_data['_freska_label_enabled'] === '1' ? '1' : '0';
@@ -430,32 +478,59 @@ function freska_display_megamenu($block_id)
     }
 }
 
-// Add label to menu items in regular wp_nav_menu (not for widget megamenu)
+// Add icon and label to menu items in regular wp_nav_menu (not for widget megamenu)
 function freska_add_label_to_nav_menu_items($title, $item, $args, $depth)
 {
-    // Skip if this is being called from widget megamenu (check for our custom menu_class)
+    // Skip if this is being called from widget megamenu
     if (isset($args->menu_class) && strpos($args->menu_class, 'bt-megamenu') !== false) {
         return $title;
     }
     
-    // Skip if title already contains label (avoid duplication)
-    if (strpos($title, 'bt-menu-label') !== false) {
+    // Skip if title already contains our elements (avoid duplication)
+    if (strpos($title, 'bt-menu-') !== false) {
         return $title;
     }
     
-    // Get label data
-    $label_enabled = get_post_meta($item->ID, '_freska_label_enabled', true);
-    $label_text = get_post_meta($item->ID, '_freska_label_text', true);
-    $label_color = get_post_meta($item->ID, '_freska_label_color', true);
+    $icon_html = $label_html = '';
     
-    if (empty($label_color)) {
-        $label_color = '#00706e';
+    // Get icon
+    if (get_post_meta($item->ID, '_freska_icon_enabled', true) === '1') {
+        $icon_svg_url = get_post_meta($item->ID, '_freska_icon_svg_url', true);
+        if (!empty($icon_svg_url)) {
+            $is_svg = false;
+            
+            // Check if the image is SVG
+            if (pathinfo($icon_svg_url, PATHINFO_EXTENSION) === 'svg') {
+                $is_svg = true;
+            }
+            
+            if ($is_svg) {
+                // Render SVG content directly
+                $response = wp_safe_remote_get($icon_svg_url, array(
+                    'timeout' => 20,
+                    'headers' => array(
+                        'User-Agent' => 'Mozilla/5.0 (compatible; WordPress)',
+                    ),
+                ));
+                if (!is_wp_error($response)) {
+                    $icon_html = '<span class="bt-menu-icon">' . wp_remote_retrieve_body($response) . '</span>';
+                }
+            } 
+        }
     }
 
-    // Add label if enabled and text exists
-    if ($label_enabled === '1' && !empty($label_text)) {
-        $label_html = '<span class="bt-menu-label" style="--background-color: ' . esc_attr($label_color) . ';">' . esc_html($label_text) . '</span>';
-        $title = '<span class="bt-menu-title">' . $title . $label_html . '</span>';
+    // Get label
+    if (get_post_meta($item->ID, '_freska_label_enabled', true) === '1') {
+        $label_text = get_post_meta($item->ID, '_freska_label_text', true);
+        if (!empty($label_text)) {
+            $label_color = get_post_meta($item->ID, '_freska_label_color', true) ?: '#00706e';
+            $label_html = '<span class="bt-menu-label" style="--background-color: ' . esc_attr($label_color) . ';">' . esc_html($label_text) . '</span>';
+        }
+    }
+
+    // Combine if we have icon or label
+    if ($icon_html || $label_html) {
+        $title = '<span class="bt-menu-title">' . $icon_html . $title . $label_html . '</span>';
     }
 
     return $title;

@@ -222,6 +222,9 @@ if (!function_exists('freska_enqueue_admin_scripts')) {
 
 		// Enqueue WordPress color picker and localize script for Mega Menu (in admin-main.js)
 		if ($screen && $screen->id === 'nav-menus') {
+			// Enqueue WordPress media library for SVG upload
+			wp_enqueue_media();
+			
 			// Enqueue WordPress color picker for menu admin
 			wp_enqueue_style('wp-color-picker');
 			wp_enqueue_script('wp-color-picker');

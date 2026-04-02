@@ -629,6 +629,81 @@
 		});
 	}
 
+	// Icon Menu Admin Functions
+	function freskaIconMenuHandlers() {
+		if (!$('body.nav-menus-php').length) {
+			return;
+		}
+
+		// Handle icon enable/disable
+		$(document).on('change', '.freska-icon-enable', function() {
+			var $checkbox = $(this);
+			var $dependentFields = $checkbox.closest('.freska-megamenu-fields').find('.freska-icon-dependent-fields');
+			
+			if ($checkbox.is(':checked')) {
+				$dependentFields.slideDown(200);
+			} else {
+				$dependentFields.slideUp(200);
+			}
+		});
+
+		// Handle SVG upload
+		$(document).on('click', '.freska-upload-svg-button', function(e) {
+			e.preventDefault();
+			
+			var $button = $(this);
+			var itemId = $button.data('item-id');
+			var $urlInput = $('#edit-icon-svg-' + itemId);
+			
+			var mediaUploader = wp.media({
+				title: 'Select SVG Icon',
+				button: {
+					text: 'Use this SVG'
+				},
+				library: {
+					type: 'image/svg+xml'
+				},
+				multiple: false
+			});
+			
+			mediaUploader.on('select', function() {
+				var attachment = mediaUploader.state().get('selection').first().toJSON();
+				$urlInput.val(attachment.url);
+				
+				// Remove any existing preview for this item
+				$button.closest('.freska-icon-dependent-fields').find('.freska-icon-preview').remove();
+				
+				// Create new preview and insert after input
+				var $preview = $('<div class="freska-icon-preview"></div>');
+				$preview.html('<img src="' + attachment.url + '" alt="Icon preview" />');
+				$urlInput.after($preview);
+				
+				// Show remove button
+				$button.siblings('.freska-remove-svg-button').show();
+			});
+			
+			mediaUploader.open();
+		});
+		
+		// Handle SVG remove
+		$(document).on('click', '.freska-remove-svg-button', function(e) {
+			e.preventDefault();
+			
+			var $button = $(this);
+			var itemId = $button.data('item-id');
+			var $urlInput = $('#edit-icon-svg-' + itemId);
+			
+			// Clear input value
+			$urlInput.val('');
+			
+			// Remove preview
+			$button.closest('.freska-icon-dependent-fields').find('.freska-icon-preview').remove();
+			
+			// Hide remove button
+			$button.hide();
+		});
+	}
+
 	// Label Menu Admin Functions
 	function freskaLabelMenuHandlers() {
 		if (!$('body.nav-menus-php').length) {
@@ -687,6 +762,7 @@
 		freskaExtraContentHandlers();
 		freskaAttributeTypesHandlers();
 		freskaMegamenuHandlers();
+		freskaIconMenuHandlers();
 		freskaLabelMenuHandlers();
 		if (!$('#woocommerce-product-data').length) {
 			return;
