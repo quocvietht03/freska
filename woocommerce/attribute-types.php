@@ -548,43 +548,60 @@ if (!function_exists('freska_is_attribute_enabled_in_search')) {
  * Automatically adds/removes attributes from filter choices
  */
 if (!function_exists('freska_update_acf_filter_choices')) {
-	function freska_update_acf_filter_choices()
-	{
+	function freska_update_acf_filter_choices() {
+
 		$acf_json_path = get_template_directory() . '/framework/acf-options/group_6530e5259c0aa.json';
-		
-		if (!file_exists($acf_json_path)) {
+
+		if ( ! file_exists( $acf_json_path ) ) {
 			return false;
 		}
-		
+
+		// Init WP filesystem
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+
+		global $wp_filesystem;
+
+		WP_Filesystem();
+
 		// Read JSON file
-		$json_content = file_get_contents($acf_json_path);
-		if ($json_content === false) {
+		$json_content = $wp_filesystem->get_contents( $acf_json_path );
+		if ( false === $json_content ) {
 			return false;
 		}
-		
-		$acf_data = json_decode($json_content, true);
-		if (!$acf_data || !isset($acf_data['fields'])) {
+
+		$acf_data = json_decode( $json_content, true );
+		if ( ! $acf_data || ! isset( $acf_data['fields'] ) ) {
 			return false;
 		}
-		
-		// Find the field with key "field_68f5e9b6ea2f3" (Item Filters)
+
+		// Find the field
 		$field_found = false;
-		freska_find_and_update_field($acf_data['fields'], 'field_68f5e9b6ea2f3', $field_found);
-		
-		if (!$field_found) {
+		freska_find_and_update_field( $acf_data['fields'], 'field_68f5e9b6ea2f3', $field_found );
+
+		if ( ! $field_found ) {
 			return false;
 		}
-		
-		// Save updated JSON
-		$updated_json = json_encode($acf_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-		if ($updated_json === false) {
+
+		// Encode JSON
+		$updated_json = wp_json_encode(
+			$acf_data,
+			JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+		);
+
+		if ( false === $updated_json ) {
 			return false;
 		}
-		
-		// Write back to file
-		$result = file_put_contents($acf_json_path, $updated_json);
-		
-		return $result !== false;
+
+		// Write file
+		$result = $wp_filesystem->put_contents(
+			$acf_json_path,
+			$updated_json,
+			FS_CHMOD_FILE
+		);
+
+		return (bool) $result;
 	}
 }
 
@@ -952,4 +969,3 @@ if (!function_exists('freska_woocommerce_custom_attributes')) {
 	}
 	add_action('freska_woocommerce_custom_attributes', 'freska_woocommerce_custom_attributes', 10, 3);	
 }
-

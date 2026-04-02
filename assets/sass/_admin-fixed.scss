@@ -733,5 +733,19 @@ div[data-name="more_information"] {
       }
     }
   }
+  .freska-icon-dependent-fields{
+    .freska-icon-svg-url{
+      display: none;
+    }
+    .freska-icon-preview{
+      display: block;
+      margin: 10px 0;
+      img{
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+    }
+  }
 }
 

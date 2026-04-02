@@ -384,7 +384,24 @@ class Widget_MegaMenu extends Widget_Base
 				],
 			]
 		);
-
+		$this->add_control(
+			'main_menu_padding',
+			[
+				'label' => esc_html__('Padding', 'freska'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', '%', 'em', 'rem'],
+				'default' => [
+					'top' => '',
+					'right' => '',
+					'bottom' => '',
+					'left' => '',
+					'unit' => 'px',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .bt-megamenu' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -412,6 +429,17 @@ class Widget_MegaMenu extends Widget_Base
 				'default' => '',
 				'selectors' => [
 					'{{WRAPPER}} .bt-megamenu > li > a' => 'color: {{VALUE}}; fill: {{VALUE}};',
+				],
+			]
+		);
+		$this->add_control(
+			'color_main_menu_item_icon',
+			[
+				'label' => esc_html__('Icon Color', 'freska'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '',
+				'selectors' => [
+					'{{WRAPPER}} .bt-megamenu > li > a .bt-menu-icon svg path' => 'color: {{VALUE}}; fill: {{VALUE}};',
 				],
 			]
 		);
@@ -444,11 +472,21 @@ class Widget_MegaMenu extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .bt-megamenu > li:hover > a' => 'color: {{VALUE}}; fill: {{VALUE}};',
 					'{{WRAPPER}} .bt-megamenu > li:focus > a' => 'color: {{VALUE}}; fill: {{VALUE}};',
-				
+
 				],
 			]
 		);
-
+		$this->add_control(
+			'color_main_menu_item_icon_hover',
+			[
+				'label' => esc_html__('Icon Color', 'freska'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '',
+				'selectors' => [
+					'{{WRAPPER}} .bt-megamenu > li:hover > a .bt-menu-icon svg path' => 'color: {{VALUE}}; fill: {{VALUE}};',
+				],
+			]
+		);
 		$this->add_control(
 			'background_main_menu_item_hover',
 			[
@@ -479,6 +517,17 @@ class Widget_MegaMenu extends Widget_Base
 				'default' => '',
 				'selectors' => [
 					'{{WRAPPER}} .bt-megamenu > li.current-menu-item > a' => 'color: {{VALUE}}; fill: {{VALUE}};',
+				],
+			]
+		);
+		$this->add_control(
+			'color_main_menu_item_icon_active',
+			[
+				'label' => esc_html__('Icon Color', 'freska'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '',
+				'selectors' => [
+					'{{WRAPPER}} .bt-megamenu > li.current-menu-item > a .bt-menu-icon svg path' => 'color: {{VALUE}}; fill: {{VALUE}};',
 				],
 			]
 		);
@@ -997,15 +1046,24 @@ class Widget_MegaMenu extends Widget_Base
 				$megamenu_id = false;
 				$megamenu_content_width = 'full-width';
 				$megamenu_horizontal_position = 'default';
-				
+
+				// Get icon menu data for all depths
+				$icon_enabled = get_post_meta($item->ID, '_freska_icon_enabled', true);
+				$icon_svg_url = get_post_meta($item->ID, '_freska_icon_svg_url', true);
+
+				// Add class if custom icon is enabled
+				if ($icon_enabled === '1' && !empty($icon_svg_url)) {
+					$classes[] = 'has-custom-icon';
+				}
+
 				// Get label menu data for all depths
-				$label_enabled = get_post_meta( $item->ID, '_freska_label_enabled', true );
-				$label_text = get_post_meta( $item->ID, '_freska_label_text', true );
-				$label_color = get_post_meta( $item->ID, '_freska_label_color', true );
-				if ( empty( $label_color ) ) {
+				$label_enabled = get_post_meta($item->ID, '_freska_label_enabled', true);
+				$label_text = get_post_meta($item->ID, '_freska_label_text', true);
+				$label_color = get_post_meta($item->ID, '_freska_label_color', true);
+				if (empty($label_color)) {
 					$label_color = '#00706e';
 				}
-				
+
 				if ($depth === 0) {
 					$megamenu_enabled = get_post_meta($item->ID, '_freska_megamenu_enabled', true);
 					$megamenu_id = get_post_meta($item->ID, '_freska_megamenu_id', true);
@@ -1068,28 +1126,52 @@ class Widget_MegaMenu extends Widget_Base
 				$title = apply_filters('the_title', $item->title, $item->ID);
 				$title = apply_filters('nav_menu_item_title', $title, $item, $args, $depth);
 
+				// Add custom icon to title if enabled
+				$custom_icon_html = '';
+				if ($icon_enabled === '1' && !empty($icon_svg_url)) {
+					$is_svg = false;
+
+					// Check if the image is SVG
+					if (pathinfo($icon_svg_url, PATHINFO_EXTENSION) === 'svg') {
+						$is_svg = true;
+					}
+
+					if ($is_svg) {
+						// Render SVG content directly
+						$response = wp_safe_remote_get($icon_svg_url, array(
+							'timeout' => 20,
+							'headers' => array(
+								'User-Agent' => 'Mozilla/5.0 (compatible; WordPress)',
+							),
+						));
+						if (!is_wp_error($response)) {
+							$custom_icon_html = '<span class="bt-menu-icon">' . wp_remote_retrieve_body($response) . '</span>';
+						}
+					}
+				}
+
 				// Add label to title if enabled
 				$label_html = '';
-				if ( $label_enabled === '1' && !empty( $label_text ) ) {
-					$label_html = '<span class="bt-menu-label" style="--background-color: ' . esc_attr( $label_color ) . ';">' . esc_html( $label_text ) . '</span>';
+				if ($label_enabled === '1' && !empty($label_text)) {
+					$label_html = '<span class="bt-menu-label" style="--background-color: ' . esc_attr($label_color) . ';">' . esc_html($label_text) . '</span>';
 				}
 
 				$show_indicator = $this->submenu_indicator && (
 					($depth === 0 && $megamenu_enabled === '1' && $megamenu_id) ||
 					in_array('menu-item-has-children', $classes, true)
 				);
-				$indicator_html = '';
+				$submenu_indicator_html = '';
 				if ($show_indicator) {
-					$icon_html = Icons_Manager::try_get_icon_html($this->submenu_indicator, ['aria-hidden' => 'true']);
-					if ($icon_html) {
-						$indicator_html = '<span class="bt-submenu-indicator">' . $icon_html . '</span>';
+					$indicator_icon_html = Icons_Manager::try_get_icon_html($this->submenu_indicator, ['aria-hidden' => 'true']);
+					if ($indicator_icon_html) {
+						$submenu_indicator_html = '<span class="bt-submenu-indicator">' . $indicator_icon_html . '</span>';
 					}
 				}
 
 				$item_output = isset($args->before) ? $args->before : '';
 				$item_output .= '<a' . $attributes . '>';
-				$item_output .= (isset($args->link_before) ? $args->link_before : '') . $title . $label_html . (isset($args->link_after) ? $args->link_after : '');
-				$item_output .= $indicator_html;
+				$item_output .= (isset($args->link_before) ? $args->link_before : '') . $custom_icon_html . $title . $label_html . (isset($args->link_after) ? $args->link_after : '');
+				$item_output .= $submenu_indicator_html;
 				$item_output .= '</a>';
 
 				// Add mega menu dropdown ONLY if enabled AND has valid block (depth 0 only)

@@ -6338,6 +6338,13 @@
             object-fit: contain;
           }
         }
+        @media (max-width: $break-xs) {
+          gap: 6px;
+          > svg{
+            width: 14px;
+            height: 14px;
+          }
+        }
       }
       ul.sub-dropdown {
         min-width: 60px;

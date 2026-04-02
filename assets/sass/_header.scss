@@ -34,7 +34,9 @@ nav .elementor-nav-menu .sub-arrow {
   .elementor-icon-list-text {
     position: relative;
     display: inline-flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
   }
   .elementor-widget-image-box {
     position: relative;

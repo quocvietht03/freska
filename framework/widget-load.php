@@ -151,21 +151,10 @@ class ElementorWidgets
 	 * @access public
 	 * @return bool
 	 */
-	public static function is_elementor_pro_active()
+	public static function is_elementor_pro_active() 
 	{
-		// Check if Elementor Pro class exists
-		if (class_exists('ElementorPro\Plugin')) {
-			return true;
-		}
-
-		// Fallback: Check if plugin is active
-		if (!function_exists('is_plugin_active')) {
-			include_once(ABSPATH . 'wp-admin/includes/plugin.php');
-		}
-
-		return is_plugin_active('elementor-pro/elementor-pro.php');
+		return class_exists( 'ElementorPro\Plugin' ) || function_exists( 'elementor_pro_load_plugin' );
 	}
-	
 	/**
 	 * Get list of widgets that require Elementor Pro
 	 *
