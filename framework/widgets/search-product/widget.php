@@ -68,19 +68,6 @@ class Widget_SearchProduct extends Widget_Base
 			]
 		);
 		$this->add_control(
-			'layout_type',
-			[
-				'label' => __('Layout Type', 'freska'),
-				'type' => Controls_Manager::SELECT,
-				'options' => [
-					'layout-01' => __('Layout 01', 'freska'),
-					'layout-02' => __('Layout 02', 'freska'),
-					'layout-03' => __('Layout 03', 'freska'),
-				],
-				'default' => 'layout-01',
-			]
-		);
-		$this->add_control(
 			'enable_category',
 			[
 				'label' => __('Enable Category', 'freska'),
@@ -89,9 +76,6 @@ class Widget_SearchProduct extends Widget_Base
 				'label_off' => __('No', 'freska'),
 				'return_value' => 'yes',
 				'default' => 'yes',
-				'condition' => [
-					'layout_type!' => 'layout-02',
-				],
 			]
 		);
 
@@ -350,90 +334,7 @@ class Widget_SearchProduct extends Widget_Base
 				],
 			]
 		);
-		$this->add_control(
-			'search_icon_color',
-			[
-				'label' => __('Search Icon Color', 'freska'),
-				'type' => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .bt-search--form .bt-search-submit svg path' => 'stroke: {{VALUE}};',
-				],
-				'condition' => [
-					'layout_type' => ['layout-02', 'layout-03'],
-				],
-			]
-		);
-
-		$this->add_control(
-			'form_background',
-			[
-				'label' => __('Form Background', 'freska'),
-				'type' => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .bt-search--form' => 'background-color: {{VALUE}};',
-				],
-				'condition' => [
-					'layout_type' => ['layout-02', 'layout-03'],
-				],
-			]
-		);
-
-		$this->add_group_control(
-			Group_Control_Border::get_type(),
-			[
-				'name' => 'form_border',
-				'label' => __('Form Border', 'freska'),
-				'selector' => '{{WRAPPER}} .bt-search--form',
-				'condition' => [
-					'layout_type' => ['layout-02', 'layout-03'],
-				],
-			]
-		);
-		$this->add_control(
-			'form_border_radius',
-			[
-				'label' => __('Border Radius', 'freska'),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => ['px', '%'],
-				'selectors' => [
-					'{{WRAPPER}} .bt-search--form' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-				'condition' => [
-					'layout_type' => ['layout-02', 'layout-03'],
-				],
-			]
-		);
-		$this->add_control(
-			'input_padding',
-			[
-				'label' => __('Input Padding', 'freska'),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => ['px', 'em', '%'],
-				'selectors' => [
-					'{{WRAPPER}} .bt-search--form input[type="search"]' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-					'{{WRAPPER}} .bt-search--form .bt-keyword-ghost' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-				'condition' => [
-					'layout_type' => ['layout-02', 'layout-03'],
-				],
-			]
-		);
-
-		$this->add_control(
-			'form_padding',
-			[
-				'label' => __('Padding', 'freska'),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => ['px', 'em', '%'],
-				'selectors' => [
-					'{{WRAPPER}} .bt-search--form' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-				'condition' => [
-					'layout_type' => ['layout-02', 'layout-03'],
-				],
-			]
-		);
-       
+	
 		$this->end_controls_section();
 	}
 
@@ -591,7 +492,7 @@ class Widget_SearchProduct extends Widget_Base
 	}
 
 ?>
-		<div class="bt-elwg-search-product <?php echo esc_attr($settings['layout_type'] . $add_to_cart_class); ?>">
+		<div class="bt-elwg-search-product<?php echo esc_attr($add_to_cart_class); ?>">
 			<div class="bt-search">
 				<form method="get" class="bt-search--form" action="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>" data-widget-single-category-url="<?php echo esc_url($widget_single_category_url); ?>">
 					<?php if ($settings['enable_category'] === 'yes') : ?>
