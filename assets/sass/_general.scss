@@ -379,7 +379,7 @@
   font-weight: 500;
   line-height: 1.62;
   text-align: center;
-  color: #ffffff;
+  color: $color-white;
   background: $color-primary;
   padding: 16px 36px;
   border: none;
@@ -390,7 +390,7 @@
 
   &:hover,
   &:focus {
-    color: #ffffff;
+    color: $color-white;
     background: $color-accent;
   }
 
@@ -414,11 +414,11 @@
 .__bt-button-outline-style {
   @extend .__bt-button-style;
   color: $color-accent;
-  background: #ffffff;
+  background: $color-white;
 
   &:hover,
   &:focus {
-    color: #ffffff;
+    color: $color-white;
     background: $color-accent;
   }
 }
@@ -426,12 +426,12 @@
 .__bt-button-outline-dark-style {
   @extend .__bt-button-style;
   color: $color-primary;
-  background: #ffffff;
+  background: $color-white;
   border: 3px solid $color-primary;
 
   &:hover,
   &:focus {
-    color: #ffffff;
+    color: $color-white;
     background: $color-secondary;
   }
 }
@@ -1287,7 +1287,7 @@
           }
 
           &:first-child {
-            background-color: #e9e9e9;
+            background-color: $color-line;
             color: $color-primary;
 
             @media (min-width: $break-sm) {
