@@ -87,6 +87,7 @@ class Widget_PostGrid extends Widget_Base
 					'default' => __('Default', 'freska'),
 					'layout-01' => __('Layout 01', 'freska'),
 					'layout-02' => __('Layout 02', 'freska'),
+					'layout-03' => __('Layout 03', 'freska'),
 				],
 			]
 		);
@@ -762,7 +763,7 @@ class Widget_PostGrid extends Widget_Base
 		$settings = $this->get_settings_for_display();
 		$query = $this->query_posts();
 		$excerpt = 'no';
-		if ($settings['layout'] == 'layout-02') {
+		if ($settings['layout'] == 'layout-02' || $settings['layout'] == 'layout-03') {
 			$excerpt = 'yes';
 		} 
 		$elwg_class = 'bt-elwg-post-grid--' . $settings['layout'];

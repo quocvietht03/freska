@@ -298,17 +298,40 @@ strong {
   font-weight: 500;
 }
 blockquote {
-  padding: 32px;
-  border-radius: 16px;
-  background: #FBF1ED;
+  padding: 28px;
   border: none;
-  margin: 32px 0;
   &.wp-block-quote{
-    margin: 32px 0;
-    border: none;
-    padding: 32px;
+    border-radius: 12px;
+    border: 2px solid var(--line, #E9E9E9);
+    padding: 28px; 
+    position: relative;
+    overflow: hidden;
+
+    h5 {
+      font-family: $primary-font;
+      color: $color-primary;
+      margin: 0;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 1.25; 
+    }
+
+    h6 {
+      font-size: 16px;
+      font-weight: 400;
+      color: #4A4A4A;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      &::before {
+        content: "— ";
+        margin-right: 4px;
+      }
+    }
+
+
     .wp-block-image{
-      margin-bottom: 16px;
       img{
         border-radius: 0 !important;
       }
