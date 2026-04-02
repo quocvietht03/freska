@@ -67,7 +67,7 @@ function freska_add_extra_content_meta_box()
 add_action('add_meta_boxes', 'freska_add_extra_content_meta_box');
 
 // Move Extra Content meta box below excerpt
-function freska_reorder_extra_content_meta_box() {
+function freska_renrder_extra_content_meta_box() {
     global $wp_meta_boxes;
 
     if (!isset($wp_meta_boxes['product']['normal']['default']['freska_extra_content_box'])) {
@@ -96,7 +96,7 @@ function freska_reorder_extra_content_meta_box() {
 
     $wp_meta_boxes['product']['normal']['default'] = $new_order;
 }
-add_action('add_meta_boxes', 'freska_reorder_extra_content_meta_box', 100);
+add_action('add_meta_boxes', 'freska_renrder_extra_content_meta_box', 100);
 
 /**
  * Get Elementor Section templates for select dropdown

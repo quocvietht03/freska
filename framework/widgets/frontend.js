@@ -2998,7 +2998,13 @@
 				type: 'inline',
 				midClick: true,
 				mainClass: 'mfp-fade mfp-product-popup-hotspot',
-				removalDelay: 300
+				removalDelay: 300,
+				callbacks: {
+					open: function () {
+						// Fix margin-right issue
+						$('body, html').css('margin-right', '0');
+					}
+				}
 			});
 		}
 	};
@@ -3141,7 +3147,7 @@
 				$megamenu.css('--width-content-mega', '');
 				return;
 			}
-		
+
 			if ($megamenuWrapper.attr('data-menu-layout') !== 'vertical') return;
 			var verticalMenuWidth = $megamenuWrapper.attr('data-vertical-menu-width');
 			if (!verticalMenuWidth || !$megamenu.length) return;
@@ -3421,6 +3427,9 @@
 				removalDelay: 300,
 				callbacks: {
 					open: function () {
+						// Fix margin-right issue
+						$('body, html').css('margin-right', '0');
+
 						// Focus on username field when popup opens
 						setTimeout(function () {
 							const $activeTab = $scope.find('.bt-tab-content.active');
