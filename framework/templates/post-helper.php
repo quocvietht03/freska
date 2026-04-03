@@ -564,7 +564,7 @@ if (!function_exists('freska_related_posts')) {
             <div class="bt-related-posts--list">
               <?php
               while ($list_posts->have_posts()) : $list_posts->the_post();
-                get_template_part('framework/templates/post', 'style', array('image-size' => "large"));
+                get_template_part('framework/templates/post', 'style', array('image-size' => "large", 'excerpt' => 'yes', 'read_more' => 'yes'));
               endwhile;
               wp_reset_postdata();
               ?>

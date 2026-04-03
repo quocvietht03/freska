@@ -103,7 +103,8 @@ h1 {
 }
 h2 {
   font-size: 44px;
-  margin: 48px 0 24px;
+  margin: 40px 0 16px;
+  font-weight: 700;
 }
 h3 {
   font-size: 32px;
@@ -115,7 +116,7 @@ h4 {
 }
 h5 {
   font-size: 22px;
-  margin: 24px 0 16px;
+  margin: 40px 0 16px; 
 }
 h6 {
   font-size: 18px;
@@ -125,6 +126,12 @@ ol,
 ul {
   margin: 0 0 30px;
   padding: 0 0 0 20px;
+  color: var(--On-Surface, #1A1A1A);
+  font-family: "Nunito Sans";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.55;
 }
 input,
 button,
@@ -191,7 +198,11 @@ pre {
   margin: 32px 0;
 }
 p {
-  margin: 16px 0;
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 155.556% */
   &:empty {
     display: none;
   }
@@ -300,6 +311,7 @@ strong {
 blockquote {
   padding: 28px;
   border: none;
+  margin: 0 0 16px 0 !important;
   &.wp-block-quote{
     border-radius: 12px;
     border: 2px solid var(--line, #E9E9E9);
@@ -307,20 +319,33 @@ blockquote {
     position: relative;
     overflow: hidden;
 
+   
+    p, h1, h2, h3, h4, h5, h6, ul, ol, 
+    .wp-block-group, .wp-block-columns, .wp-block-column, .wp-block-image {
+      margin: 0 0 12px 0;
+    }
+
+ 
+    .wp-block-group.is-layout-flex {
+      gap: 28px ;
+      align-items: flex-start ; 
+      > * {
+        margin-bottom: 0 !important; 
+      }
+    }
+
     h5 {
-      font-family: $primary-font;
-      color: $color-primary;
       margin: 0;
-      font-size: 24px;
+      font-size: 24px !important;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 700 ;
       line-height: 1.25; 
     }
 
-    h6 {
-      font-size: 16px;
-      font-weight: 400;
-      color: #4A4A4A;
+    h6 {     
+      font-size: 18px !important;
+      font-weight: 400 !important;
+      line-height: 1.55 !important;
       margin: 0;
       display: flex;
       align-items: center;
@@ -331,8 +356,11 @@ blockquote {
     }
 
 
-    .wp-block-image{
-      img{
+    .wp-block-image {
+      width: 40px !important; 
+      img {
+        width: 100%;
+        height: auto;
         border-radius: 0 !important;
       }
     }
@@ -379,10 +407,10 @@ blockquote {
   text-align: center;
 }
 .wp-block-image {
-  margin: 32px 0;
+  margin: 40px 0;
 }
 .wp-block-gallery {
-  margin: 32px 0;
+  margin: 40px 0;
   .blocks-gallery-item {
     padding: 0;
   }
