@@ -125,7 +125,6 @@ class Widget_PostLoopItemStyle1 extends Widget_Base
                 'label' => esc_html__('Enable Title Limit', 'freska'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
-                'separator' => 'before',
             ]
         );
 
