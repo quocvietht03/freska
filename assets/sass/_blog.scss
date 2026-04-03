@@ -187,14 +187,13 @@
   }
 }
 
-// Style for widget blog homepage-01
+// Style for widget post-loop-item-default
 .__bt-post-style-loop-default {
   .bt-post {
     &--inner {
       position: relative;
       display: flex;
       align-items: stretch;
-      border-radius: 8px;
       overflow: hidden;
 
       @media (max-width: $break-sm) {
@@ -220,9 +219,9 @@
       flex: 0 0 45%;
       position: relative;
       overflow: hidden;
+      border-radius: 8px;
 
       .bt-cover-image {
-        border-radius: 0;
         height: 100%;
 
         img {
@@ -254,6 +253,7 @@
     }
 
     &--publish {
+      @extend .__caption_1_typo;
       color: $color-text;
       padding-right: 12px;
       position: relative;
@@ -271,44 +271,35 @@
     }
 
     &--category {
-      color: $color-text;
-
-      a {
-        color: inherit;
-
-        &:hover {
-          color: $color-primary;
-        }
-      }
+      @extend .__caption_2_typo;
+      color: $color-accent;
+      text-transform: uppercase;
     }
 
     &--title {
       @extend .__heading_5_typo;
+      line-height: 125%;
       color: $color-primary;
       margin-top: 8px;
 
       a {
-        color: inherit;
         text-decoration: underline;
         text-underline-offset: 3px;
         text-decoration-color: transparent;
-
-        &:hover {
-          text-decoration-color: inherit;
-        }
       }
     }
 
     &--excerpt {
       @extend .__body_typo;
       color: $color-text;
-      margin-top: 12px;
+      margin-top: 16px;
     }
 
     &--button {
       a {
         @extend .__button_typo;
-        color: $color-primary;
+        text-transform: capitalize;
+        color: $color-accent;
         margin-top: 16px;
         display: block;
         text-decoration: underline;
@@ -319,29 +310,35 @@
   }
 }
 
-// Style for widget blog homepage-03
+// Style for widget post-loop-item-style-1
 .freska-blogs-has-divider {
+  margin-left: -20px;
+
   .e-loop-item {
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: -20px;
-      width: 1px;
-      height: 100%;
-      background: #ddd;
-
+      padding-left: 20px;
+      padding-right: 20px;
+      border-right: 1px solid $color-line;
+  
       @media (max-width: $break-xs) {
-        display: none;
+        padding-left: 0;
+        padding-right: 0;
+        border-right: none;
+      }
+  
+      &:nth-of-type(3n) {
+        border-right: none;
+      }
+  
+      @media (min-width: $break-xs) and (max-width: $break-tl) {
+        &:nth-of-type(2n) {
+          border-right: none;
+        }
+      }
+  
+      &:last-child {
+        border-right: none;
       }
     }
-
-    &:nth-of-type(3n)::after {
-      display: none;
-    }
-  }
 
   .__bt-post-style-1 {
     .bt-post {
@@ -394,55 +391,46 @@
       }
 
       &--publish {
+        @extend .__caption_1_typo;
         color: $color-text;
         padding-right: 12px;
         position: relative;
 
         &::before {
-          content: "";
           position: absolute;
           top: 50%;
-          right: 0;
           transform: translateY(-50%);
           width: 1px;
           height: 12px;
           background: $color-line;
+          right: 0;
+          content: "";
         }
       }
 
       &--category {
-        color: $color-text;
-
-        a {
-          color: inherit;
-
-          &:hover {
-            color: $color-primary;
-          }
-        }
+        @extend .__caption_2_typo;
+        color: $color-accent;
+        text-transform: uppercase;
       }
 
       &--title {
         @extend .__heading_5_typo;
+        line-height: 125%;
         color: $color-primary;
         margin-top: 8px;
 
         a {
-          color: inherit;
           text-decoration: underline;
           text-underline-offset: 3px;
           text-decoration-color: transparent;
-
-          &:hover {
-            text-decoration-color: inherit;
-          }
         }
       }
 
       &--excerpt {
         @extend .__body_typo;
         color: $color-text;
-        margin-top: 12px;
+        margin-top: 16px;
       }
 
       &--button {
@@ -460,114 +448,18 @@
   }
 }
 
+// Style for widget post-loop-item-style-2
 .__bt-post-style-2 {
   .bt-post {
     &--inner {
-      display: flex;
-      align-items: center;
-    }
-
-    &--content {
-      width: calc(100% - var(--width-image, 47%));
-      padding: 0 0 0 24px;
-    }
-
-    &--featured {
-      width: var(--width-image, 47%);
-
-      .bt-cover-image {
-        border-radius: 20px;
-      }
-    }
-
-    &--publish {
-      color: $color-text;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 22px;
-      /* 157.143% */
-      text-transform: uppercase;
       position: relative;
-    }
-
-    &--category {
-      display: none;
-    }
-
-    &--title {
-      color: $color-primary;
-      font-size: 24px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 32px;
-      display: block;
-      margin: 12px 0 0 0;
-      @extend .__bt-max-line-ellipsis;
-
-      a {
-        color: inherit;
-      }
-
-      &:hover {
-        a {
-          text-decoration: underline;
-        }
-      }
-
-      @media (max-width: $break-xs) {
-        font-size: 20px;
-        line-height: 1.3;
-        display: block;
-        background: transparent;
-      }
-    }
-
-    &--excerpt {
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 26px;
-      color: $color-text;
-      margin: 8px 0 0 0;
-      @extend .__bt-max-line-ellipsis;
-    }
-
-    @media (max-width: $break-xs) {
-      &--inner {
-        flex-direction: column;
-      }
-
-      &--content {
-        width: 100%;
-        padding: 16px 0 0 0 !important;
-      }
-
-      &--featured {
-        width: 100%;
-
-        .bt-cover-image {
-          border-radius: 8px;
-        }
-      }
-
-      &--title {
-        margin: 4px 0 0 0;
-      }
-    }
-  }
-}
-
-.__bt-post-style-3 {
-  .bt-post {
-    &--inner {
       display: flex;
-      align-items: stretch; // Changed to stretch to match heights
-      border-radius: 8px;
-      border: 1px solid #e9e9e9;
+      align-items: stretch;
       overflow: hidden;
+      border: 1px solid $color-line;
+      border-radius: 12px;
 
-      @media (max-width: 650px) {
+      @media (max-width: $break-sm) {
         flex-direction: column;
       }
 
@@ -590,36 +482,30 @@
       flex: 0 0 45%;
       position: relative;
       overflow: hidden;
+      border-radius: 8px 0 0 8px;
 
       .bt-cover-image {
         height: 100%;
 
         img {
-          height: 100%;
-          object-fit: cover;
           transform: scale(1, 1) translateZ(0);
           transition: all 2s cubic-bezier(0, 0, 0.44, 1.18);
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
       }
     }
 
     &--content {
       flex: 0 0 55%;
-      padding: 15px 40px;
+      padding: 45px 40px;
       display: flex;
       flex-direction: column;
       justify-content: center;
 
-      @media (max-width: $break-lg) and (min-width: $break-tl) {
-        padding: 15px 20px;
-      }
-
-      @media (max-width: $break-sm) {
-        padding: 15px;
-      }
-
-      @media (max-width: 650px) {
-        padding: 20px 15px;
+      @media (max-width: $break-tl) {
+        padding: 30px 25px;
       }
     }
 
@@ -627,17 +513,11 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      flex-wrap: wrap;
     }
 
     &--publish {
+      @extend .__caption_1_typo;
       color: $color-text;
-      font-size: 12px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 16px;
-      letter-spacing: 0.96px;
-      text-transform: uppercase;
       padding-right: 12px;
       position: relative;
 
@@ -647,83 +527,159 @@
         transform: translateY(-50%);
         width: 1px;
         height: 12px;
-        background: #e9e9e9;
+        background: $color-line;
         right: 0;
         content: "";
       }
     }
 
     &--category {
-      color: $color-text;
-      font-size: 12px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 16px;
-      letter-spacing: 0.96px;
+      @extend .__caption_2_typo;
+      color: $color-accent;
       text-transform: uppercase;
     }
 
     &--title {
-      margin: 8px 0 16px 0;
+      @extend .__heading_5_typo;
+      line-height: 125%;
       color: $color-primary;
-      font-size: 24px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 32px;
-      @extend .__bt-max-line-ellipsis;
+      margin-top: 8px;
 
       a {
-        display: block;
-        color: inherit;
-      }
-
-      &:hover {
-        a {
-          text-decoration: underline;
-        }
-      }
-
-      @media (max-width: $break-md) {
-        font-size: 22px;
-        line-height: 28px;
-      }
-
-      @media (max-width: $break-xs) {
-        font-size: 20px;
-        line-height: 27px;
-        display: block;
-        background: transparent;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-color: transparent;
       }
     }
 
     &--excerpt {
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 26px;
+      @extend .__body_typo;
       color: $color-text;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      margin-top: 16px;
 
-      &:not(:empty) {
-        margin-bottom: 16px;
+      @media (max-width: $break-xs) {
+        margin-top: 8px;
       }
     }
 
     &--button {
-      color: $color-primary;
-      text-align: left;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 26px;
+      a {
+        @extend .__button_typo;
+        text-transform: capitalize;
+        color: $color-accent;
+        margin-top: 16px;
+        display: block;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 8px;
+      }
+    }
+  }
+}
+
+// Style for widget post-loop-item-style-3
+.__bt-post-style-3 {
+  .bt-post {
+    &--inner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+
+      @media (min-width: $break-sm) {
+        &:hover {
+          .bt-post--featured .bt-cover-image img {
+            transform: scale(1.1) translateZ(0);
+          }
+        }
+      }
+    }
+
+    &--featured {
+      flex: 0 0 45%;
+      position: relative;
+      overflow: hidden;
+
+      .bt-cover-image {
+        border-radius: 16px;
+        height: 100%;
+
+        img {
+          transform: scale(1) translateZ(0);
+          transition: all 2s cubic-bezier(0, 0, 0.44, 1.18);
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    &--content {
+      flex: 0 0 55%;
+      padding-top: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &--meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    &--publish {
+      @extend .__caption_1_typo;
+      color: $color-text;
+      padding-right: 12px;
+      position: relative;
+
+      &::before {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        height: 12px;
+        background: $color-line;
+        right: 0;
+        content: "";
+      }
+    }
+
+    &--category {
+      @extend .__caption_2_typo;
+      color: $color-accent;
       text-transform: uppercase;
-      display: block;
+    }
+
+    &--title {
+      @extend .__heading_5_typo;
+      line-height: 125%;
+      color: $color-primary;
+      margin-top: 8px;
 
       a {
         text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-color: transparent;
+      }
+    }
+
+    &--excerpt {
+      @extend .__body_typo;
+      color: $color-text;
+      margin-top: 16px;
+    }
+
+    &--button {
+      a {
+        @extend .__button_typo;
+        color: $color-primary;
+        margin-top: 16px;
+        display: block;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 8px;
       }
     }
   }
@@ -1900,47 +1856,13 @@
 
 .bt-main-post {
   .bt-post {
-    &--category {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      flex-wrap: wrap;
-
-      a {
-        border-radius: 4px;
-        background: #f6f6f4;
-        padding: 5px 16px;
-        display: inline-block;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 22px;
-        text-transform: capitalize;
-        color: $color-primary;
-
-        &:hover {
-          color: #fff;
-          background: $color-primary;
-        }
-      }
-    }
-
     &--title {
+      @extend .__heading_1_typo;
       word-break: break-word;
-      margin: 20px 0;
+      margin: 0 0 20px 0;
       color: $color-primary;
       text-transform: capitalize;
       text-align: center;
-      font-size: 56px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 68px;
-
-      @media (max-width: $break-md) {
-        font-size: 40px;
-        line-height: 1.2;
-      }
 
       a {
         display: inline-block;
@@ -1955,12 +1877,10 @@
       flex-wrap: wrap;
       row-gap: 10px;
       justify-content: center;
+      align-items: center;
 
       .bt-meta {
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 1.5;
+        @extend .__body_1_typo;
         color: $color-primary;
         text-transform: capitalize;
         display: flex;
@@ -1968,8 +1888,8 @@
         gap: 8px;
 
         &:not(:last-child) {
-          padding-right: 16px;
-          margin-right: 16px;
+          padding-right: 20px;
+          margin-right: 20px;
           position: relative;
 
           &::before {
@@ -1977,7 +1897,7 @@
             position: absolute;
             width: 1px;
             height: 16px;
-            background-color: #e4e4e4;
+            background-color: $color-primary;
             display: block;
             top: 50%;
             right: 0;
@@ -1985,60 +1905,18 @@
           }
         }
 
-        svg {
-          height: 20px;
-        }
-
         a {
           display: flex;
           align-items: center;
           gap: 8px;
-
-          &:hover {
-            color: $color-accent;
-          }
         }
-      }
-    }
 
-    &--content {
-      margin: 32px 0;
-      @extend .__bt-format-post-content;
+        &--category {
+          gap: 0;
 
-      &:after {
-        content: "";
-        display: block;
-        clear: both;
-      }
-
-      a {
-        text-decoration: underline;
-      }
-
-      .page-links {
-        margin-top: 40px;
-      }
-    }
-  }
-
-  @media (max-width: $break-xs) {
-    .bt-post {
-      &--title {
-        font-size: 34px;
-        margin: 10px 0;
-      }
-
-      &--content {
-        margin: 20px 0;
-      }
-
-      &--meta .bt-meta {
-        font-size: 14px;
-
-        &:not(:last-child) {
-          padding-right: 10px;
-          margin-right: 10px;
-          position: relative;
+          a {
+            margin-left: 8px;
+          }
         }
       }
     }
