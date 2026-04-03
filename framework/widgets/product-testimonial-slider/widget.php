@@ -257,7 +257,10 @@ class Widget_ProductTestimonialSlider extends Widget_Base
             'css_prefix' => '',
             'slides_to_show_custom_settings' => [
                 'default' => '3',
+                'laptop_default' => '3',
+                'tablet_extra_default' => '3',
                 'tablet_default' => '2',
+                'mobile_extra_default' => '2',
                 'mobile_default' => '1',
                 'selectors' => [
                     '{{WRAPPER}}' => '--swiper-slides-to-display: {{VALUE}}',

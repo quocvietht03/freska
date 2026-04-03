@@ -25,7 +25,7 @@ if (function_exists('get_field')) {
 		
 		<?php if ($layout == 'layout-01'): ?>
 			<!-- Layout 01: Full width image -->
-			<div class="bt-single-post-breadcrumb">
+			<!-- <div class="bt-single-post-breadcrumb">
 				<div class="bt-container">
 					<div class="bt-row-breadcrumb-single-post">
 						<div class="bt-breadcrumb">
@@ -33,7 +33,7 @@ if (function_exists('get_field')) {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<div class="bt-main-image-full">
 				<?php if (!empty($banner)): ?>
 					<div class="bt-post--featured">
@@ -58,6 +58,7 @@ if (function_exists('get_field')) {
 						?>
 					</div>
 					<?php 
+					echo freska_author_render();
 					freska_post_nav();
 					if (comments_open() || get_comments_number()) comments_template();
 					?>
