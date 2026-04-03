@@ -1,11 +1,11 @@
 <?php
-namespace FreskaElementorWidgets\Widgets\FreskaSiteCopyright;
+namespace FreskaElementorWidgets\Widgets\SiteCopyright;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 
-class Widget_FreskaSiteCopyright extends Widget_Base {
+class Widget_SiteCopyright extends Widget_Base {
 
 	public function get_name() {
 		return 'bt-site-copyright';
@@ -16,11 +16,11 @@ class Widget_FreskaSiteCopyright extends Widget_Base {
 	}
 
 	public function get_icon() {
-		return 'eicon-posts-ticker';
+		return 'bt-bears-icon eicon-library-edit';
 	}
 
 	public function get_categories() {
-		return ['bt-freska'];
+		return [ 'freska' ];
 	}
 
 	protected function register_content_section_controls() {

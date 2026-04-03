@@ -1,38 +1,230 @@
 /*
  * Fonts
  */
-$text-font: var(--e-global-typography-text-font-family, "Outfit"), sans-serif;
-$primary-font: var(--e-global-typography-primary-font-family, "Outfit"), sans-serif;
-$secondary-font: var(--e-global-typography-secondary-font-family, "Outfit"), sans-serif;
-$accent-font: var(--e-global-typography-accent-font-family, "Outfit"), sans-serif;
-/*
- * colors
- */
+ $text-font: var(--e-global-typography-text-font-family, "Nunito Sans"), sans-serif;
+ $primary-font: var(--e-global-typography-primary-font-family, "Nunito Sans"), sans-serif;
+ $secondary-font: var(--e-global-typography-secondary-font-family, "Nunito Sans"), sans-serif;
+ $accent-font: var(--e-global-typography-accent-font-family, "Nunito Sans"), sans-serif;
+ /*
+  * colors
+  */
+ 
+ $color-primary: var(--e-global-color-primary, #1A1A1A);
+ $color-secondary: var(--e-global-color-secondary, #FFC919);
+ $color-text: var(--e-global-color-text, #6A6A6A);
+ $color-accent: var(--e-global-color-accent, #285E3B);
 
-$color-primary: var(--e-global-color-primary, #181818);
-$color-secondary: var(--e-global-color-secondary, #A2A4AB);
-$color-text: var(--e-global-color-text, #616365);
-$color-accent: var(--e-global-color-accent, #DF4242);
+ $color-line: #E9E9E9;
+ $color-white: #FFFFFF;
+ $color-black: #1A1A1A;
 
-$color-rating: #FDCC0D;
-$color-green: #3dab25;
-$color-blue: #1e85be;
-$color-red: #f03e3e;
-$color-orange: #f0a750;
+ $color-rating: #FDCC0D;
+ $color-green: #00706E;
+ $color-blue: #183F91;
+ $color-red: #F03E3E;
+ $color-orange: #f0a750;
+ 
+ 
+ /* Layout */
+ $container: var(--container-max-width, 1290px);
+ $padding-start: var(--container-default-padding-block-start, 15px);
+ $padding-end: var(--container-default-padding-block-end, 15px);
+ $grid-column-gap: var(--grid-column-gap, 30px);
+ $grid-row-gap: var(--grid-row-gap, 30px);
+ 
+ /* Breakpoints */
+ $break-lg: 1200px - 0.02;
+ $break-tl: 1025px - 0.02;
+ $break-md: 992px - 0.02;
+ $break-sm: 768px - 0.02;
+ $break-xs: 520px - 0.02;
+ 
+ $transition: all 0.25s ease-in-out;
+ 
 
+/* Typography */
+.__heading_1_typo {
+    font-family: $primary-font;
+    font-size: 56px;
+    font-weight: 500;
+    line-height: 121%;
+}
+.__heading_2_typo {
+    font-family: $primary-font;
+    font-size: 44px;
+    font-weight: 500;
+    line-height: 121%;
+    color: $color-primary;
+}
+.__heading_3_typo {
+    font-family: $primary-font;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 125%;
+    color: $color-primary;
+}
+.__heading_4_typo {
+    font-family: $primary-font;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 125%;
+}
+.__heading_5_typo {
+    font-family: $primary-font;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 140%;
+}
+.__heading_6_typo {
+    font-family: $primary-font;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 140%;
+    color: $color-primary;
+}
 
-/* Layout */
-$container: var(--container-max-width, 1320px);
-$padding-start: var(--container-default-padding-block-start, 15px);
-$padding-end: var(--container-default-padding-block-end, 15px);
-$grid-column-gap: var(--grid-column-gap, 30px);
-$grid-row-gap: var(--grid-row-gap, 30px);
+.__body_typo {
+    font-family: $text-font;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 163%;
+}
+.__body_1_typo {
+    font-family: $text-font;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 156%;
+    color: $color-text;
+}
 
-/* Breakpoints */
-$break-lg: 1200px - 0.02;
-$break-tl: 1025px - 0.02;
-$break-md: 992px - 0.02;
-$break-sm: 768px - 0.02;
-$break-xs: 520px - 0.02;
+.__caption_1_typo {
+    font-family: $text-font;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 157%;
+}
 
-$transition: all 0.25s ease-in-out;
+.__caption_2_typo {
+    font-family: $primary-font;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 133%;
+    text-transform: uppercase;
+}
+
+.__title_typo {
+    font-family: $primary-font;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+.__button_typo {
+    font-family: $primary-font;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px;
+}
+.__button_small_typo {
+    font-family: $primary-font;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+}
+
+@media(max-width: $break-lg) {
+    .__heading_1_typo {
+        font-size: 48px;
+    }
+    .__heading_2_typo {
+        font-size: 42px;
+    }
+    .__heading_3_typo {
+        font-size: 34px;
+    }
+    .__heading_4_typo {
+        font-size: 26px;
+    }
+    .__heading_5_typo {
+        font-size: 22px;
+    }
+}
+
+@media(max-width: $break-tl) {
+    .__heading_1_typo {
+        font-size: 44px;
+    }
+    .__heading_2_typo {
+        font-size: 40px;
+    }
+    .__heading_3_typo {
+        font-size: 32px;
+    }
+    .__heading_4_typo {
+        font-size: 24px;
+    }
+    .__heading_5_typo {
+        font-size: 20px;
+    }
+    .__heading_6_typo {
+        font-size: 18px;
+    }
+    .__body_1_typo {
+        font-size: 17px;
+    }
+    .__title_typo {
+        font-size: 15px;
+    }
+    .__button_typo {
+        font-size: 15px;
+        line-height: 24px;
+    }
+    .__button_small_typo {
+        font-size: 13px;
+        line-height: 20px;
+    }
+}
+
+@media(max-width: $break-sm) {
+    .__heading_1_typo {
+        font-size: 32px;
+    }
+    .__heading_2_typo {
+        font-size: 28px;
+    }
+    .__heading_3_typo {
+        font-size: 24px;
+    }
+    .__heading_4_typo {
+        font-size: 22px;
+    }
+    .__heading_5_typo {
+        font-size: 18px;
+    }
+    .__heading_6_typo {
+        font-size: 16px;
+    }
+    .__body_typo {
+        font-size: 15px;
+    }
+    .__body_1_typo {
+        font-size: 16px;
+    }
+    .__caption_1_typo {
+        font-size: 13px;
+    }
+    .__caption_2_typo {
+        font-size: 11px;
+    }
+    .__title_typo {
+        font-size: 14px;
+    }
+    .__button_typo {
+        font-size: 14px;
+        line-height: 22px;
+    }
+    .__button_small_typo {
+        font-size: 12px;
+        line-height: 18px;
+    }
+}

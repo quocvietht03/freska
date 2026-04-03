@@ -1,12 +1,12 @@
 <?php
 
-namespace FreskaElementorWidgets\Widgets\FreskaSiteInformation;
+namespace FreskaElementorWidgets\Widgets\SiteInformation;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 
-class Widget_FreskaSiteInformation extends Widget_Base
+class Widget_SiteInformation extends Widget_Base
 {
 
 	public function get_name()
@@ -21,12 +21,12 @@ class Widget_FreskaSiteInformation extends Widget_Base
 
 	public function get_icon()
 	{
-		return 'eicon-posts-ticker';
+		return 'bt-bears-icon eicon-bullet-list';
 	}
 
 	public function get_categories()
 	{
-		return ['bt-freska'];
+		return ['freska'];
 	}
 
 	protected function register_content_section_controls()
@@ -312,46 +312,40 @@ class Widget_FreskaSiteInformation extends Widget_Base
 	{
 		$settings = $this->get_settings_for_display();
 
-		$classes_arr = array();
-		$classes_arr[] = 'bt-elwg-site-infor bt-elwg-site-infor--default';
-
 		if (isset($settings['separator']) && $settings['separator'] == 'yes') {
-			$classes_arr[] = 'separator';
+			$separator = 'separator';
 		} else {
-			$classes_arr[] = 'separator-hide';
+			$separator = '';
 		}
 
 		if (isset($settings['separator_tablet']) && $settings['separator_tablet'] == 'yes') {
-			$classes_arr[] = 'separator-tb';
+			$separator_tb = '';
 		} else {
-			$classes_arr[] = 'separator-tb-hide';
+			$separator_tb = 'separator-tb-hide';
 		}
 
 		if (isset($settings['separator_mobile']) && $settings['separator_mobile'] == 'yes') {
-			$classes_arr[] = 'separator-mb';
+			$separator_mb = '';
 		} else {
-			$classes_arr[] = 'separator-mb-hide';
+			$separator_mb = 'separator-mb-hide';
 		}
 
-		if ($settings['icon_show'] != 'yes') {
-			$classes_arr[] = 'bt-no-show-icon';
-		} else {
-			$classes_arr[] = 'show-icon';
-		}
-
-		$classes  = implode(' ', $classes_arr);
+		$classes  = implode(' ', [$separator, $separator_tb, $separator_mb]);
 
 
 		if (empty($settings['list'])) {
 			return;
 		}
+?>
 
-		?>
-			<div class="<?php echo esc_attr($classes);?>">
-				<?php get_template_part('framework/templates/site-information', 'style', array('layout' => 'default', 'data' => $settings['list'],'title_phone' => $settings['title_phone'],'title_email' => $settings['title_email'],'title_address' => $settings['title_address'])); ?>
-			</div>
-		<?php 
-	}
+		<div class="bt-elwg-site-infor bt-elwg-site-infor--default <?php echo esc_attr($classes);
+																	if ($settings['icon_show'] != 'yes') {
+																		echo ' bt-no-show-icon';
+																	} ?>">
+			<?php get_template_part('framework/templates/site-information', 'style', array('layout' => 'default', 'data' => $settings['list'],'title_phone' => $settings['title_phone'],'title_email' => $settings['title_email'],'title_address' => $settings['title_address'])); ?>
+		</div>
+
+<?php }
 
 	protected function content_template() {}
 }

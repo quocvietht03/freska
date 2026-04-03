@@ -1,6 +1,6 @@
 <?php
 
-namespace FreskaElementorWidgets\Widgets\FreskaPageBreadcrumb;
+namespace FreskaElementorWidgets\Widgets\PageBreadcrumb;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -10,7 +10,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 
-class Widget_FreskaPageBreadcrumb extends Widget_Base
+class Widget_PageBreadcrumb extends Widget_Base
 {
 
 	public function get_name()
@@ -25,12 +25,12 @@ class Widget_FreskaPageBreadcrumb extends Widget_Base
 
 	public function get_icon()
 	{
-		return 'eicon-posts-ticker';
+		return 'bt-bears-icon eicon-integration';
 	}
 
 	public function get_categories()
 	{
-		return ['bt-freska'];
+		return ['freska'];
 	}
 
 	protected function register_content_section_controls() {}
@@ -111,7 +111,7 @@ class Widget_FreskaPageBreadcrumb extends Widget_Base
 				<?php
 				$home_text = esc_html__('Home', 'freska');
 				$delimiter = '/';
-				echo freskapage_breadcrumb($home_text, $delimiter);
+				echo freska_page_breadcrumb($home_text, $delimiter);
 				?>
 			</div>
 		</div>

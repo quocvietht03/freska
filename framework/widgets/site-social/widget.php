@@ -1,12 +1,12 @@
 <?php
 
-namespace FreskaElementorWidgets\Widgets\FreskaSiteSocial;
+namespace FreskaElementorWidgets\Widgets\SiteSocial;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 
-class Widget_FreskaSiteSocial extends Widget_Base
+class Widget_SiteSocial extends Widget_Base
 {
 
 	public function get_name()
@@ -21,12 +21,12 @@ class Widget_FreskaSiteSocial extends Widget_Base
 
 	public function get_icon()
 	{
-		return 'eicon-posts-ticker';
+		return 'bt-bears-icon eicon-social-icons';
 	}
 
 	public function get_categories()
 	{
-		return ['bt-freska'];
+		return ['freska'];
 	}
 
 	protected function register_layout_section_controls()
