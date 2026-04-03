@@ -610,3 +610,21 @@
     height: 20px;
   }
 }
+// custom active megamenu
+.bt-custom-megamenu{
+  .bt-elwg-megamenu--default {
+    .bt-megamenu > li {
+      &.current-menu-item {
+        > a {
+          > span {
+            &:first-child {
+              text-decoration: underline;
+              text-decoration-thickness: 1px;
+              text-underline-offset: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

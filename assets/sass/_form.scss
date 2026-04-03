@@ -248,7 +248,7 @@
   }
   .contact-us-form,
   .bt-ask-faq,
-  .bt-form-out-of-stock{
+  .bt-form-out-of-stock {
     &.loading {
       .gform_footer {
         &::after {
@@ -348,6 +348,12 @@
         background-position: right 16px center !important;
         background-repeat: no-repeat !important;
         background-size: 20px !important;
+        @media (max-width: $break-xs) {
+          font-size: 0 !important;
+          width: 40px !important;
+          padding: 0 !important;
+          background-position: right 9px center !important;
+        }
       }
     }
   }

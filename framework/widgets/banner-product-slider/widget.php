@@ -243,8 +243,11 @@ class Widget_BannerProductSlider extends Widget_Base
         $this->add_carousel_layout_controls([
             'css_prefix' => '',
             'slides_to_show_custom_settings' => [
-                'default' => '4',
+                'default' => '3',
+                'laptop_default' => '3',
+                'tablet_extra_default' => '3',
                 'tablet_default' => '2',
+                'mobile_extra_default' => '2',
                 'mobile_default' => '1',
                 'selectors' => [
                     '{{WRAPPER}}' => '--swiper-slides-to-display: {{VALUE}}',
