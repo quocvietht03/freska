@@ -93,7 +93,7 @@ h4,
 h5,
 h6 {
   font-family: $primary-font;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 130%;
   color: $color-primary;
 }
@@ -111,8 +111,8 @@ h3 {
   margin: 32px 0 16px;
 }
 h4 {
-  font-size: 26px;
-  margin: 32px 0 16px;
+  font-size: 30px;
+  margin: 40px 0 16px;
 }
 h5 {
   font-size: 22px;
@@ -126,7 +126,7 @@ ol,
 ul {
   margin: 0 0 30px;
   padding: 0 0 0 20px;
-  color: var(--On-Surface, #1A1A1A);
+  color:  $color-primary;
   font-family: "Nunito Sans";
   font-size: 18px;
   font-style: normal;
@@ -324,8 +324,6 @@ blockquote {
     .wp-block-group, .wp-block-columns, .wp-block-column, .wp-block-image {
       margin: 0 0 12px 0;
     }
-
- 
     .wp-block-group.is-layout-flex {
       gap: 28px ;
       align-items: flex-start ; 
@@ -336,16 +334,16 @@ blockquote {
 
     h5 {
       margin: 0;
-      font-size: 24px !important;
+      font-size: 24px ;
       font-style: normal;
       font-weight: 700 ;
       line-height: 1.25; 
     }
 
     h6 {     
-      font-size: 18px !important;
-      font-weight: 400 !important;
-      line-height: 1.55 !important;
+      font-size: 18px ;
+      font-weight: 400 ;
+      line-height: 1.55 ;
       margin: 0;
       display: flex;
       align-items: center;
@@ -357,11 +355,11 @@ blockquote {
 
 
     .wp-block-image {
-      width: 40px !important; 
+      width: 40px; 
       img {
         width: 100%;
         height: auto;
-        border-radius: 0 !important;
+        border-radius: 0;
       }
     }
   }
