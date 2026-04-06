@@ -79,16 +79,22 @@ if (function_exists('get_field')) {
 					<?php echo freska_post_featured_render('full'); ?>
 				<?php endif; ?>
 				
+				<div class="bt-row-breadcrumb-single-post">
+					<div class="bt-container">
+						<div class="bt-breadcrumb">
+							<?php 
+							$delimiter = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.51552 6.26552L4.76552 10.0155C4.73068 10.0504 4.68932 10.078 4.64379 10.0969C4.59827 10.1157 4.54948 10.1254 4.50021 10.1254C4.45094 10.1254 4.40214 10.1157 4.35662 10.0969C4.3111 10.078 4.26974 10.0504 4.2349 10.0155C4.20005 9.98068 4.17242 9.93932 4.15356 9.89379C4.1347 9.84827 4.125 9.79948 4.125 9.75021C4.125 9.70094 4.1347 9.65214 4.15356 9.60662C4.17242 9.5611 4.20005 9.51974 4.2349 9.4849L7.72005 6.00021L4.2349 2.51552C4.16453 2.44516 4.125 2.34972 4.125 2.25021C4.125 2.1507 4.16453 2.05526 4.2349 1.9849C4.30526 1.91453 4.4007 1.875 4.50021 1.875C4.59972 1.875 4.69516 1.91453 4.76552 1.9849L8.51552 5.7349C8.55039 5.76972 8.57805 5.81108 8.59692 5.85661C8.61579 5.90213 8.6255 5.95093 8.6255 6.00021C8.6255 6.04949 8.61579 6.09829 8.59692 6.14381C8.57805 6.18933 8.55039 6.23069 8.51552 6.26552Z" fill="#A0A0A0"/></svg>';
+							echo freska_page_breadcrumb('Home', $delimiter); 
+							?>
+						</div>
+					</div>
+				</div>
+
 				<div class="bt-single-information">
 					<div class="bt-container">
-						<div class="bt-row-breadcrumb-single-post">
-							<div class="bt-breadcrumb">
-								<?php echo freska_page_breadcrumb('Home', '/'); ?>
-							</div>
-						</div>
 						<?php 
+						echo freska_post_meta_category_render();
 						echo freska_single_post_title_render();
-						echo freska_post_meta_single_render();
 						?>
 					</div>
 				</div>
