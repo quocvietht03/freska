@@ -235,15 +235,11 @@ if (!function_exists('freska_post_meta_category_render')) {
     <ul class="bt-post--meta">
       <!-- Author -->
       <li class="bt-meta bt-meta--author">
-        <?php 
-          $author_id = get_post_field('post_author', get_the_ID());
-          $author_name = get_the_author_meta('display_name', $author_id);
-        ?>
-        <a href="<?php echo get_author_posts_url($author_id); ?>">
+        <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M12 2.25C10.0716 2.25 8.18657 2.82183 6.58319 3.89317C4.97982 4.96451 3.73013 6.48726 2.99218 8.26884C2.25422 10.0504 2.06114 12.0108 2.43735 13.9021C2.81355 15.7934 3.74215 17.5307 5.10571 18.8943C6.46928 20.2579 8.20656 21.1865 10.0979 21.5627C11.9892 21.9389 13.9496 21.7458 15.7312 21.0078C17.5127 20.2699 19.0355 19.0202 20.1068 17.4168C21.1782 15.8134 21.75 13.9284 21.75 12C21.7473 9.41498 20.7192 6.93661 18.8913 5.10872C17.0634 3.28084 14.585 2.25273 12 2.25ZM6.945 18.5156C7.48757 17.6671 8.23501 16.9688 9.11843 16.4851C10.0019 16.0013 10.9928 15.7478 12 15.7478C13.0072 15.7478 13.9982 16.0013 14.8816 16.4851C15.765 16.9688 16.5124 17.6671 17.055 18.5156C15.6097 19.6397 13.831 20.2499 12 20.2499C10.169 20.2499 8.39032 19.6397 6.945 18.5156ZM9 11.25C9 10.6567 9.17595 10.0766 9.5056 9.58329C9.83524 9.08994 10.3038 8.70542 10.852 8.47836C11.4001 8.2513 12.0033 8.19189 12.5853 8.30764C13.1672 8.4234 13.7018 8.70912 14.1213 9.12868C14.5409 9.54824 14.8266 10.0828 14.9424 10.6647C15.0581 11.2467 14.9987 11.8499 14.7716 12.3981C14.5446 12.9462 14.1601 13.4148 13.6667 13.7444C13.1734 14.0741 12.5933 14.25 12 14.25C11.2044 14.25 10.4413 13.9339 9.87868 13.3713C9.31607 12.8087 9 12.0456 9 11.25ZM18.165 17.4759C17.3285 16.2638 16.1524 15.3261 14.7844 14.7806C15.5192 14.2019 16.0554 13.4085 16.3184 12.5108C16.5815 11.6132 16.5582 10.6559 16.252 9.77207C15.9457 8.88825 15.3716 8.12183 14.6096 7.5794C13.8475 7.03696 12.9354 6.74548 12 6.74548C11.0646 6.74548 10.1525 7.03696 9.39044 7.5794C8.62839 8.12183 8.05432 8.88825 7.74805 9.77207C7.44179 10.6559 7.41855 11.6132 7.68157 12.5108C7.94459 13.4085 8.4808 14.2019 9.21563 14.7806C7.84765 15.3261 6.67147 16.2638 5.835 17.4759C4.77804 16.2873 4.0872 14.8185 3.84567 13.2464C3.60415 11.6743 3.82224 10.0658 4.47368 8.61478C5.12512 7.16372 6.18213 5.93192 7.51745 5.06769C8.85276 4.20346 10.4094 3.74367 12 3.74367C13.5906 3.74367 15.1473 4.20346 16.4826 5.06769C17.8179 5.93192 18.8749 7.16372 19.5263 8.61478C20.1778 10.0658 20.3959 11.6743 20.1543 13.2464C19.9128 14.8185 19.222 16.2873 18.165 17.4759Z" fill="#1A1A1A" />
           </svg>
-          <?php echo esc_html($author_name); ?>
+          <?php echo get_the_author(); ?>
         </a>
       </li>
 
@@ -451,73 +447,100 @@ if (!function_exists('freska_author_w_avatar')) {
     </div>
   <?php }
 }
-
 /* Author */
 if (!function_exists('freska_author_render')) {
   function freska_author_render()
   {
     $author_id = get_the_author_meta('ID');
-    $desc      = get_the_author_meta('description');
+    $desc = get_the_author_meta('description');
 
     if (function_exists('get_field')) {
-      $avatar  = get_field('avatar', 'user_' . $author_id);
-      $job     = get_field('job', 'user_' . $author_id);
+      $avatar = get_field('avatar', 'user_' . $author_id);
+      $job = get_field('job', 'user_' . $author_id);
       $socials = get_field('socials', 'user_' . $author_id);
     } else {
-      $avatar  = array();
-      $job     = '';
+      $avatar = array();
+      $job = '';
       $socials = array();
     }
-
-    $social_icons = array(
-      'facebook'  => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><g clip-path="url(#pa_fb)"><path d="M6.25 11.25L8.75 8.75L11.25 11.25L13.75 8.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.24382 16.4912C7.81923 17.403 9.67248 17.7108 11.458 17.3571C13.2436 17.0034 14.8396 16.0124 15.9484 14.5689C17.0573 13.1253 17.6033 11.3278 17.4847 9.51146C17.3662 7.69508 16.5911 5.98381 15.304 4.69671C14.0169 3.4096 12.3056 2.63451 10.4892 2.51594C8.67284 2.39737 6.87533 2.94341 5.43182 4.05227C3.98831 5.16113 2.99733 6.75711 2.64363 8.54266C2.28993 10.3282 2.59766 12.1814 3.50944 13.7569L2.5321 16.6748C2.49538 16.785 2.49005 16.9031 2.51671 17.0161C2.54337 17.1291 2.60097 17.2324 2.68306 17.3145C2.76514 17.3966 2.86847 17.4542 2.98145 17.4808C3.09443 17.5075 3.2126 17.5022 3.32273 17.4655L6.24382 16.4912Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="pa_fb"><rect width="20" height="20" fill="white"/></clipPath></defs></svg>',
-      'twitter'   => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><g clip-path="url(#pa_tw)"><path d="M3.75 3.125H7.5L16.25 16.875H12.5L3.75 3.125Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.89687 11.2109L3.75 16.8727" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.2484 3.125L11.1016 8.78672" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="pa_tw"><rect width="20" height="20" fill="white"/></clipPath></defs></svg>',
-      'instagram' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><g clip-path="url(#pa_ig)"><path d="M10 13.125C11.7259 13.125 13.125 11.7259 13.125 10C13.125 8.27411 11.7259 6.875 10 6.875C8.27411 6.875 6.875 8.27411 6.875 10C6.875 11.7259 8.27411 13.125 10 13.125Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.75 2.5H6.25C4.17893 2.5 2.5 4.17893 2.5 6.25V13.75C2.5 15.8211 4.17893 17.5 6.25 17.5H13.75C15.8211 17.5 17.5 15.8211 17.5 13.75V6.25C17.5 4.17893 15.8211 2.5 13.75 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.0625 6.71875C14.494 6.71875 14.8438 6.36897 14.8438 5.9375C14.8438 5.50603 14.494 5.15625 14.0625 5.15625C13.631 5.15625 13.2812 5.50603 13.2812 5.9375C13.2812 6.36897 13.631 6.71875 14.0625 6.71875Z" fill="currentColor"/></g><defs><clipPath id="pa_ig"><rect width="20" height="20" fill="white"/></clipPath></defs></svg>',
-      'linkedin'  => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M17.04 17.043h-2.962v-4.64c0-1.107-.023-2.531-1.544-2.531-1.544 0-1.78 1.204-1.78 2.449v4.722H7.793V7.5h2.844v1.304h.039c.397-.75 1.364-1.542 2.808-1.542 3.001 0 3.556 1.975 3.556 4.545v5.236zM4.447 6.194a1.72 1.72 0 1 1 0-3.44 1.72 1.72 0 0 1 0 3.44zm1.484 10.85H2.961V7.5h2.97v9.543zM18.522 0H1.476C.66 0 0 .645 0 1.44v17.12C0 19.355.66 20 1.476 20h17.046c.815 0 1.478-.644 1.478-1.44V1.44C20 .645 19.337 0 18.522 0z"/></svg>',
-      'google'    => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M19.6 10.23c0-.82-.1-1.42-.25-2.05H10v3.72h5.5c-.15.96-.74 2.31-2.04 3.22v2.45h3.16c1.89-1.73 2.98-4.3 2.98-7.34z"/><path d="M10 20c2.7 0 4.96-.89 6.62-2.42l-3.16-2.45c-.89.6-2.04 1-3.46 1-2.65 0-4.9-1.77-5.7-4.26H1.07v2.53C2.72 17.75 6.09 20 10 20z"/><path d="M4.3 11.87A5.99 5.99 0 0 1 4 10c0-.66.1-1.3.3-1.87V5.6H1.07A9.97 9.97 0 0 0 0 10c0 1.61.39 3.14 1.07 4.4l3.23-2.53z"/><path d="M10 3.88c1.48 0 2.5.63 3.07 1.17l2.3-2.3C13.95.98 11.69 0 10 0 6.09 0 2.72 2.25 1.07 5.6L4.3 8.13C5.1 5.64 7.35 3.88 10 3.88z"/></svg>',
-      'telegram'  => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><g clip-path="url(#pa_tg)"><path d="M6.24939 10.5366L13.301 16.7186C13.3822 16.7903 13.4806 16.8396 13.5867 16.8618C13.6927 16.8839 13.8027 16.8781 13.9058 16.845C14.0089 16.8118 14.1016 16.7524 14.1749 16.6726C14.2481 16.5928 14.2994 16.4953 14.3236 16.3897L17.4994 2.59521C17.5025 2.58138 17.5018 2.56696 17.4973 2.55351C17.4928 2.54006 17.4848 2.52807 17.474 2.51884C17.4633 2.50961 17.4502 2.50348 17.4362 2.5011C17.4223 2.49873 17.4079 2.5002 17.3947 2.50537L1.56189 8.70146C1.4636 8.73929 1.38023 8.80798 1.3243 8.89722C1.26837 8.98646 1.2429 9.09143 1.2517 9.19638C1.26051 9.30133 1.30312 9.4006 1.37313 9.47927C1.44315 9.55794 1.5368 9.61178 1.64001 9.63271L6.24939 10.5366Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.25 10.5375L17.4539 2.50781" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.71641 13.5789L7.325 16.0602C7.23859 16.1498 7.12737 16.2116 7.00561 16.2376C6.88384 16.2636 6.75708 16.2527 6.64157 16.2062C6.52607 16.1597 6.42709 16.0797 6.35732 15.9766C6.28755 15.8735 6.25018 15.7519 6.25 15.6273V10.5391" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="pa_tg"><rect width="20" height="20" fill="white"/></clipPath></defs></svg>',
-    );
 
     ob_start();
   ?>
     <div class="bt-post-author">
-      <div class="bt-post-author--profile">
-        <div class="bt-post-author--avatar">
+      <div class="bt-post-author--avatar">
+        <?php
+        if (!empty($avatar)) {
+          echo '<img src="' . esc_url($avatar['url']) . '" alt="' . esc_attr($avatar['title']) . '" />';
+        } else {
+          echo get_avatar($author_id, 150);
+        }
+        ?>
+      </div>
+      <div class="bt-post-author--info">
+        <h4 class="bt-post-author--name">
+          <span class="bt-name">
+            <?php the_author(); ?>
+          </span>
           <?php
-          if (!empty($avatar)) {
-            echo '<img src="' . esc_url($avatar['url']) . '" alt="' . esc_attr($avatar['title']) . '" />';
-          } else {
-            echo get_avatar($author_id, 150);
+          if (!empty($job)) {
+            echo '<span class="bt-label">' . $job . '</span>';
           }
           ?>
-        </div>
-        <div class="bt-post-author--header">
-          <h5 class="bt-post-author--name"><?php the_author(); ?></h5>
-          <?php if (!empty($job)) : ?>
-            <div class="bt-post-author--job"><?php echo esc_html($job); ?></div>
-          <?php endif; ?>
-          <?php if (!empty($socials) && is_array($socials)) : ?>
-            <div class="bt-post-author--socials">
-              <?php foreach ($socials as $item) :
-                $type = $item['social'];
-                $icon = isset($social_icons[$type]) ? $social_icons[$type] : '';
-                if (empty($icon)) continue;
-                echo '<a class="bt-post-author--social-link bt-social-' . esc_attr($type) . '" href="' . esc_url($item['link']) . '" target="_blank" rel="noopener noreferrer">' . $icon . '</a>';
-              endforeach; ?>
-            </div>
-          <?php endif; ?>
-        </div>
+        </h4>
+        <?php
+        if (!empty($desc)) {
+          echo '<div class="bt-post-author--desc">' . $desc . '</div>';
+        }
+
+        if (!empty($socials)) {
+        ?>
+          <div class="bt-post-author--socials">
+            <?php
+            foreach ($socials as $item) {
+              if ($item['social'] == 'facebook') {
+                echo '<a class="bt-' . esc_attr($item['social']) . '" href="' . esc_url($item['link']) . '" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                          <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
+                        </svg>
+                      </a>';
+              }
+
+              if ($item['social'] == 'linkedin') {
+                echo '<a class="bt-' . esc_attr($item['social']) . '" href="' . esc_url($item['link']) . '" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                          <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/>
+                        </svg>
+                      </a>';
+              }
+
+              if ($item['social'] == 'twitter') {
+                echo '<a class="bt-' . esc_attr($item['social']) . '" href="' . esc_url($item['link']) . '" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                          <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
+                        </svg>
+                      </a>';
+              }
+
+              if ($item['social'] == 'google') {
+                echo '<a class="bt-' . esc_attr($item['social']) . '" href="' . esc_url($item['link']) . '" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+                          <path d="M386.061 228.496c1.834 9.692 3.143 19.384 3.143 31.956C389.204 370.205 315.599 448 204.8 448c-106.084 0-192-85.915-192-192s85.916-192 192-192c51.864 0 95.083 18.859 128.611 50.292l-52.126 50.03c-14.145-13.621-39.028-29.599-76.485-29.599-65.484 0-118.92 54.221-118.92 121.277 0 67.056 53.436 121.277 118.92 121.277 75.961 0 104.513-54.745 108.965-82.773H204.8v-66.009h181.261zm185.406 6.437V179.2h-56.001v55.733h-55.733v56.001h55.733v55.733h56.001v-55.733H627.2v-56.001h-55.733z"/>
+                        </svg>
+                      </a>';
+              }
+            }
+            ?>
+          </div>
+        <?php
+        }
+        ?>
       </div>
-      <?php if (!empty($desc)) : ?>
-        <div class="bt-post-author--bio">
-          <p><?php echo esc_html($desc); ?></p>
-        </div>
-      <?php endif; ?>
     </div>
     <?php
     return ob_get_clean();
   }
 }
+
 
 /* Related posts */
 if (!function_exists('freska_related_posts')) {
@@ -611,33 +634,6 @@ function freska_comment_fields_custom_order($fields)
 add_filter('comment_form_fields', 'freska_comment_fields_custom_order');
 
 /* Custom comment list */
-if (!function_exists('freska_time_ago')) {
-  function freska_time_ago($date)
-  {
-    $timestamp = strtotime($date);
-    $diff = time() - $timestamp;
-
-    if ($diff < 60) {
-      return $diff . ' seconds ago';
-    } elseif ($diff < 3600) {
-      $mins = round($diff / 60);
-      return $mins . ' minute' . ($mins > 1 ? 's' : '') . ' ago';
-    } elseif ($diff < 86400) {
-      $hours = round($diff / 3600);
-      return $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ago';
-    } elseif ($diff < 2592000) {
-      $days = round($diff / 86400);
-      return $days . ' day' . ($days > 1 ? 's' : '') . ' ago';
-    } elseif ($diff < 31536000) {
-      $months = round($diff / 2592000);
-      return $months . ' month' . ($months > 1 ? 's' : '') . ' ago';
-    } else {
-      $years = round($diff / 31536000);
-      return $years . ' year' . ($years > 1 ? 's' : '') . ' ago';
-    }
-  }
-}
-
 if (!function_exists('freska_custom_comment')) {
   function freska_custom_comment($comment, $args, $depth)
   {
@@ -666,22 +662,28 @@ if (!function_exists('freska_custom_comment')) {
           } else {
             if ($args['avatar_size'] != 0) echo get_avatar($comment, $args['avatar_size']);
           }
+
+
           ?>
         </div>
         <div class="bt-author">
-          <h5 class="bt-name"><?php echo get_comment_author(get_comment_ID()); ?></h5>
-          <div class="bt-date"><?php echo freska_time_ago($comment->comment_date); ?></div>
+          <h5 class="bt-name">
+            <?php echo get_comment_author(get_comment_ID()); ?>
+          </h5>
+          <div class="bt-date">
+            <?php echo get_comment_date(); ?>
+          </div>
           <?php if ($comment->comment_approved == '0') : ?>
             <em class="comment-awaiting-moderation"><?php esc_html_e('Your comment is awaiting moderation.', 'freska'); ?></em>
           <?php endif; ?>
-        </div>
-        <div class="bt-content">
-          <div class="bt-text">
-            <?php comment_text(); ?>
+          <div class="bt-content">
+            <div class="bt-text">
+              <?php comment_text(); ?>
+            </div>
+            <?php comment_reply_link(array_merge($args, array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth']))); ?>
           </div>
-          <?php comment_reply_link(array_merge($args, array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth']))); ?>
         </div>
       </div>
-    <?php
+  <?php
   }
 }
