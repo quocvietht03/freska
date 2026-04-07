@@ -53,52 +53,55 @@
 }
 
 .bt-comment-wrapper {
-  margin-top: 60px;
-  @media (max-width: $break-sm) {
-    margin-top: 40px;
-  }
+  margin-top: 40px;
+
   .bt-heading-comment {
+    @extend .__heading_4_typo;
     color: $color-primary;
-    font-family: $secondary-font;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 30px;
-    margin-bottom: 20px;
+    margin: 0 0 20px 0;
+    line-height: 140%;
   }
+
   .bt-comment-item {
     &.depth-5 {
       .bt-comment {
         padding: 15px;
       }
     }
+
     .bt-comment-item {
       margin-left: 60px;
-      > .bt-comment {
+
+      >.bt-comment {
         position: relative;
       }
     }
   }
+
   .trackback,
   .pingback {
     .bt-comment {
       padding: 30px;
+
       .bt-avatar {
         display: none;
       }
     }
+
     .bt-author {
       width: 100%;
     }
   }
-  > .comment {
+
+  >.comment {
     &:first-of-type {
-      > .bt-comment {
+      >.bt-comment {
         border-top: none;
         padding-top: 0;
       }
     }
   }
+
   .bt-comment {
     position: relative;
     display: flex;
@@ -107,10 +110,12 @@
     margin-top: 24px;
     border-top: 1px solid $color-line;
     padding-top: 20px;
+
     .bt-avatar {
       width: 60px;
       height: 60px;
       line-height: 0;
+
       img {
         width: 100%;
         border-radius: 50%;
@@ -119,15 +124,18 @@
       }
     }
   }
+
   .bt-author {
     display: flex;
     align-items: flex-start;
     width: calc(100% - 76px);
     flex-direction: column;
     box-sizing: border-box;
+
     @media (min-width: $break-sm) {
       padding-right: 55px;
     }
+
     .bt-name {
       margin: 0;
       color: $color-primary;
@@ -140,6 +148,7 @@
       display: block;
       margin: 0 0 4px 0;
     }
+
     .bt-date {
       font-size: 16px;
       font-style: normal;
@@ -149,8 +158,10 @@
       display: block;
     }
   }
+
   .bt-content {
     width: 100%;
+
     .bt-text {
       width: 100%;
       margin: 12px 0;
@@ -159,13 +170,16 @@
       font-weight: 400;
       line-height: 28px;
       color: $color-text;
-      > *:first-child {
+
+      >*:first-child {
         margin-top: 0;
       }
-      > *:last-child {
+
+      >*:last-child {
         margin-bottom: 0;
       }
     }
+
     .comment-reply-link {
       font-family: $primary-font;
       font-size: 16px;
@@ -177,11 +191,13 @@
       display: block;
     }
   }
+
   .comment-respond {
     margin-top: 60px;
     border-radius: 8px;
     border: 2px solid $color-line;
     padding: 28px;
+
     .comment-reply-title {
       position: relative;
       color: $color-primary;
@@ -192,10 +208,12 @@
       line-height: 42px;
       margin: 0 0 24px 0;
       padding-right: 120px;
+
       a {
         text-decoration: underline;
         text-underline-offset: 6px;
       }
+
       small {
         position: absolute;
         top: 0;
@@ -203,50 +221,64 @@
         font-size: 18px;
       }
     }
+
     .comment-form {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
+
       @media (max-width: $break-sm) {
         gap: 10px;
       }
+
       .bt-logged-in-as {
         width: 100%;
+
         a {
           text-decoration: underline;
+
           &:hover {
             color: $color-accent;
           }
         }
       }
+
       .bt-form-author,
       .bt-form-email {
         width: calc(50% - 10px);
+
         @media (max-width: $break-sm) {
           width: 100%;
         }
       }
+
       .bt-form-message {
         order: -1;
+
         textarea {
           display: block;
         }
       }
+
       .bt-form-message,
       .form-submit {
         width: 100%;
       }
+
       .form-submit {
         margin: 4px 0 0 0;
       }
+
       label {
         display: none;
       }
+
       .bt-form-cookies-consent {
         display: flex;
         align-items: baseline;
         justify-content: flex-start;
         gap: 6px;
+
         input {
           border: none;
           margin: 0;
@@ -255,11 +287,13 @@
           accent-color: $color-primary;
           position: relative;
           top: 2px;
+
           &:checked {
             background-color: $color-primary;
             border-color: $color-primary;
           }
         }
+
         label {
           margin: 0;
           font-size: 16px;
@@ -270,6 +304,7 @@
           display: block;
         }
       }
+
       input[type="text"] {
         width: 100%;
         min-height: unset;
@@ -282,8 +317,9 @@
         line-height: 26px;
         color: $color-primary;
         border-radius: 4px;
+
         &::placeholder {
-          color:  $color-text;
+          color: $color-text;
           font-size: 16px;
           font-style: normal;
           font-weight: 400;
@@ -291,6 +327,7 @@
           font-family: $primary-font;
         }
       }
+
       textarea {
         width: 100%;
         min-height: unset;
@@ -304,8 +341,9 @@
         padding: 16px;
         border-radius: 4px;
         color: $color-primary;
+
         &::placeholder {
-          color:  $color-text;
+          color: $color-text;
           letter-spacing: 0;
           font-size: 16px;
           font-style: normal;
@@ -314,12 +352,14 @@
           font-family: $primary-font;
         }
       }
+
       div.error {
         color: #ff0000;
         font-size: 14px;
         font-weight: 400;
         margin-top: 5px;
       }
+
       input[type="submit"] {
         font-family: $primary-font;
         border-radius: 4px;
@@ -327,8 +367,10 @@
         font-size: 16px;
         font-style: normal;
         font-weight: 500;
-        line-height: 26px; /* 162.5% */
+        line-height: 26px;
+        /* 162.5% */
         text-transform: capitalize;
+
         @media (min-width: $break-sm) {
           &:hover {
             background: $color-primary;
@@ -338,52 +380,64 @@
       }
     }
   }
+
   @media (max-width: $break-sm) {
     .comment-respond {
       padding: 20px 15px;
       margin-top: 40px;
     }
   }
+
   @media (max-width: $break-xs) {
     .bt-heading-comment {
       font-size: 24px;
     }
+
     .trackback,
     .pingback {
       .bt-comment {
         padding: 15px;
       }
     }
+
     .bt-comment {
       gap: 10px;
+
       .bt-avatar {
         width: 45px;
         height: 45px;
       }
+
       .bt-author {
         width: calc(100% - 55px);
       }
+
       .bt-content {
         .bt-text {
           font-size: 16px;
           line-height: 24px;
         }
+
         .comment-reply-link {
           font-size: 14px;
           line-height: 24px;
         }
       }
     }
+
     .bt-comment-item .bt-comment-item {
       margin-left: 25px;
     }
+
     .comment-respond {
       border: none;
       padding: 0;
       margin-top: 30px;
+
       .comment-reply-title {
         font-size: 24px;
         padding-right: 90px;
+
         small {
           top: 2px;
           font-size: 14px;
@@ -391,11 +445,13 @@
       }
     }
   }
+
   @media (max-width: 360px) {
     .comment-respond {
       .comment-reply-title {
         font-size: 22px;
       }
+
       .comment-form {
         input[type="submit"] {
           font-size: 14px;
