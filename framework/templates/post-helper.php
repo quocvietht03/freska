@@ -611,6 +611,33 @@ function freska_comment_fields_custom_order($fields)
 add_filter('comment_form_fields', 'freska_comment_fields_custom_order');
 
 /* Custom comment list */
+if (!function_exists('freska_time_ago')) {
+  function freska_time_ago($date)
+  {
+    $timestamp = strtotime($date);
+    $diff = time() - $timestamp;
+
+    if ($diff < 60) {
+      return $diff . ' seconds ago';
+    } elseif ($diff < 3600) {
+      $mins = round($diff / 60);
+      return $mins . ' minute' . ($mins > 1 ? 's' : '') . ' ago';
+    } elseif ($diff < 86400) {
+      $hours = round($diff / 3600);
+      return $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ago';
+    } elseif ($diff < 2592000) {
+      $days = round($diff / 86400);
+      return $days . ' day' . ($days > 1 ? 's' : '') . ' ago';
+    } elseif ($diff < 31536000) {
+      $months = round($diff / 2592000);
+      return $months . ' month' . ($months > 1 ? 's' : '') . ' ago';
+    } else {
+      $years = round($diff / 31536000);
+      return $years . ' year' . ($years > 1 ? 's' : '') . ' ago';
+    }
+  }
+}
+
 if (!function_exists('freska_custom_comment')) {
   function freska_custom_comment($comment, $args, $depth)
   {
@@ -639,28 +666,22 @@ if (!function_exists('freska_custom_comment')) {
           } else {
             if ($args['avatar_size'] != 0) echo get_avatar($comment, $args['avatar_size']);
           }
-
-
           ?>
         </div>
         <div class="bt-author">
-          <h5 class="bt-name">
-            <?php echo get_comment_author(get_comment_ID()); ?>
-          </h5>
-          <div class="bt-date">
-            <?php echo get_comment_date(); ?>
-          </div>
+          <h5 class="bt-name"><?php echo get_comment_author(get_comment_ID()); ?></h5>
+          <div class="bt-date"><?php echo freska_time_ago($comment->comment_date); ?></div>
           <?php if ($comment->comment_approved == '0') : ?>
             <em class="comment-awaiting-moderation"><?php esc_html_e('Your comment is awaiting moderation.', 'freska'); ?></em>
           <?php endif; ?>
-          <div class="bt-content">
-            <div class="bt-text">
-              <?php comment_text(); ?>
-            </div>
-            <?php comment_reply_link(array_merge($args, array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth']))); ?>
+        </div>
+        <div class="bt-content">
+          <div class="bt-text">
+            <?php comment_text(); ?>
           </div>
+          <?php comment_reply_link(array_merge($args, array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth']))); ?>
         </div>
       </div>
-  <?php
+    <?php
   }
 }
