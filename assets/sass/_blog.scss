@@ -286,6 +286,11 @@
         text-decoration: underline;
         text-underline-offset: 3px;
         text-decoration-color: transparent;
+        transition: text-decoration-color 0.2s ease;
+
+        &:hover {
+          text-decoration-color: currentColor;
+        }
       }
     }
 
@@ -315,30 +320,30 @@
   margin-left: -20px;
 
   .e-loop-item {
-      padding-left: 20px;
-      padding-right: 20px;
-      border-right: 1px solid $color-line;
-  
-      @media (max-width: $break-xs) {
-        padding-left: 0;
-        padding-right: 0;
-        border-right: none;
-      }
-  
-      &:nth-of-type(3n) {
-        border-right: none;
-      }
-  
-      @media (min-width: $break-xs) and (max-width: $break-tl) {
-        &:nth-of-type(2n) {
-          border-right: none;
-        }
-      }
-  
-      &:last-child {
+    padding-left: 20px;
+    padding-right: 20px;
+    border-right: 1px solid $color-line;
+
+    @media (max-width: $break-xs) {
+      padding-left: 0;
+      padding-right: 0;
+      border-right: none;
+    }
+
+    &:nth-of-type(3n) {
+      border-right: none;
+    }
+
+    @media (min-width: $break-xs) and (max-width: $break-tl) {
+      &:nth-of-type(2n) {
         border-right: none;
       }
     }
+
+    &:last-child {
+      border-right: none;
+    }
+  }
 
   .__bt-post-style-1 {
     .bt-post {
@@ -424,13 +429,17 @@
           text-decoration: underline;
           text-underline-offset: 3px;
           text-decoration-color: transparent;
+
+          &:hover {
+            text-decoration-color: currentColor;
+          }
         }
       }
 
       &--excerpt {
         @extend .__body_typo;
         color: $color-text;
-        margin-top: 16px;
+        margin-top: 12px;
       }
 
       &--button {
@@ -549,6 +558,10 @@
         text-decoration: underline;
         text-underline-offset: 3px;
         text-decoration-color: transparent;
+
+        &:hover {
+          text-decoration-color: currentColor;
+        }
       }
     }
 
@@ -566,20 +579,25 @@
       a {
         @extend .__button_typo;
         text-transform: capitalize;
-        color: $color-accent;
+        color: $color-primary;
         margin-top: 16px;
-        display: block;
+        display: inline-block;
         text-decoration: underline;
         text-decoration-thickness: 2px;
         text-underline-offset: 8px;
+
+        &:hover {
+          color: $color-accent;
+          transition: 0.3s ease-in-out;
+        }
       }
     }
   }
-}
-
+}  
+ 
 // Style for widget post-loop-item-style-3
 .__bt-post-style-3 {
-  .bt-post {
+  .bt-post { 
     &--inner {
       position: relative;
       display: flex;
@@ -662,6 +680,10 @@
         text-decoration: underline;
         text-underline-offset: 3px;
         text-decoration-color: transparent;
+
+        &:hover {
+          text-decoration-color: currentColor;
+        }
       }
     }
 
@@ -676,10 +698,15 @@
         @extend .__button_typo;
         color: $color-primary;
         margin-top: 16px;
-        display: block;
+        display: inline-block;
         text-decoration: underline;
         text-decoration-thickness: 2px;
         text-underline-offset: 8px;
+
+        &:hover {
+          color: $color-accent;
+          transition: 0.3s ease-in-out;
+        }
       }
     }
   }
@@ -1732,12 +1759,7 @@
     .bt-main-post {
       .bt-post {
         &--title {
-          @extend .__heading_1_typo;
-          word-break: break-word;
           margin: 0 0 20px 0;
-          color: $color-primary;
-          text-transform: capitalize;
-          text-align: center;
 
           @media (max-width: $break-xs) {
             margin: 0 0 14px 0;
@@ -1745,46 +1767,13 @@
         }
 
         &--meta {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          display: flex;
-          flex-wrap: wrap;
-          row-gap: 10px;
-          justify-content: center;
-          align-items: center;
-
           .bt-meta {
-            @extend .__body_1_typo;
-            color: $color-primary;
-            text-transform: capitalize;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
             &:not(:last-child) {
               padding-right: 20px;
               margin-right: 20px;
-              position: relative;
-
-              &::before {
-                content: "";
-                position: absolute;
-                width: 1px;
-                height: 16px;
-                background-color: $color-primary;
-                display: block;
-                top: 50%;
-                right: 0;
-                transform: translateY(-50%);
-              }
             }
 
             a {
-              display: flex;
-              align-items: center;
-              gap: 8px;
-
               &:hover {
                 color: $color-primary;
               }
@@ -2160,14 +2149,11 @@
       flex-wrap: wrap;
 
       a {
+        @extend .__caption_1_typo;
         border-radius: 4px;
         background: #f6f6f4;
         padding: 5px 16px;
         display: inline-block;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 22px;
         text-transform: capitalize;
         color: $color-primary;
 
@@ -2179,15 +2165,12 @@
     }
 
     &--title {
+      @extend .__heading_1_typo;
       word-break: break-word;
       margin: 20px 0;
       color: $color-primary;
       text-transform: capitalize;
       text-align: center;
-      font-size: 56px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 68px;
 
       @media (max-width: $break-md) {
         font-size: 40px;
@@ -2209,10 +2192,7 @@
       justify-content: center;
 
       .bt-meta {
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 1.5;
+        @extend .__body_1_typo;
         color: $color-primary;
         text-transform: capitalize;
         display: flex;
