@@ -3715,28 +3715,46 @@
       }
     }
     &[data-view="grid-3"] {
-      @media (max-width: $break-sm) {
-        gap: 30px 20px;
+      .woocommerce-loop-products {
+        gap: 30px;
         .product {
-          width: calc(50% - 10px);
+          width: calc(33.33% - 20px);
         }
-      }
-      @media (max-width: 400px) {
-        .product {
-          width: 100%;
+        @media (max-width: $break-sm) {
+          gap: 30px 20px;
+          .product {
+            width: calc(50% - 10px);
+          }
+        }
+        @media (max-width: 400px) {
+          .product {
+            width: 100%;
+          }
         }
       }
     }
     &[data-view="grid-4"] {
-      @media (max-width: $break-sm) {
+      .woocommerce-loop-products {
         gap: 30px 20px;
         .product {
-          width: calc(50% - 10px);
+          width: calc(25% - 15px);
         }
-      }
-      @media (max-width: 400px) {
-        .product {
-          width: 100%;
+        @media (max-width: 1340px) {
+          gap: 30px;
+          .product {
+            width: calc(33.33% - 20px);
+          }
+        }
+        @media (max-width: $break-sm) {
+          gap: 30px 20px;
+          .product {
+            width: calc(50% - 10px);
+          }
+        }
+        @media (max-width: 400px) {
+          .product {
+            width: 100%;
+          }
         }
       }
     }
