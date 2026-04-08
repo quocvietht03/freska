@@ -207,15 +207,6 @@ if (!function_exists('freska_woocommerce_loop_add_to_cart_link')) {
     }
 }
 
-/**
- * Product loop: label for add to cart button (simple, etc.).
- */
-add_filter('woocommerce_product_add_to_cart_text', function ($text, $product) {
-    if ($product->is_type('simple')) {
-        return esc_html__('Quick add', 'freska');
-    }
-    return $text;
-}, 10, 2);
 
 remove_action('woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15);
 
@@ -1869,8 +1860,8 @@ function freska_products_query_args($params = array(), $limit = 9)
 
 function freska_products_filter()
 {
-    $rows = intval(get_option('woocommerce_catalog_rows', 2));
-    $columns = intval(get_option('woocommerce_catalog_columns', 4));
+    $rows = intval(get_option('woocommerce_catalog_rows', 3));
+    $columns = intval(get_option('woocommerce_catalog_columns', 3));
     $rows = $rows > 0 ? $rows : 1;
     $columns = $columns > 0 ? $columns : 1;
     $limit = $rows * $columns;
@@ -2181,7 +2172,7 @@ function freska_products_compare()
                                     $product = wc_get_product($id);
                                     if ($product->is_type('simple')) {
                                     ?>
-                                        <a href="?add-to-cart=<?php echo esc_attr($id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($id); ?>" data-quantity="1" class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo esc_attr($id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Quick add', 'freska') ?></a>
+                                        <a href="?add-to-cart=<?php echo esc_attr($id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($id); ?>" data-quantity="1" class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo esc_attr($id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Add to Cart', 'freska') ?></a>
                                     <?php
                                     } else {
                                     ?>
@@ -2423,7 +2414,7 @@ function freska_products_wishlist()
                         $product = wc_get_product($product_id);
                         if ($product->is_type('simple')) {
                         ?>
-                            <a href="?add-to-cart=<?php echo esc_attr($product_id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($product_id); ?>" data-quantity="1" class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo esc_attr($product_id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Quick add', 'freska') ?></a>
+                            <a href="?add-to-cart=<?php echo esc_attr($product_id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($product_id); ?>" data-quantity="1" class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo esc_attr($product_id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Add to Cart', 'freska') ?></a>
                         <?php
                         } else {
                         ?>
@@ -3633,7 +3624,7 @@ function freska_search_live()
                 </div>
                 <div class="bt-product-add-to-cart">
                     <?php if ($product->is_type('simple')) { ?>
-                        <a href="?add-to-cart=<?php echo esc_attr(get_the_ID()); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr(get_the_ID()); ?>" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart bt-btn-add-to-cart" data-product_id="<?php echo esc_attr(get_the_ID()); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Quick add', 'freska') ?></a>
+                        <a href="?add-to-cart=<?php echo esc_attr(get_the_ID()); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr(get_the_ID()); ?>" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart bt-btn-add-to-cart" data-product_id="<?php echo esc_attr(get_the_ID()); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Add to Cart', 'freska') ?></a>
                     <?php } else { ?>
                         <a href="<?php echo esc_url(get_permalink(get_the_ID())); ?>" class="bt-button bt-btn-view-product"><?php echo esc_html__('View Product', 'freska') ?></a>
                     <?php } ?>
@@ -3767,7 +3758,7 @@ function freska_search_live_style1()
                     </div>
                     <div class="bt-product-add-to-cart">
                         <?php if ($product->is_type('simple')) { ?>
-                            <a href="?add-to-cart=<?php echo esc_attr($product_id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($product_id); ?>" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart bt-btn-add-to-cart" data-product_id="<?php echo esc_attr($product_id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Quick add', 'freska') ?></a>
+                            <a href="?add-to-cart=<?php echo esc_attr($product_id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($product_id); ?>" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart bt-btn-add-to-cart" data-product_id="<?php echo esc_attr($product_id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Add to Cart', 'freska') ?></a>
                         <?php } else { ?>
                             <a href="<?php echo esc_url($product_link); ?>" class="bt-button bt-btn-view-product"><?php echo esc_html__('View Product', 'freska') ?></a>
                         <?php } ?>
@@ -4044,7 +4035,7 @@ function freska_load_products_display()
                     </div>
                     <div class="bt-product-add-to-cart">
                         <?php if ($product->is_type('simple')) { ?>
-                            <a href="?add-to-cart=<?php echo esc_attr($product_id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($product_id); ?>" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart bt-btn-add-to-cart" data-product_id="<?php echo esc_attr($product_id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Quick add', 'freska') ?></a>
+                            <a href="?add-to-cart=<?php echo esc_attr($product_id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($product_id); ?>" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart bt-btn-add-to-cart" data-product_id="<?php echo esc_attr($product_id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Add to Cart', 'freska') ?></a>
                         <?php } else { ?>
                             <a href="<?php echo esc_url($product_link); ?>" class="bt-button bt-btn-view-product"><?php echo esc_html__('View Product', 'freska') ?></a>
                         <?php } ?>
@@ -5451,7 +5442,7 @@ function freska_woocommerce_after_add_to_cart_button()
         class="single_add_to_cart_button bt-button-hover bt-js-add-to-cart-simple"
         data-product-id="' . esc_attr($product->get_id()) . '"
         data-sold-individually="' . ($is_sold_individually ? '1' : '0') . '"
-        data-in-cart-ids="' . esc_attr($in_cart_ids_json) . '">' . esc_html__('Quick add', 'freska') . '</a>';
+        data-in-cart-ids="' . esc_attr($in_cart_ids_json) . '">' . esc_html__('Add to Cart', 'freska') . '</a>';
     }
     if ($product->is_type('variable')) {
         // Use default variation when no variation from request (initial load)
@@ -5460,7 +5451,7 @@ function freska_woocommerce_after_add_to_cart_button()
             $effective_variation_id = get_default_variation_id($product);
         }
 
-        $add_to_cart_text = esc_html__('Quick add', 'freska');
+        $add_to_cart_text = esc_html__('Add to Cart', 'freska');
         $has_valid_default = false;
         if ($effective_variation_id) {
             $variation_product = wc_get_product($effective_variation_id);
@@ -5524,7 +5515,7 @@ function freska_single_product_sticky_bar()
     $price_html = $product->get_price_html();
     $product_id = $product->get_id();
 
-    $btn_label_add   = __('Quick add', 'freska');
+    $btn_label_add   = __('Add to Cart', 'freska');
     $btn_label_select = __('Select options', 'freska');
 
     $variation_names = array();
