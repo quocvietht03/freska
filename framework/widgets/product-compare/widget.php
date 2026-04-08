@@ -119,17 +119,17 @@ class Widget_ProductCompare extends Widget_Base
 		if (!class_exists('WooCommerce')) {
 			return;
 		}
-		
+
 		$settings = $this->get_settings_for_display();
-		
+
 		// Check if compare should be shown
 		$archive_shop = function_exists('get_field') ? get_field('archive_shop', 'options') : array();
 		$show_compare = isset($archive_shop['show_compare']) ? $archive_shop['show_compare'] : true;
-		
+
 		if (!$show_compare) {
 			return;
 		}
-		
+
 		$productcompare = '';
 		if (isset($_GET['datashare']) && !empty($_GET['datashare'])) {
 			$wishlist = sanitize_text_field($_GET['datashare']);
@@ -282,36 +282,33 @@ class Widget_ProductCompare extends Widget_Base
 													</div>
 												<?php } ?>
 												<?php if (in_array('dimensions', $fields_show_compare)) { ?>
-													<div class="bt-table--col bt-dimensions">
+													<div class="bt-table--col bt-dimensions ">
 														<?php echo '<p>' . wc_format_dimensions($product->get_dimensions(false)) . '</p>'; ?>
 													</div>
 												<?php } ?>
-											<?php if (in_array('color', $fields_show_compare)) {
-												$color_taxonomy = freska_get_color_taxonomy();
-												if ($color_taxonomy) {
-											?>
-												<div class="bt-table--col bt-color">
-													<?php
-													$colors = wp_get_post_terms($id, $color_taxonomy, ['fields' => 'ids']);
-													$count = 0;
-													foreach ($colors as $color_id) {
-														if ($count >= 6) break; // Only show max 6 colors
-
-														// Get color from metafield
-														$color_value = get_term_meta($color_id, 'freska_term_color', true);
-														$color = get_term($color_id, $color_taxonomy);
-														if (!$color_value) {
-															$color_value = $color->slug;
+												<?php if (in_array('color', $fields_show_compare)) {
+												?> <div class="bt-table--col bt-color">
+														<?php
+														$color_taxonomy = freska_get_color_taxonomy();
+														if ($color_taxonomy) {
+															$colors = wp_get_post_terms($id, $color_taxonomy, ['fields' => 'ids']);
+															$count = 0;
+															foreach ($colors as $color_id) {
+																if ($count >= 6) break; // Only show max 6 colors
+																// Get color from metafield
+																$color_value = get_term_meta($color_id, 'freska_term_color', true);
+																$color = get_term($color_id, $color_taxonomy);
+																if (!$color_value) {
+																	$color_value = $color->slug;
+																}
+																echo '<div class="bt-item-color"><span style="background-color: ' . esc_attr($color_value) . ';"></span>' . esc_html($color->name) . '</div>';
+																$count++;
+															}
 														}
-														echo '<div class="bt-item-color"><span style="background-color: ' . esc_attr($color_value) . ';"></span>' . esc_html($color->name) . '</div>';
-
-														$count++;
-													}
-													?>
-												</div>
-											<?php 
-												}
-											} ?>
+														?>
+													</div>
+												<?php
+												} ?>
 												<?php if (in_array('size', $fields_show_compare)) { ?>
 													<div class="bt-table--col bt-size">
 														<?php
@@ -326,11 +323,11 @@ class Widget_ProductCompare extends Widget_Base
 												$product = wc_get_product($id);
 												if ($product->is_type('simple')) {
 												?>
-													<a href="?add-to-cart=<?php echo esc_attr($id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($id); ?>" data-quantity="1" class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart bt-button-hover" data-product_id="<?php echo esc_attr($id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Add to cart', 'freska') ?></a>
+													<a href="?add-to-cart=<?php echo esc_attr($id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($id); ?>" data-quantity="1" class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart " data-product_id="<?php echo esc_attr($id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Quick add', 'freska') ?></a>
 												<?php
 												} else {
 												?>
-													<a href="<?php echo esc_url(get_permalink($id)); ?>" class="bt-button bt-button-hover"><?php echo esc_html__('View Product', 'freska') ?></a>
+													<a href="<?php echo esc_url(get_permalink($id)); ?>" class="bt-button"><?php echo esc_html__('View Product', 'freska') ?></a>
 												<?php
 												}
 												?>

@@ -21,7 +21,12 @@ body {
         }
     }
 }
-
-.elementor-element {
-  
+.elementor {
+    .elementor-element {
+        @media (max-width: 400px) {
+            &.bt-banner-hero {
+                flex-direction: column;
+            }
+        }
+    }
 }
