@@ -42,6 +42,7 @@
       color: $color-text;
       padding-right: 12px;
       position: relative;
+      white-space: nowrap;
       &::before {
         position: absolute;
         top: 50%;
@@ -56,6 +57,7 @@
     &--category {
       @extend .__caption_2_typo;
       color:  $color-accent;
+      white-space: nowrap;
       a {
         color: inherit;
         &:hover {
@@ -91,6 +93,28 @@
     @media(max-width: $break-xs) {
       gap: 12px;
     }
+    @media (max-width: $break-sm) {
+      &--title {
+        font-size: 18px;
+      }
+      &--category {
+        font-size:12px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      &--meta {
+        flex-wrap: wrap;
+        gap: 2px 8px;
+      }
+
+      &--publish {
+        padding-right: 0;
+        &::before {
+          display: none;
+        }
+      }
+    }
   }
 }
 .bt-block-instagram-posts {
@@ -110,7 +134,7 @@
     .bt-cover-image {
       width: 100px;
       padding-bottom: 100%;
-      border-radius: 16px;
+      border-radius: 1000px;
       overflow: hidden;
 
       img {
@@ -198,7 +222,7 @@
     
     .bt-author-avatar .bt-cover-image {
       width: 100px;
-      height: 100px;
+      height: auto;
     }
     
     .bt-author-name {
