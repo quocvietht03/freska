@@ -211,22 +211,22 @@
 					items = $galleryContainer.data('items'),
 					shown = $galleryContainer.data('shown'),
 					loadMoreIncrement = $galleryContainer.data('load-more') || 2; // Default to 2 if not set
-				
+
 				// Show initial items
 				$('.bt-gallery-grid-product__item:lt(' + shown + ')').addClass('show');
-				
+
 				// Show/hide show more button based on available items
 				if (shown < items) {
 					$galleryContainer.find('.bt-show-more').show();
 				} else {
 					$galleryContainer.find('.bt-show-more').hide();
 				}
-				
+
 				// Handle show more button click
 				$galleryContainer.find('.bt-show-more').on('click', function () {
 					var currentShown = $('.bt-gallery-grid-product__item.show').length,
 						newShown = currentShown + loadMoreIncrement;
-					
+
 					if (newShown < items) {
 						$('.bt-gallery-grid-product__item:lt(' + newShown + ')').addClass('show');
 					} else {
@@ -290,7 +290,7 @@
 					open: function () {
 						// Fix margin-right issue
 						$('body, html').css('margin-right', '0');
-						
+
 						// Check if this is product video popup
 						if (this.content.hasClass('bt-product-video__popup')) {
 							const videoPopup = this.content.find('.bt-video-embed');
@@ -368,18 +368,14 @@
 				var attributeName = attributesItem.data('attribute-name');
 				attributesItem.find('.bt-js-item').removeClass('active'); // Remove active class only from items in the same attribute group
 				$(this).addClass('active'); // Add active class to clicked item
-				var colorTaxonomy = AJ_Options.color_taxonomy;
-				var nameItem = (attributeName == colorTaxonomy) ? $(this).find('label').html() : $(this).html();
+				var nameItem = $(this).html();
 				attributesItem.find('.bt-result').html(nameItem);
 				$(this).closest('.variations_form').find('select#' + attributeName).val(valueItem).trigger('change');
 				$('.freska-sold-individually-notice').remove();
 				var gallerylayout = '';
 				var $productContainer = $(this).closest('.bt-product-inner, .bt-quickview-product');
 
-				// Check if we're in quick view
-				if ($productContainer.closest('.bt-popup-quick-view').length > 0 || $productContainer.hasClass('bt-quickview-product')) {
-					gallerylayout = 'quickview-slider';
-				} else if ($('.bt-gallery-slider-container').length > 0 || $('.bt-gallery-slider-fullwidth').length > 0) {
+				if ($('.bt-gallery-slider-container').length > 0 || $('.bt-gallery-slider-fullwidth').length > 0) {
 					gallerylayout = 'gallery-slider';
 				} else if ($('.bt-gallery-one-column').length > 0 || $('.bt-gallery-two-columns').length > 0 || $('.bt-gallery-three-columns').length > 0 ||
 					$('.bt-gallery-four-columns').length > 0 || $('.bt-gallery-grid-fullwidth').length > 0 || $('.bt-gallery-stacked').length > 0) {
@@ -573,55 +569,7 @@
 							success: function (response) {
 								if (response.success) {
 									if ($productContainer.length > 0) {
-										if (gallerylayout == 'quickview-slider') {
-											// Destroy existing swiper if any
-											var existingSwiper = $('.bt-popup-quick-view .bt-gallery-slider-product')[0]?.swiper;
-											if (existingSwiper) {
-												existingSwiper.destroy(true, true);
-											}
-
-											$productContainer.find('.bt-gallery-slider-products').html(response.data['gallery-slider']);
-
-											// Re-init quickview slider
-											setTimeout(function () {
-												if ($('.bt-popup-quick-view .bt-gallery-slider-product').length > 0) {
-													var $quickviewSlider = $('.bt-popup-quick-view .bt-gallery-slider-product');
-													var $wrapper = $quickviewSlider.find('.swiper-wrapper');
-													var $slides = $wrapper.find('.swiper-slide');
-													var slideCount = $slides.length;
-
-													// Duplicate slides to ensure minimum 3 slides
-													if (slideCount > 0 && slideCount < 3) {
-														var slidesToAdd = 3 - slideCount;
-														for (var i = 0; i < slidesToAdd; i++) {
-															var $clonedSlide = $slides.eq(i % slideCount).clone();
-															$wrapper.append($clonedSlide);
-														}
-													}
-
-													var quickviewSlider = new Swiper('.bt-popup-quick-view .bt-gallery-slider-product', {
-														spaceBetween: 20,
-														loop: true,
-														loopedSlides: 3,
-														pagination: {
-															el: '.bt-popup-quick-view .swiper-pagination',
-															type: 'progressbar',
-														},
-														slidesPerView: 1,
-														allowTouchMove: true,
-														centeredSlides: false,
-														breakpoints: {
-															768: {
-																spaceBetween: 30,
-															},
-														},
-													});
-												}
-
-												$productContainer.find('.bt-skeleton-gallery').remove();
-												$productContainer.find('.bt-gallery-slider-products').removeClass('loading');
-											}, 100);
-										} else if (gallerylayout == 'gallery-slider') {
+										if (gallerylayout == 'gallery-slider') {
 											$productContainer.find('.bt-gallery-slider-products').html(response.data['gallery-slider']);
 											FreskaImageZoomable();
 											FreskaGalleryLightbox();
@@ -756,11 +704,12 @@
 			});
 
 			// Custom select box: click to open/close, update display on choose
-			$(document).on('click', '.bt-attributes-wrap .bt-select-display', function (e) {
+			$(document).off('click.selectbox', '.bt-attributes-wrap .bt-select-display').on('click.selectbox', '.bt-attributes-wrap .bt-select-display', function (e) {
 				e.stopPropagation();
+				console.log('Please select an option from the dropdown list.');
 				$(this).closest('.bt-select-box').toggleClass('is-open');
 			});
-			$(document).on('click', '.bt-attributes-wrap .bt-value-select .bt-js-item', function () {
+			$(document).off('click.selectitem', '.bt-attributes-wrap .bt-value-select .bt-js-item').on('click.selectitem', '.bt-attributes-wrap .bt-value-select .bt-js-item', function () {
 				var $box = $(this).closest('.bt-select-box');
 				if ($box.length) {
 					var $attr = $(this).closest('.bt-attributes--item');
@@ -768,7 +717,7 @@
 					$box.removeClass('is-open');
 				}
 			});
-			$(document).on('click', function (e) {
+			$(document).off('click.selectclose').on('click.selectclose', function (e) {
 				if (!$(e.target).closest('.bt-select-box').length) {
 					$('.bt-select-box').removeClass('is-open');
 				}
@@ -777,43 +726,6 @@
 	}
 	/* load Shop Quick View */
 	function FreskaLoadShopQuickView() {
-		if ($('.bt-quickview-product').length > 0) {
-			FreskaSliderThumbs('.bt-quickview-product');
-			// Init gallery slider for quickview (no zoom, no lightbox)
-			if ($('.bt-popup-quick-view .bt-gallery-slider-product').length > 0) {
-				var $quickviewSlider = $('.bt-popup-quick-view .bt-gallery-slider-product');
-				var $wrapper = $quickviewSlider.find('.swiper-wrapper');
-				var $slides = $wrapper.find('.swiper-slide');
-				var slideCount = $slides.length;
-
-				// Duplicate slides to ensure minimum 3 slides
-				if (slideCount > 0 && slideCount < 3) {
-					var slidesToAdd = 3 - slideCount;
-					for (var i = 0; i < slidesToAdd; i++) {
-						var $clonedSlide = $slides.eq(i % slideCount).clone();
-						$wrapper.append($clonedSlide);
-					}
-				}
-
-				var quickviewSlider = new Swiper('.bt-popup-quick-view .bt-gallery-slider-product', {
-					spaceBetween: 20,
-					loop: true,
-					loopedSlides: 3,
-					pagination: {
-						el: '.bt-popup-quick-view .swiper-pagination',
-						type: 'progressbar',
-					},
-					slidesPerView: 1,
-					allowTouchMove: true,
-					centeredSlides: false,
-					breakpoints: {
-						768: {
-							spaceBetween: 30,
-						},
-					},
-				});
-			}
-		}
 		// check button add to cart 
 		if ($('.bt-quickview-product .grouped_form').length > 0) {
 			const $addToCartBtn = $('.bt-quickview-product .grouped_form .single_add_to_cart_button');
@@ -1734,9 +1646,10 @@
 								return $(this).data('slug') === tag.trim();
 							});
 							if (matchingLink.length) {
-								const colorTaxonomy = AJ_Options.color_taxonomy;
-								console.log(colorTaxonomy);
-								if (key == colorTaxonomy) {
+								const formField = $(`.bt-form-field[data-name="${key}"]`);
+								const attributeType = formField.attr('data-attribute-type');
+								
+								if (attributeType === 'color') {
 									const colortag = matchingLink.prop('outerHTML');
 									//	console.log(colortag);
 									tagElement.html(colortag).append(svgElement).addClass('bt-color-tag');
@@ -3809,7 +3722,7 @@
 											}, 300);
 											$('body').css('overflow', 'auto');
 											var $updateBtn = $('.bt-cart-content').find('button[name="update_cart"]');
-												$updateBtn.prop('disabled', false).trigger('click');
+											$updateBtn.prop('disabled', false).trigger('click');
 										}, 100);
 									}
 								}
@@ -4171,9 +4084,7 @@
 				$form.find('.bt-attributes-wrap .bt-js-item.active').each(function () {
 					var $item = $(this);
 					var $attrItem = $item.closest('.bt-attributes--item');
-					var attrName = $attrItem.data('attribute-name');
-					var colorTaxonomy = AJ_Options.color_taxonomy;
-					var name = (attrName == colorTaxonomy) ? $item.find('label').html() : $item.html();
+					var name = $item.html();
 					$attrItem.find('.bt-result').html(name);
 				});
 			});
@@ -4491,6 +4402,79 @@
 			}
 		});
 	}
+	/* Fix Elementor Loop Carousel slider auto-sliding when clicking product options */
+	function FreskaFixElementorLoopCarouselSwiper() {
+		var CAROUSEL_CONTAINERS = '.elementor-loop-container, .elementor-widget-loop-carousel';
+		var INTERACTIVE_ELEMENTS = [
+			'.bt-js-item', '.bt-item-color', '.bt-item-image', '.bt-attributes--item',
+			'.quantity', '.qty', '.single_add_to_cart_button', '.bt-js-add-to-cart-variable', '.add_to_cart_button',
+			'.bt-product-wishlist-btn', '.bt-product-compare-btn', '.bt-product-quick-view-btn',
+			'[data-attribute-name]', '[data-value]'
+		];
+
+		// Stop event propagation
+		function stopSlideInteraction(e) {
+			if (e && e.stopPropagation) e.stopPropagation();
+			if (window.event && window.event.stopPropagation) window.event.stopPropagation();
+		}
+
+		// Check if element is interactive
+		function isInteractiveElement($target) {
+			for (var i = 0; i < INTERACTIVE_ELEMENTS.length; i++) {
+				if ($target.is(INTERACTIVE_ELEMENTS[i]) || $target.closest(INTERACTIVE_ELEMENTS[i]).length > 0) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		// Handle clicks on carousel slides
+		$(document).on('click', CAROUSEL_CONTAINERS + ' .swiper-slide', function (e) {
+			if (isInteractiveElement($(e.target))) {
+				stopSlideInteraction(e);
+			}
+		});
+
+		// Configure Swiper instances
+		function configureSwiperNoSwiping() {
+			$(CAROUSEL_CONTAINERS + ' .swiper').each(function () {
+				var $swiper = $(this);
+				if ($swiper.data('woozio-fixed')) return;
+				$swiper.data('woozio-fixed', true);
+
+				var swiperInstance = this.swiper;
+				var noSwipingSelector = INTERACTIVE_ELEMENTS.join(', ');
+
+				if (swiperInstance && swiperInstance.params) {
+					// Configure existing Swiper - ensure allowTouchMove stays true
+					swiperInstance.allowTouchMove = true;
+					swiperInstance.params.noSwiping = true;
+					swiperInstance.params.noSwipingSelector = noSwipingSelector;
+				} else {
+					// Wait for Swiper to be initialized
+					var observer = new MutationObserver(function () {
+						if ($swiper[0].swiper && $swiper[0].swiper.params) {
+							var swiper = $swiper[0].swiper;
+							swiper.allowTouchMove = true; // Ensure touch is enabled
+							swiper.params.noSwiping = true;
+							swiper.params.noSwipingSelector = noSwipingSelector;
+							observer.disconnect();
+						}
+					});
+					observer.observe($swiper[0], { attributes: true, childList: true });
+				}
+
+			});
+		}
+
+
+
+		// Initialize and re-initialize on various events
+		configureSwiperNoSwiping();
+		$(window).on('elementor/frontend/init', function () { setTimeout(configureSwiperNoSwiping, 100); });
+		$(document).ajaxComplete(function () { setTimeout(configureSwiperNoSwiping, 100); });
+
+	}
 	jQuery(document).ready(function ($) {
 		FreskaSubmenuAuto();
 		FreskaToggleMenuMobile();
@@ -4537,6 +4521,7 @@
 		FreskaElementorSliderControl(); // Elementor slider control via button clicks
 		FreskaMiniCartNoteHandler();	// Initialize Mini Cart Note Handler
 		FreskaPreloader(); // Initialize Preloader
+		FreskaFixElementorLoopCarouselSwiper();
 		// Restore product tabs/toggle when URL has comment hash (#comment-4, etc.)
 		setTimeout(FreskaRestoreProductTabsOnCommentHash, 50);
 	});

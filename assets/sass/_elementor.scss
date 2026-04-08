@@ -2518,8 +2518,8 @@
             font-size: 16px;
             line-height: 1.5;
             color: $color-primary;
-            border-radius: 4px;
-            background-color: $color-accent;
+            border-radius: 100px;
+            background-color: $color-secondary;
             font-weight: 500;
             white-space: nowrap;
             display: inline-block;
@@ -2979,6 +2979,7 @@
           background: transparent;
           border: 1px solid #e9e9e9;
           border-left: none;
+          line-height: 42px;
           svg.search-icon {
             display: block;
           }
@@ -3274,14 +3275,14 @@
                 &::after {
                   content: "";
                   position: absolute;
-                  top: 30% !important;
-                  left: 32% !important;
+                  top: 27% !important;
+                  left: 25% !important;
                   right: auto !important;
                   bottom: auto;
                   width: 18px;
                   height: 18px;
                   z-index: 9999;
-                  background-image: url("../images/loading-white.svg");
+                  background-image: url("../images/loading.svg");
                   background-repeat: no-repeat;
                   background-size: cover;
                   animation-name: effectSpin;
@@ -3299,8 +3300,8 @@
                   }
                 }
                 &.wc-forward {
-                  background: $color-accent !important;
-                  border: 1px solid $color-accent;
+                  background: $color-secondary !important;
+                  border: 1px solid $color-secondary;
                   &::before {
                     background-image: url("../images/view-cart.svg");
                   }
@@ -3446,7 +3447,6 @@
         @media (max-width: $break-xs) {
           a {
             font-size: 14px;
-            display: block;
           }
         }
       }

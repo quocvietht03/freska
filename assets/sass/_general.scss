@@ -1276,13 +1276,13 @@
           margin: 0;
           padding: 6px 15px;
           text-decoration: none;
-          background: $color-accent;
+          background: $color-secondary;
           color: $color-primary;
 
           @media (min-width: $break-sm) {
             &:hover {
-              background-color: $color-primary;
-              color: $color-accent;
+              background-color: $color-accent;
+              color: $color-secondary;
             }
           }
 
@@ -1292,7 +1292,7 @@
 
             @media (min-width: $break-sm) {
               &:hover {
-                background-color: $color-accent;
+                background-color: $color-secondary;
                 color: $color-primary;
               }
             }

@@ -161,7 +161,6 @@ if (!function_exists('freska_enqueue_scripts')) {
 			'cart_toast_time' => $cart_toast_time,
 			'user_info' => wp_get_current_user(),
 			'order_tracking_nonce' => wp_create_nonce('freska_order_tracking_nonce'),
-			'color_taxonomy' => function_exists('freska_get_color_taxonomy') ? freska_get_color_taxonomy() : 'pa_color',
 			'sold_individually_message' => __('This product is sold individually. You can only add 1 item per order. It is already in your cart.', 'freska'),
 		);
 

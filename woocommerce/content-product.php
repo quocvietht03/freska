@@ -36,11 +36,13 @@ if (empty($product) || ! $product->is_visible()) {
 		if (!$product->is_type('variable')) {
 			echo wc_get_stock_html($product); // WPCS: XSS ok. 
 		}
-		?>
-
-
-
-		<?php
+		echo '<div class="bt-add-to-cart">';
+		if (!$product->is_type('variable')) {
+			do_action('freska_woocommerce_template_loop_add_to_cart');
+		} else {
+			do_action('freska_woocommerce_template_loop_add_to_cart_variable');
+		}
+		echo '</div>';
 		do_action('freska_woocommerce_template_loop_list_cta_button');
 		do_action('freska_template_loop_product_countdown_and_sale');
 		?>
