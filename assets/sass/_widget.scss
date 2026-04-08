@@ -278,6 +278,15 @@
       border: 1px solid #E9E9E9;
       background: $color-white;
       color: $color-primary;
+      &::-webkit-search-cancel-button,
+      &::-webkit-search-decoration,
+      &::-webkit-search-results-button,
+      &::-webkit-search-results-decoration {
+        -webkit-appearance: none;
+        appearance: none;
+        display: none;
+      }
+
       &::placeholder {
         color:  $color-text;
       }

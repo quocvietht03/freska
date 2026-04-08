@@ -309,26 +309,36 @@ strong {
   font-weight: 500;
 }
 blockquote {
-  padding: 28px;
-  border: none;
-  margin: 0 0 16px 0 !important;
   &.wp-block-quote{
     border-radius: 12px;
-    border: 2px solid var(--line, #E9E9E9);
+    border: 2px solid $color-line;
     padding: 28px; 
     position: relative;
     overflow: hidden;
-
+    margin: 0 0 16px 0 ;
+    @media (max-width: $break-sm) {
+      padding: 20px;
+    }
    
     p, h1, h2, h3, h4, h5, h6, ul, ol, 
     .wp-block-group, .wp-block-columns, .wp-block-column, .wp-block-image {
       margin: 0 0 12px 0;
     }
-    .wp-block-group.is-layout-flex {
+    .wp-block-group.is-layout-flex,
+    .wp-block-columns.is-layout-flex {
       gap: 28px ;
       align-items: flex-start ; 
       > * {
         margin-bottom: 0 !important; 
+      }
+
+      @media (max-width: $break-md) {
+        flex-direction: column-reverse;
+        gap: 20px;
+        .wp-block-image {
+          margin: 0 ;
+          line-height: 0;
+        }
       }
     }
 
