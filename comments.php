@@ -83,7 +83,7 @@ if (post_password_required()) {
 		'title_reply'       => '<span class="bt-label-reply">' . esc_html__('Leave A Comment', 'freska') . '</span>',
 		'title_reply_to'    => '<span class="bt-label-reply">' . esc_html__('Leave A Reply to %s', 'freska') . '</span>',
 		'cancel_reply_link' => esc_html__('Cancel Reply', 'freska'),
-		'label_submit'      => esc_html__('Submit Review', 'freska'),
+		'label_submit'      => esc_html__('Comment Post', 'freska'),
 		'format'            => 'xhtml',
 
 		'comment_field' =>  '<div class="bt-form-message">
