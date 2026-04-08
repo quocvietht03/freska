@@ -59,11 +59,11 @@ if (post_password_required()) {
 
 	$fields =  array(
 		'author' => '<div class="bt-form-author">
-										<label class="bt-form-author__label" for="bt-form-author__input">' . __('Name', 'freska') . '<span class="required">*</span></label>
+										<label class="bt-form-author__label" for="bt-form-author__input">' . __('You Name (Public)', 'freska') . '<span class="required">*</span></label>
 										<input class="bt-form-author__input" name="author" type="text" value="' . esc_attr($commenter['comment_author']) . '" size="30" placeholder="' . __('Your name', 'freska') . '" aria-required="true" />
 									</div>',
 		'email' => '<div class="bt-form-email">
-										<label class="bt-form-email__label" for="bt-form-author__input">' . __('Email', 'freska') . '<span class="required">*</span></label>
+										<label class="bt-form-email__label" for="bt-form-author__input">' . __('Your email (Private)', 'freska') . '<span class="required">*</span></label>
 										<input class="bt-form-email__input" name="email" type="text" value="' . esc_attr($commenter['comment_author_email']) . '" size="30" placeholder="' . __('Your email', 'freska') . '" aria-required="true" />
 									</div>',
 		'url' => '<div class="bt-form-url">
@@ -72,7 +72,7 @@ if (post_password_required()) {
 								</div>',
 		'cookies' => '<div class="bt-form-cookies-consent">
 								<input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"' . (empty($commenter['comment_author_email']) ? '' : ' checked="checked"') . ' />
-								<label for="wp-comment-cookies-consent">' . __('Save my name, email, and website in this browser for the next time I comment.', 'freska') . '</label>
+								<label for="wp-comment-cookies-consent">' . __('Save your name, email for the next time review.', 'freska') . '</label>
 							</div>',
 	);
 
@@ -83,11 +83,11 @@ if (post_password_required()) {
 		'title_reply'       => '<span class="bt-label-reply">' . esc_html__('Leave A Comment', 'freska') . '</span>',
 		'title_reply_to'    => '<span class="bt-label-reply">' . esc_html__('Leave A Reply to %s', 'freska') . '</span>',
 		'cancel_reply_link' => esc_html__('Cancel Reply', 'freska'),
-		'label_submit'      => esc_html__('Submit Review', 'freska'),
+		'label_submit'      => esc_html__('Comment Post', 'freska'),
 		'format'            => 'xhtml',
 
 		'comment_field' =>  '<div class="bt-form-message">
-														<label class="bt-form-message__label" for="bt-form-message__input">' . __('Message', 'freska') . '<span class="required">*</span></label>
+														<label class="bt-form-message__label" for="bt-form-message__input">' . __('Comment', 'freska') . '<span class="required">*</span></label>
 														<textarea id="comment" class="bt-form-message__input" name="comment" cols="60" rows="6" aria-required="true" placeholder="' . esc_attr__('Write your comment here', 'freska') . '">' . '</textarea>
 													</div>',
 

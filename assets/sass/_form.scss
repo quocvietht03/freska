@@ -38,7 +38,7 @@
             line-height: 150%;
             font-weight: 500;
             color: $color-primary;
-          }
+          } 
         }
       }
     }
@@ -198,16 +198,19 @@
     &::after {
       content: "";
       display: none;
-      width: 30px;
-      height: 30px;
-      clear: both;
-      border: 3px rgba(255, 255, 255, 1) solid;
-      border-top: 3px transparent solid;
+      width: 22px;
+      height: 22px;
+      border: 2px rgba(255, 255, 255, 0.25) solid;
+      border-top: 2px #fff solid;
       border-radius: 50%;
-      -webkit-animation: effectSpinnerRotate 0.6s infinite linear;
-      animation: effectSpinnerRotate 0.6s infinite linear;
+      -webkit-animation: effectSpinnerRotate 0.75s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation: effectSpinnerRotate 0.75s cubic-bezier(0.4, 0, 0.2, 1) infinite;
       position: absolute;
-      top: 10px;
+      top: 50%;
+      left: 50%;
+      margin-top: -11px;
+      margin-left: -11px;
+      z-index: 2;
     }
     input[type="submit"],
     button[type="submit"] {
@@ -289,8 +292,8 @@
         }
         input[type="submit"],
         button[type="submit"] {
-          color: transparent !important;
-          background: $color-secondary !important;
+          opacity: 0.7 !important;
+          pointer-events: none !important;
         }
       }
     }
@@ -325,11 +328,15 @@
       right: 6px;
       width: auto;
       &::after {
-        width: 16px;
-        height: 16px;
-        border: 2px $color-primary solid;
-        border-top: 2px transparent solid;
-        top: 12px;
+        width: 18px;
+        height: 18px;
+        border: 2px rgba(0, 0, 0, 0.1) solid;
+        border-top: 2px $color-primary solid;
+        position: absolute;
+        top: 70%;
+        left: 70%;
+        transform: translate(-50%, -50%);
+        z-index: 5;
       }
       input[type="submit"],
       button[type="submit"] {
