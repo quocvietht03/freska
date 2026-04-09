@@ -2117,8 +2117,11 @@
 .bt-elwg-list-faq {
   &--default {
     position: relative;
-    border-radius: 12px;
-    background: #fff;
+    border-radius: 16px;
+    background: $color-white;
+    border: 1px solid $color-line;
+    overflow: hidden;
+
     .item-faq {
       &:last-child {
         .item-faq-inner {
@@ -2126,10 +2129,8 @@
         }
       }
     }
-
     .item-faq-inner {
-      border-bottom: 1px solid;
-      border-color: #e9e9e9;
+      border-bottom: 1px solid $color-line;
       padding: 20px;
       @media (max-width: $break-xs) {
         padding: 15px;
@@ -2144,23 +2145,21 @@
       justify-content: space-between;
       &.active {
         svg {
-          transform: rotate(180deg);
+          transform: rotate(360deg);
           .vertical-line {
             transform: rotate(450deg);
-          }
-          path {
-            fill: $color-secondary;
           }
         }
       }
 
       svg {
-        transition: transform 0.6s ease;
+        transition: transform 0.6s ease-in-out;
         transform: rotate(0);
         flex: none;
         position: relative;
         rect {
-          transition: all 800ms;
+          color: $color-black;
+          transition: all 300ms;
           transform: rotate(0);
           transform-origin: 50% 50%;
         }
@@ -6175,6 +6174,9 @@
       }
       &--info {
         margin-top: 24px;
+        @media (max-width: $break-md) {
+          margin-top: 20px;
+        }
       }
       &--name {
         font-size: 24px;
@@ -6183,23 +6185,32 @@
         line-height: 30px;
         color: $color-primary;
         margin: 0 0 16px 0;
-        @media (max-width: $break-xs) {
+        @media (max-width: $break-md) {
           margin: 0 0 12px 0;
         }
       }
       &--location,
       &--phone,
       &--email {
+        max-width: 350px;
         font-size: 16px;
         font-style: normal;
-        font-weight: 400;
         line-height: 26px;
         color: $color-primary;
-        margin: 4px 0 0 0;
-        @media (max-width: $break-xs) {
-          font-size: 15px;
-          line-height: 22px;
-          margin: 2px 0 0 0;
+        margin: 0 0 12px 0;
+        @extend .__bt-max-line-ellipsis;
+        @media (max-width: $break-md) {
+          margin: 0 0 8px 0;
+          @media (max-width: $break-sm) {
+            max-width: 500px;
+          }
+        }
+        .bt-label {
+          font-weight: 700;
+        }
+        .bt-content
+         {
+          font-weight: 400;
         }
       }
       &--direction {
@@ -6210,15 +6221,11 @@
         font-weight: 500;
         line-height: 22px;
         gap: 4px;
-        margin: 16px 0 0 0;
         color: $color-primary;
         text-decoration: underline;
         text-decoration-skip-ink: none;
         text-underline-offset: 4px;
         text-decoration-thickness: 1px;
-        @media (max-width: $break-xs) {
-          margin: 12px 0 0 0;
-        }
       }
     }
   }
