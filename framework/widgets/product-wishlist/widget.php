@@ -213,11 +213,11 @@ class Widget_ProductWishlist extends Widget_Base
 												<?php
 												if ($product->is_type('simple')) {
 												?>
-													<a href="?add-to-cart=<?php echo esc_attr($product_id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($product_id); ?>" data-quantity="1" class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart bt-button-hover" data-product_id="<?php echo esc_attr($product_id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Add to cart', 'freska') ?></a>
+													<a href="?add-to-cart=<?php echo esc_attr($product_id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($product_id); ?>" data-quantity="1" class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo esc_attr($product_id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Add to Cart', 'freska') ?></a>
 												<?php
 												} else {
 												?>
-													<a href="<?php echo esc_url(get_permalink($product_id)); ?>" class="bt-button bt-button-hover"><?php echo esc_html__('View Product', 'freska') ?></a>
+													<a href="<?php echo esc_url(get_permalink($product_id)); ?>" class="bt-button"><?php echo esc_html__('View Product', 'freska') ?></a>
 												<?php
 												}
 												?>
