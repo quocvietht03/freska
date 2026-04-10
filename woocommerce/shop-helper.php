@@ -10,6 +10,7 @@ add_action('freska_woocommerce_show_product_loop_sale_flash', 'woocommerce_show_
 add_action('freska_woocommerce_template_loop_rating', 'woocommerce_template_loop_rating', 5);
 add_action('freska_woocommerce_template_loop_price', 'woocommerce_template_loop_price', 10);
 add_action('freska_woocommerce_template_loop_add_to_cart', 'woocommerce_template_loop_add_to_cart', 10);
+add_action('freska_woocommerce_template_loop_process_stock', 'freska_woocommerce_template_loop_process_stock', 10);
 
 add_action('freska_woocommerce_template_single_title', 'woocommerce_template_single_title', 5);
 add_action('freska_woocommerce_template_single_rating', 'woocommerce_template_single_rating', 10);
@@ -29,6 +30,29 @@ add_filter('woocommerce_product_description_heading', '__return_null');
 add_action('freska_woocommerce_template_single_meta', 'freska_woocommerce_single_product_meta', 40);
 add_action('freska_woocommerce_template_related_products', 'woocommerce_output_related_products', 20);
 remove_action('woocommerce_cart_collaterals', 'woocommerce_cross_sell_display');
+
+add_action('freska_woocommerce_template_loop_product_category', 'freska_woocommerce_template_loop_product_category', 10);
+if (!function_exists('freska_woocommerce_template_loop_product_category')) {
+    function freska_woocommerce_template_loop_product_category()
+    {
+        global $product;
+        
+        if (!$product) {
+            return;
+        }
+        
+        $categories = get_the_terms($product->get_id(), 'product_cat');
+        if ($categories && !is_wp_error($categories)) {
+            echo '<div class="woocommerce-loop-product__categories">';
+            $category_names = array();
+            foreach ($categories as $category) {
+                $category_names[] = '<a href="' . esc_url(get_term_link($category)) . '">' . esc_html($category->name) . '</a>';
+            }
+            echo implode(', ', $category_names);
+            echo '</div>';
+        }
+    }
+}
 
 add_action('freska_woocommerce_template_loop_product_title', 'freska_woocommerce_template_loop_product_title', 10, 1);
 if (!function_exists('freska_woocommerce_template_loop_product_title')) {
@@ -164,6 +188,65 @@ if (!function_exists('freska_woocommerce_template_loop_product_short_description
         echo '<div class="bt-product-short-description">';
         echo wp_kses_post($short_description);
         echo '</div>';
+    }
+}
+
+/**
+ * Display product stock bar in loop
+ */
+if (!function_exists('freska_woocommerce_template_loop_process_stock')) {
+    function freska_woocommerce_template_loop_process_stock()
+    {
+        global $product;
+
+        if (!$product) {
+            return;
+        }
+
+        $product_id = $product->get_id();
+        $stock = $product->get_stock_quantity();
+        $stock_status = $product->get_stock_status();
+        $managed = $product->get_manage_stock();
+
+        if (!$managed || $stock === null) {
+            return;
+        }
+
+        // Get total sales quantity from completed/processing orders
+        $total_sales = 0;
+        $orders = wc_get_orders(array(
+            'status' => array('completed', 'processing'),
+            'limit' => -1,
+        ));
+        
+        foreach ($orders as $order) {
+            foreach ($order->get_items() as $item) {
+                if ($item->get_product_id() == $product_id || $item->get_variation_id() == $product_id) {
+                    $total_sales += $item->get_quantity();
+                }
+            }
+        }
+        // Calculate percentage based on quantity sold vs current stock
+        $total_quantity = $stock + $total_sales;
+        $percentage = ($total_quantity > 0) ? ($total_sales / $total_quantity) * 100 : 0;
+        $percentage = min(100, max(0, $percentage));
+
+        $status_text = ($stock_status === 'instock') ? __('IN STOCK', 'freska') : __('OUT OF STOCK', 'freska');
+        $status_class = ($stock_status === 'instock') ? 'in-stock' : 'out-of-stock';
+
+        ?>
+        <div class="bt-product-stock-bar">
+            <div class="stock-bar-wrapper">
+                <div class="stock-bar-background">
+                    <div class="stock-bar-progress" style="width: <?php echo esc_attr($percentage); ?>%"></div>
+                </div>
+            </div>
+            <div class="stock-info">
+                <span class="available-quantity"><?php printf(__('Available: <span class="stock-quantity">%d</span>', 'freska'), absint($stock)); ?></span>
+                <span class="stock-status <?php echo esc_attr($status_class); ?>"><?php echo esc_html($status_text); ?></span>
+            </div>
+        </div>
+        <?php
     }
 }
 
@@ -1691,7 +1774,8 @@ function freska_products_query_args($params = array(), $limit = 9)
     $query_args = array(
         'post_type' => 'product',
         'post_status' => 'publish',
-        'posts_per_page' => $limit
+        'posts_per_page' => $limit,
+        'distinct' => true,
     );
 
     if (isset($params['current_page']) && $params['current_page'] != '') {
@@ -1735,6 +1819,12 @@ function freska_products_query_args($params = array(), $limit = 9)
     }
 
     $query_tax = array();
+    $query_tax[] = array(
+        'taxonomy' => 'product_visibility',
+        'field' => 'name',
+        'terms' => array('exclude-from-catalog', 'exclude-from-search'),
+        'operator' => 'NOT IN'
+    );
 
     // Check for product category - from params or current category page
     $product_cat = '';
@@ -5001,30 +5091,37 @@ function freska_get_product_video_embed($video_type, $video_link)
     return $video_html;
 }
 
-function freska_get_gallery_image_html($attachment_id, $main_image = false, $swiper_slide = false, $image_index = -1)
+function freska_get_gallery_image_html($attachment_id, $main_image = false, $swiper_slide = false, $image_index = -1, $size_override = '')
 {
     global $product;
 
     $flexslider        = (bool) apply_filters('woocommerce_single_product_flexslider_enabled', get_theme_support('wc-product-gallery-slider'));
-    if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {
-        $gallery_thumbnail = wc_get_image_size('woocommerce_thumbnail');
+    if (!empty($size_override)) {
+        $override_size  = wc_get_image_size($size_override);
+        $thumbnail_size = array((int) $override_size['width'], (int) $override_size['height']);
+        $image_size     = $size_override;
+        $full_size      = $size_override;
     } else {
-        // Check if we're in related products section first (priority check)
-        global $freska_is_related_products;
-        if (isset($freska_is_related_products) && $freska_is_related_products) {
-            // Use woocommerce_thumbnail for related products (same as shop page)
+        if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {
             $gallery_thumbnail = wc_get_image_size('woocommerce_thumbnail');
-        } elseif (is_product() && !is_shop() && !is_product_category() && !is_product_tag()) {
-            // Single product page gallery (not in related products)
-            $gallery_thumbnail = wc_get_image_size('gallery_thumbnail');
         } else {
-            // Shop/archive pages - use woocommerce_thumbnail
-            $gallery_thumbnail = wc_get_image_size('woocommerce_thumbnail');
+            // Check if we're in related products section first (priority check)
+            global $freska_is_related_products;
+            if (isset($freska_is_related_products) && $freska_is_related_products) {
+                // Use woocommerce_thumbnail for related products (same as shop page)
+                $gallery_thumbnail = wc_get_image_size('woocommerce_thumbnail');
+            } elseif (is_product() && !is_shop() && !is_product_category() && !is_product_tag()) {
+                // Single product page gallery (not in related products)
+                $gallery_thumbnail = wc_get_image_size('gallery_thumbnail');
+            } else {
+                // Shop/archive pages - use woocommerce_thumbnail
+                $gallery_thumbnail = wc_get_image_size('woocommerce_thumbnail');
+            }
         }
+        $thumbnail_size = apply_filters('woocommerce_gallery_thumbnail_size', array((int) $gallery_thumbnail['width'], (int) $gallery_thumbnail['height']));
+        $image_size     = apply_filters('woocommerce_gallery_image_size', $flexslider || $main_image ? 'woocommerce_single' : $thumbnail_size);
+        $full_size      = apply_filters('woocommerce_gallery_full_size', apply_filters('woocommerce_product_thumbnails_large_size', 'full'));
     }
-    $thumbnail_size    = apply_filters('woocommerce_gallery_thumbnail_size', array((int)$gallery_thumbnail['width'], (int)$gallery_thumbnail['height']));
-    $image_size        = apply_filters('woocommerce_gallery_image_size', $flexslider || $main_image ? 'woocommerce_single' : $thumbnail_size);
-    $full_size         = apply_filters('woocommerce_gallery_full_size', apply_filters('woocommerce_product_thumbnails_large_size', 'full'));
     $thumbnail_src     = wp_get_attachment_image_src($attachment_id, $thumbnail_size);
     $thumbnail_srcset  = wp_get_attachment_image_srcset($attachment_id, $thumbnail_size);
     $thumbnail_sizes   = wp_get_attachment_image_sizes($attachment_id, $thumbnail_size);
@@ -5112,11 +5209,11 @@ function freska_load_product_gallery()
         echo '<div class="bt-gallery-slider-product">';
         echo '<div class="swiper-wrapper">';
         if ($main_image_id) {
-            $html = freska_get_gallery_image_html($main_image_id, true, true);
+            $html = freska_get_gallery_image_html($main_image_id, true, true, -1, 'woocommerce_thumbnail');
 
             if (!empty($gallery_images)) {
                 foreach ($gallery_images as $key => $attachment_id) {
-                    $html .= freska_get_gallery_image_html($attachment_id, true, true);
+                    $html .= freska_get_gallery_image_html($attachment_id, true, true, -1, 'woocommerce_thumbnail');
                 }
             }
             echo apply_filters('woocommerce_single_product_image_thumbnail_html', $html, $main_image_id); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped

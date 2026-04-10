@@ -4407,7 +4407,7 @@
 		var CAROUSEL_CONTAINERS = '.elementor-loop-container, .elementor-widget-loop-carousel';
 		var INTERACTIVE_ELEMENTS = [
 			'.bt-js-item', '.bt-item-color', '.bt-item-image', '.bt-attributes--item',
-			'.quantity', '.qty', '.single_add_to_cart_button', '.bt-js-add-to-cart-variable', '.add_to_cart_button',
+			'.quantity', '.qty', '.single_add_to_cart_button', '.bt-js-add-to-cart-variable', '.add_to_cart_button', 'woocommerce-loop-product__infor',
 			'.bt-product-wishlist-btn', '.bt-product-compare-btn', '.bt-product-quick-view-btn',
 			'[data-attribute-name]', '[data-value]'
 		];
