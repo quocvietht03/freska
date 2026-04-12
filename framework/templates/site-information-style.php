@@ -20,18 +20,21 @@ if (function_exists('get_field')) {
                         </div>
                         <div class="bt-elwg-site-infor--item-content">
                             <?php if (!empty($args['title_phone']) && isset($args['title_phone'])) { ?>
-                                <h4><?php echo esc_html($args['title_phone']) ?></h4>
+                                <h4 class="bt-title"><?php echo esc_html($args['title_phone']) ?></h4>
                             <?php } else { ?>
-                                <h4><?php echo esc_html__('Have any Question?', 'freska') ?></h4>
+                                <h4 class="bt-title"><?php echo esc_html__('Have any Question?', 'freska') ?></h4>
                             <?php } ?>
-                            <span> <?php echo esc_html($site_infor['site_phone']); ?> </span>
+                            <span class="bt-text"> <?php echo esc_html($site_infor['site_phone']); ?> </span>
                         </div>
                     <?php else : ?>
                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
                             <path d="M28.3908 7.68656C27.045 6.32725 25.4443 5.24674 23.6804 4.5069C21.9164 3.76706 20.0239 3.38242 18.1111 3.375H18C14.1212 3.375 10.4013 4.91584 7.65856 7.65856C4.91584 10.4013 3.375 14.1212 3.375 18V25.875C3.375 26.7701 3.73058 27.6286 4.36351 28.2615C4.99645 28.8944 5.85489 29.25 6.75 29.25H9C9.89511 29.25 10.7536 28.8944 11.3865 28.2615C12.0194 27.6286 12.375 26.7701 12.375 25.875V20.25C12.375 19.3549 12.0194 18.4964 11.3865 17.8635C10.7536 17.2306 9.89511 16.875 9 16.875H5.67563C5.89258 14.5293 6.77367 12.294 8.21563 10.4311C9.65758 8.56829 11.6007 7.15504 13.8171 6.35704C16.0336 5.55904 18.4316 5.40936 20.73 5.92553C23.0285 6.44169 25.1323 7.60233 26.7947 9.27141C28.8266 11.3137 30.0764 14.0049 30.3258 16.875H27C26.1049 16.875 25.2464 17.2306 24.6135 17.8635C23.9806 18.4964 23.625 19.3549 23.625 20.25V25.875C23.625 26.7701 23.9806 27.6286 24.6135 28.2615C25.2464 28.8944 26.1049 29.25 27 29.25H30.375C30.375 30.1451 30.0194 31.0036 29.3865 31.6365C28.7536 32.2694 27.8951 32.625 27 32.625H19.125C18.8266 32.625 18.5405 32.7435 18.3295 32.9545C18.1185 33.1655 18 33.4516 18 33.75C18 34.0484 18.1185 34.3345 18.3295 34.5455C18.5405 34.7565 18.8266 34.875 19.125 34.875H27C28.4918 34.875 29.9226 34.2824 30.9775 33.2275C32.0324 32.1726 32.625 30.7418 32.625 29.25V18C32.6323 16.0869 32.2621 14.1912 31.5355 12.4214C30.8089 10.6516 29.7403 9.04262 28.3908 7.68656ZM9 19.125C9.29837 19.125 9.58452 19.2435 9.7955 19.4545C10.0065 19.6655 10.125 19.9516 10.125 20.25V25.875C10.125 26.1734 10.0065 26.4595 9.7955 26.6705C9.58452 26.8815 9.29837 27 9 27H6.75C6.45163 27 6.16548 26.8815 5.9545 26.6705C5.74353 26.4595 5.625 26.1734 5.625 25.875V19.125H9ZM27 27C26.7016 27 26.4155 26.8815 26.2045 26.6705C25.9935 26.4595 25.875 26.1734 25.875 25.875V20.25C25.875 19.9516 25.9935 19.6655 26.2045 19.4545C26.4155 19.2435 26.7016 19.125 27 19.125H30.375V27H27Z" fill="currentColor" />
                         </svg>
-                        <span>
-                            <?php echo !empty($args['title_phone']) ? esc_html($args['title_phone']) : ''; ?> <?php echo esc_html($site_infor['site_phone']); ?>
+                        <span class="bt-content-wrap">
+                            <?php if (!empty($args['title_phone'])) : ?>
+                                <span class="bt-title"><?php echo esc_html($args['title_phone']); ?> </span>
+                            <?php endif; ?>
+                            <span class="bt-text"><?php echo esc_html($site_infor['site_phone']); ?></span>
                         </span>
                     <?php endif; ?>
 
@@ -51,17 +54,22 @@ if (function_exists('get_field')) {
                     </div>
                     <div class="bt-elwg-site-infor--item-content">
                         <?php if (!empty($args['title_address']) && isset($args['title_address'])) { ?>
-                            <h4><?php echo esc_html($args['title_address']) ?></h4>
+                            <h4 class="bt-title"><?php echo esc_html($args['title_address']) ?></h4>
                         <?php } else { ?>
-                            <h4><?php echo esc_html__('Address:', 'freska') ?></h4>
+                            <h4 class="bt-title"><?php echo esc_html__('Address:', 'freska') ?></h4>
                         <?php } ?>
-                        <span> <?php echo esc_html($site_infor['site_address']); ?> </span>
+                        <span class="bt-text"> <?php echo esc_html($site_infor['site_address']); ?> </span>
                     </div>
-                <?php else : ?>
+                    <?php else : ?>
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                         <path d="M14 7C13.1347 7 12.2888 7.25659 11.5694 7.73732C10.8499 8.21805 10.2892 8.90133 9.95803 9.70076C9.62689 10.5002 9.54025 11.3799 9.70906 12.2285C9.87787 13.0772 10.2946 13.8567 10.9064 14.4686C11.5183 15.0804 12.2978 15.4971 13.1465 15.6659C13.9951 15.8347 14.8748 15.7481 15.6742 15.417C16.4737 15.0858 17.1569 14.5251 17.6377 13.8056C18.1184 13.0862 18.375 12.2403 18.375 11.375C18.375 10.2147 17.9141 9.10188 17.0936 8.28141C16.2731 7.46094 15.1603 7 14 7ZM14 14C13.4808 14 12.9733 13.846 12.5416 13.5576C12.1099 13.2692 11.7735 12.8592 11.5748 12.3795C11.3761 11.8999 11.3242 11.3721 11.4254 10.8629C11.5267 10.3537 11.7767 9.88596 12.1438 9.51885C12.511 9.15173 12.9787 8.90173 13.4879 8.80044C13.9971 8.69915 14.5249 8.75114 15.0045 8.94982C15.4842 9.1485 15.8942 9.48495 16.1826 9.91663C16.471 10.3483 16.625 10.8558 16.625 11.375C16.625 12.0712 16.3484 12.7389 15.8562 13.2312C15.3639 13.7234 14.6962 14 14 14ZM14 1.75C11.4482 1.75289 9.0017 2.76788 7.19729 4.57229C5.39288 6.37671 4.37789 8.82318 4.375 11.375C4.375 14.8094 5.96203 18.4494 8.96875 21.9023C10.3198 23.4627 11.8403 24.8677 13.5023 26.0914C13.6495 26.1945 13.8247 26.2498 14.0044 26.2498C14.184 26.2498 14.3593 26.1945 14.5064 26.0914C16.1654 24.8672 17.683 23.4622 19.0312 21.9023C22.0336 18.4494 23.625 14.8094 23.625 11.375C23.6221 8.82318 22.6071 6.37671 20.8027 4.57229C18.9983 2.76788 16.5518 1.75289 14 1.75ZM14 24.2813C12.192 22.8594 6.125 17.6367 6.125 11.375C6.125 9.28642 6.95468 7.28338 8.43153 5.80653C9.90838 4.32969 11.9114 3.5 14 3.5C16.0886 3.5 18.0916 4.32969 19.5685 5.80653C21.0453 7.28338 21.875 9.28642 21.875 11.375C21.875 17.6345 15.808 22.8594 14 24.2813Z" fill="currentColor" />
                     </svg>
-                    <span><?php echo !empty($args['title_address']) ? esc_html($args['title_address']) : ''; ?> <?php echo esc_html($site_infor['site_address']); ?></span>
+                    <span class="bt-content-wrap">
+                        <?php if (!empty($args['title_address'])) : ?>
+                            <span class="bt-title"><?php echo esc_html($args['title_address']); ?> </span>
+                        <?php endif; ?>
+                        <span class="bt-text"><?php echo esc_html($site_infor['site_address']); ?></span>
+                    </span>
                 <?php endif; ?>
 
 
@@ -79,17 +87,22 @@ if (function_exists('get_field')) {
                         </div>
                         <div class="bt-elwg-site-infor--item-content">
                             <?php if (!empty($args['title_email']) && isset($args['title_email'])) { ?>
-                                <h4><?php echo esc_html($args['title_email']) ?></h4>
+                                <h4 class="bt-title"><?php echo esc_html($args['title_email']) ?></h4>
                             <?php } else { ?>
-                                <h4><?php echo esc_html__('Email:', 'freska') ?></h4>
+                                <h4 class="bt-title"><?php echo esc_html__('Email:', 'freska') ?></h4>
                             <?php } ?>
-                            <span> <?php echo esc_html($site_infor['site_email']); ?> </span>
+                            <span class="bt-text"> <?php echo esc_html($site_infor['site_email']); ?> </span>
                         </div>
                     <?php else : ?>
                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                             <path d="M17.8896 4.10254H2.88965C2.72389 4.10254 2.56492 4.16839 2.44771 4.2856C2.3305 4.40281 2.26465 4.56178 2.26465 4.72754V15.3525C2.26465 15.6841 2.39634 16.002 2.63076 16.2364C2.86519 16.4708 3.18313 16.6025 3.51465 16.6025H17.2646C17.5962 16.6025 17.9141 16.4708 18.1485 16.2364C18.383 16.002 18.5146 15.6841 18.5146 15.3525V4.72754C18.5146 4.56178 18.4488 4.40281 18.3316 4.2856C18.2144 4.16839 18.0554 4.10254 17.8896 4.10254ZM16.2826 5.35254L10.3896 10.7549L4.49668 5.35254H16.2826ZM17.2646 15.3525H3.51465V6.14863L9.96699 12.0635C10.0823 12.1693 10.2331 12.2281 10.3896 12.2281C10.5462 12.2281 10.697 12.1693 10.8123 12.0635L17.2646 6.14863V15.3525Z" fill="currentColor" />
                         </svg>
-                        <span><?php echo !empty($args['title_email']) ? esc_html($args['title_email']) : ''; ?> <?php echo esc_html($site_infor['site_email']); ?></span>
+                        <span class="bt-content-wrap">
+                            <?php if (!empty($args['title_email'])) : ?>
+                                <span class="bt-title"><?php echo esc_html($args['title_email']); ?> </span>
+                            <?php endif; ?>
+                            <span class="bt-text"><?php echo esc_html($site_infor['site_email']); ?></span>
+                        </span>
                     <?php endif; ?>
                 </a>
             </div>

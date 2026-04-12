@@ -214,13 +214,53 @@ class Widget_SiteInformation extends Widget_Base
 		);
 
 		$this->add_control(
-			'text_color',
+			'heading_title_style',
 			[
-				'label' => __('Text Color', 'freska'),
+				'label' => __('Title Style', 'freska'),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'title_color',
+			[
+				'label' => __('Title Color', 'freska'),
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
-					'{{WRAPPER}} .bt-elwg-site-infor--item' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .bt-elwg-site-infor--item .bt-title' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'title_typography',
+				'label' => __('Title Typography', 'freska'),
+				'default' => '',
+				'selector' => '{{WRAPPER}} .bt-elwg-site-infor--item .bt-title',
+			]
+		);
+
+		$this->add_control(
+			'heading_content_style',
+			[
+				'label' => __('Content Style', 'freska'),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'text_color',
+			[
+				'label' => __('Content Color', 'freska'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '',
+				'selectors' => [
+					'{{WRAPPER}} .bt-elwg-site-infor--item .bt-text' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -228,11 +268,12 @@ class Widget_SiteInformation extends Widget_Base
 		$this->add_control(
 			'text_color_hover',
 			[
-				'label' => __('Color Hover', 'freska'),
+				'label' => __('Content Hover Color', 'freska'),
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
-					'{{WRAPPER}} .bt-elwg-site-infor--item a:hover' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .bt-elwg-site-infor--item a:hover .bt-title' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .bt-elwg-site-infor--item a:hover .bt-text' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -241,9 +282,9 @@ class Widget_SiteInformation extends Widget_Base
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'text_typography',
-				'label' => __('Typography', 'freska'),
+				'label' => __('Content Typography', 'freska'),
 				'default' => '',
-				'selector' => '{{WRAPPER}} .bt-elwg-site-infor--item',
+				'selector' => '{{WRAPPER}} .bt-elwg-site-infor--item .bt-text',
 			]
 		);
 
