@@ -512,9 +512,9 @@ add_action('elementor/element/loop-carousel/section_carousel_pagination/before_s
 			'label_off' => esc_html__('No', 'freska'),
 			'return_value' => 'yes',
 			'selectors' => [
-				'{{WRAPPER}} .swiper-pagination-bullet' => 'width: auto; height: auto; padding: 2px 10px; border-radius: 0; transition: all 0.3s ease;',
+				'{{WRAPPER}} .swiper-pagination-bullet' => 'width: auto; height: auto; padding: 2px 8px; border-radius: 20px; transition: all 0.3s ease;',
 				'{{WRAPPER}} .swiper-pagination-bullet:hover,
-				{{WRAPPER}} .swiper-pagination-bullet.swiper-pagination-bullet-active' => 'padding: 2px 20px;',
+				{{WRAPPER}} .swiper-pagination-bullet.swiper-pagination-bullet-active' => 'padding: 2px 16px;',
 			],
 			'condition' => [
 				'pagination' => 'bullets',
@@ -665,9 +665,9 @@ add_action('elementor/element/loop-carousel/section_navigation_settings/before_s
 			'label_off' => esc_html__('No', 'freska'),
 			'return_value' => 'yes',
 			'selectors' => [
-				'{{WRAPPER}} .elementor-swiper-button' => 'color: var(--arrow-normal-color, #181818); background: #FFFFFF; padding: 12px;',
-				'{{WRAPPER}} .elementor-swiper-button svg' => 'width: var(--arrow-size, 20px); height: var(--arrow-size, 20px); fill: var(--arrow-normal-color, #181818);',
-				'{{WRAPPER}} .elementor-swiper-button:hover' => 'color: var(--arrow-normal-color, #FFFFFF); background: #181818;',
+				'{{WRAPPER}} .elementor-swiper-button' => 'color: var(--arrow-normal-color, #1A1A1A); background: #FFFFFF; padding: 12px;border-radius: 50%; border: 1px solid #E9E9E9;',
+				'{{WRAPPER}} .elementor-swiper-button svg' => 'width: var(--arrow-size, 20px); height: var(--arrow-size, 20px); fill: var(--arrow-normal-color, #1A1A1A);',
+				'{{WRAPPER}} .elementor-swiper-button:hover' => 'color: var(--arrow-normal-color, #FFFFFF); background: #1A1A1A; border-color: #1A1A1A;',
 				'{{WRAPPER}} .elementor-swiper-button:hover svg' => 'fill: var(--arrow-hover-color, #FFFFFF);',
 			],
 		]

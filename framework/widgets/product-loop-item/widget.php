@@ -127,6 +127,20 @@ class Widget_ProductLoopItem extends Widget_Base
 			]
 		);
 
+		$this->add_control(
+			'enable_process_stock',
+			[
+				'label'        => esc_html__('Process Stock', 'freska'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__('Enable', 'freska'),
+				'label_off'    => esc_html__('Disable', 'freska'),
+				'return_value' => 'yes',
+				'default'      => '',
+				'separator'    => 'before',
+				'description'  => esc_html__('Note: Enable "Manage stock?" in product settings to display stock bar', 'freska'),
+			]
+		);
+
 		$this->end_controls_section();
 	}
 
@@ -235,6 +249,7 @@ class Widget_ProductLoopItem extends Widget_Base
 		}
 		
 		$settings = $this->get_settings_for_display();
+		$enable_process_stock = isset($settings['enable_process_stock']) ? $settings['enable_process_stock'] : '';
 
 		?>
 		<div class="bt-elwg-product-loop-item <?php echo esc_attr($settings['content_text_align']); ?>">
@@ -254,7 +269,7 @@ class Widget_ProductLoopItem extends Widget_Base
 							if (empty($product) || ! $product->is_visible()) {
 								get_template_part('woocommerce/content', 'product-placeholder');
 							} else {
-								wc_get_template_part('content', 'product');
+								wc_get_template('content-product.php', array('enable_process_stock' => $enable_process_stock));
 							}
 						}
 					} else {
@@ -266,7 +281,7 @@ class Widget_ProductLoopItem extends Widget_Base
 					if (empty($product) || ! $product->is_visible()) {
 						get_template_part('woocommerce/content', 'product-placeholder');
 					} else {
-						wc_get_template_part('content', 'product');
+						wc_get_template('content-product.php', array('enable_process_stock' => $enable_process_stock));
 					}
 				}
 
