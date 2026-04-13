@@ -2187,7 +2187,7 @@
     }
     &__thumbnail {
       position: relative;
-      border-radius: 16px;
+      border-radius: 8px;
       overflow: hidden;
       > a {
         position: relative;
@@ -2307,9 +2307,9 @@
           justify-content: center;
           border-radius: 50%;
           border: 1px solid $color-line;
-          //  opacity: 0;
-          //   visibility: hidden;
-          //   transform: translateX(100px);
+          opacity: 0;
+          visibility: hidden;
+          transform: translateX(100px);
           transition:
             opacity 0.5s ease,
             transform 0.5s ease;
@@ -2417,12 +2417,13 @@
       .bt-add-to-cart,
       .bt-attributes-wrap,
       .bt-btn-add-to-cart-variable,
-      .bt-btn-read-more {
-        // opacity: 0;
-        // visibility: hidden;
-        // transition:
-        //   opacity 0.5s ease,
-        //   visibility 0.5s ease;
+      .bt-btn-read-more,
+      .add_to_cart_button {
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.5s ease,
+          visibility 0.5s ease;
         position: relative;
         @media (max-width: $break-sm) {
           opacity: 1;
@@ -2643,6 +2644,54 @@
       .bt-product-icon-btn {
         display: none;
       }
+      .bt-product-stock-bar {
+        width: 100%;
+        margin: 8px 0 0 0;
+        .stock-bar-wrapper {
+          margin-bottom: 4px;
+        }
+        .stock-bar-background {
+          width: 100%;
+          height: 4px;
+          background-color: $color-line;
+          border-radius: 3px;
+          overflow: hidden;
+        }
+        .stock-bar-progress {
+          height: 100%;
+          background: $color-accent;
+          transition: width 0.3s ease;
+          border-radius: 3px;
+        }
+        .stock-info {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 1.57;
+          color: $color-text;
+        }
+        .available-quantity {
+          .stock-quantity {
+            font-weight: 700;
+          }
+        }
+        .stock-status {
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 16px;
+          text-transform: uppercase;
+          &.in-stock {
+            color: $color-accent;
+          }
+          &.out-of-stock {
+            color:#A0A0A0;
+          }
+        }
+      }
     }
     .bt-product-rating {
       display: flex;
@@ -2669,15 +2718,32 @@
         line-height: 22px;
       }
     }
+    &__categories {
+      color: #a0a0a0;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 16px;
+      text-transform: uppercase;
+      margin: 0;
+      display: block;
+      a {
+        color: #a0a0a0;
+        text-transform: uppercase;
+        &:hover {
+          color: $color-accent;
+        }
+      }
+    }
     &__link {
       @extend .__bt-max-line-ellipsis;
     }
     &__title {
       color: $color-primary;
       font-size: 16px;
-      font-weight: 500;
+      font-style: normal;
+      font-weight: 700;
       line-height: 1.5;
-      text-transform: capitalize;
       margin: 0;
       display: block;
       text-align: left;
@@ -2722,9 +2788,9 @@
       align-items: baseline;
       color: $color-primary;
       .woocommerce-Price-amount {
-        font-size: 20px;
-        font-weight: 500;
-        line-height: 28px;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.5;
         color: $color-primary;
       }
       ins {
@@ -2736,9 +2802,10 @@
         line-height: 1;
         color: $color-text;
         .woocommerce-Price-amount {
-          font-size: 16px;
+          font-size: 14px;
+          font-style: normal;
           font-weight: 400;
-          line-height: 26px;
+          line-height: 1.57;
           color: $color-text;
         }
       }
@@ -2778,7 +2845,8 @@
           .bt-add-to-cart,
           .bt-attributes-wrap,
           .bt-btn-add-to-cart-variable,
-          .bt-btn-read-more {
+          .bt-btn-read-more,
+          .add_to_cart_button {
             opacity: 1;
             visibility: visible;
           }

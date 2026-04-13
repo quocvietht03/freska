@@ -28,5 +28,13 @@ body {
                 flex-direction: column;
             }
         }
+        .bt-slider-responsive-arrow {
+            @media (max-width: 1500px) and (min-width: 1367px) {
+                .elementor-swiper-button {
+                    --arrow-prev-left-position: -32px;
+                    --arrow-next-right-position: -32px;
+                }
+            }
+        }
     }
 }

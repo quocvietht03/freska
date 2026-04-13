@@ -86,6 +86,19 @@ class Widget_CountDown extends Widget_Base
 			]
 		);
 
+		$this->add_control(
+			'layout',
+			[
+				'label' => __('Layout', 'freska'),
+				'type' => Controls_Manager::SELECT,
+				'default' => 'default',
+				'options' => [
+					'default' => __('Default', 'freska'),
+					'layout-02' => __('Layout 02', 'freska'),
+				],
+			]
+		);
+
 	
 
 		$this->end_controls_section();
@@ -149,6 +162,9 @@ class Widget_CountDown extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .bt-countdown--label' => 'color: {{VALUE}};',
 				],
+				'condition' => [
+					'layout' => 'default',
+				],
 			]
 		);
 
@@ -157,6 +173,9 @@ class Widget_CountDown extends Widget_Base
 			[
 				'name' => 'label_typography',
 				'selector' => '{{WRAPPER}} .bt-countdown--label',
+				'condition' => [
+					'layout' => 'default',
+				],
 			]
 		);
 
@@ -262,6 +281,7 @@ class Widget_CountDown extends Widget_Base
 	protected function render()
 	{
 		$settings = $this->get_settings_for_display();
+		$layout = !empty($settings['layout']) ? $settings['layout'] : 'default';
 		$date_countdown = $settings['countdown_date'];
 		if ($settings['show_infinity_date'] === 'yes') {
 			$date_countdown = $this->get_infinity_countdown_date($settings);
@@ -270,8 +290,9 @@ class Widget_CountDown extends Widget_Base
 		$timezone = new DateTimeZone(wp_timezone_string());
 		$current_date = new DateTime('now', $timezone);
 		$current_date = $current_date->format('Y-m-d H:i:s');
+		$elwg_class = 'bt-elwg-countdown--' . $layout;
 		?>
-		<div class="bt-elwg-countdown--default ">
+		<div class="<?php echo esc_attr($elwg_class); ?>">
 			<div class="bt-countdown bt-countdown-js" data-infinity="<?php echo esc_attr($settings['show_infinity_date']); ?>" data-time="<?php echo esc_attr($date_countdown); ?>" data-current-time="<?php echo esc_attr($current_date); ?>">
 				<div class="bt-countdown--item">
 					<span class="bt-countdown--digits bt-countdown-days">--</span>

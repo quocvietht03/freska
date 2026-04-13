@@ -51,11 +51,13 @@ if (empty($product) || ! $product->is_visible()) {
 
 	<div class="woocommerce-loop-product__infor">
 		<?php
-		do_action('freska_woocommerce_template_loop_rating');
+		do_action('freska_woocommerce_template_loop_product_category');
 		do_action('freska_woocommerce_template_loop_product_link_open');
 		// Display product title (pass parent_id for variations in cross-sells, etc.)
 		do_action('freska_woocommerce_template_loop_product_title', isset($parent_id) ? $parent_id : null);
 		do_action('freska_woocommerce_template_loop_product_link_close');
+
+		do_action('freska_woocommerce_template_loop_rating');
 		// Display default attributes as "attribute_label : value" only for variable products (passed from product tooltip hotspot widget)
 		do_action('freska_woocommerce_template_loop_product_default_attributes', isset($attributes_default) ? $attributes_default : null);
 
@@ -63,6 +65,12 @@ if (empty($product) || ! $product->is_visible()) {
 		do_action('freska_woocommerce_template_loop_product_variation', isset($parent_id) ? $parent_id : null);
 
 		do_action('freska_woocommerce_template_loop_price');
+		
+		// Display stock bar if enable_process_stock is enabled
+		if (!empty($enable_process_stock) && $enable_process_stock === 'yes') {
+			do_action('freska_woocommerce_template_loop_process_stock');
+		}
+		
 		do_action('freska_woocommerce_template_loop_product_short_description');
 		?>
 		<?php do_action('freska_woocommerce_template_loop_list_cta_button'); ?>

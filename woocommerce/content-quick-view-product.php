@@ -78,11 +78,11 @@ global $product;
 			<div class="bt-gallery-product">
 				<?php
 				if ($featured_image_id) {
-					$html = freska_get_gallery_image_html($featured_image_id, true, false);
+					$html = freska_get_gallery_image_html($featured_image_id, true, false, -1, 'woocommerce_thumbnail');
 
 					if (!empty($attachment_ids)) {
 						foreach ($attachment_ids as $key => $attachment_id) {
-							$html .= freska_get_gallery_image_html($attachment_id, true, false);
+							$html .= freska_get_gallery_image_html($attachment_id, true, false, -1, 'woocommerce_thumbnail');
 						}
 					}
 					echo apply_filters('woocommerce_single_product_image_thumbnail_html', $html, $featured_image_id); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
