@@ -20,9 +20,9 @@ if (function_exists('get_field')) {
                         </div>
                         <div class="bt-elwg-site-infor--item-content">
                             <?php if (!empty($args['title_phone']) && isset($args['title_phone'])) { ?>
-                                <h4 class="bt-title"><?php echo esc_html($args['title_phone']) ?></h4>
+                                <span class="bt-title"><?php echo esc_html($args['title_phone']) ?></span>
                             <?php } else { ?>
-                                <h4 class="bt-title"><?php echo esc_html__('Have any Question?', 'freska') ?></h4>
+                                <span class="bt-title"><?php echo esc_html__('Have any Question?', 'freska') ?></span>
                             <?php } ?>
                             <span class="bt-text"> <?php echo esc_html($site_infor['site_phone']); ?> </span>
                         </div>
@@ -32,7 +32,7 @@ if (function_exists('get_field')) {
                         </svg>
                         <span class="bt-content-wrap">
                             <?php if (!empty($args['title_phone'])) : ?>
-                                <span class="bt-title"><?php echo esc_html($args['title_phone']); ?> </span>
+                                <span class="bt-title"><?php echo esc_html($args['title_phone']); ?></span>
                             <?php endif; ?>
                             <span class="bt-text"><?php echo esc_html($site_infor['site_phone']); ?></span>
                         </span>
@@ -54,9 +54,9 @@ if (function_exists('get_field')) {
                     </div>
                     <div class="bt-elwg-site-infor--item-content">
                         <?php if (!empty($args['title_address']) && isset($args['title_address'])) { ?>
-                            <h4 class="bt-title"><?php echo esc_html($args['title_address']) ?></h4>
+                            <span class="bt-title"><?php echo esc_html($args['title_address']) ?></span>
                         <?php } else { ?>
-                            <h4 class="bt-title"><?php echo esc_html__('Address:', 'freska') ?></h4>
+                            <span class="bt-title"><?php echo esc_html__('Address:', 'freska') ?></span>
                         <?php } ?>
                         <span class="bt-text"> <?php echo esc_html($site_infor['site_address']); ?> </span>
                     </div>
@@ -66,7 +66,7 @@ if (function_exists('get_field')) {
                     </svg>
                     <span class="bt-content-wrap">
                         <?php if (!empty($args['title_address'])) : ?>
-                            <span class="bt-title"><?php echo esc_html($args['title_address']); ?> </span>
+                            <span class="bt-title"><?php echo esc_html($args['title_address']); ?></span>
                         <?php endif; ?>
                         <span class="bt-text"><?php echo esc_html($site_infor['site_address']); ?></span>
                     </span>
@@ -87,9 +87,9 @@ if (function_exists('get_field')) {
                         </div>
                         <div class="bt-elwg-site-infor--item-content">
                             <?php if (!empty($args['title_email']) && isset($args['title_email'])) { ?>
-                                <h4 class="bt-title"><?php echo esc_html($args['title_email']) ?></h4>
+                                <span class="bt-title"><?php echo esc_html($args['title_email']) ?></span>
                             <?php } else { ?>
-                                <h4 class="bt-title"><?php echo esc_html__('Email:', 'freska') ?></h4>
+                                <span class="bt-title"><?php echo esc_html__('Email:', 'freska') ?></span>
                             <?php } ?>
                             <span class="bt-text"> <?php echo esc_html($site_infor['site_email']); ?> </span>
                         </div>
@@ -99,7 +99,7 @@ if (function_exists('get_field')) {
                         </svg>
                         <span class="bt-content-wrap">
                             <?php if (!empty($args['title_email'])) : ?>
-                                <span class="bt-title"><?php echo esc_html($args['title_email']); ?> </span>
+                                <span class="bt-title"><?php echo esc_html($args['title_email']); ?></span>
                             <?php endif; ?>
                             <span class="bt-text"><?php echo esc_html($site_infor['site_email']); ?></span>
                         </span>

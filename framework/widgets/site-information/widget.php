@@ -234,6 +234,18 @@ class Widget_SiteInformation extends Widget_Base
 			]
 		);
 
+		$this->add_control(
+			'title_color_hover',
+			[
+				'label' => __('Title Hover Color', 'freska'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '',
+				'selectors' => [
+					'{{WRAPPER}} .bt-elwg-site-infor--item a:hover .bt-title' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
@@ -272,7 +284,6 @@ class Widget_SiteInformation extends Widget_Base
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
-					'{{WRAPPER}} .bt-elwg-site-infor--item a:hover .bt-title' => 'color: {{VALUE}};',
 					'{{WRAPPER}} .bt-elwg-site-infor--item a:hover .bt-text' => 'color: {{VALUE}};',
 				],
 			]
