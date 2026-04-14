@@ -306,9 +306,9 @@ class Widget_OurStore extends Widget_Base
         );
 
         $this->add_control(
-            'info_heading',
+            'label_heading',
             [
-                'label' => __('Store Information', 'freska'),
+                'label' => __('Label Information', 'freska'),
                 'type' => Controls_Manager::HEADING,
                 'separator' => 'before',
             ]
@@ -317,20 +317,48 @@ class Widget_OurStore extends Widget_Base
         $this->add_group_control(
             Group_Control_Typography::get_type(),
             [
-                'name' => 'info_typography',
-                'selector' => '{{WRAPPER}} .bt-store--location, {{WRAPPER}} .bt-store--phone, {{WRAPPER}} .bt-store--email',
+                'name' => 'label_typography',
+                'selector' => '{{WRAPPER}} .bt-label',
             ]
         );
 
         $this->add_control(
-            'info_color',
+            'label_color',
             [
                 'label' => __('Color', 'freska'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .bt-store--location' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .bt-store--phone' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .bt-store--email' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .bt-label' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'content_heading',
+            [
+                'label' => __('Content Information', 'freska'),
+                'type' => Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'content_typography',
+                'selector' => '{{WRAPPER}} .bt-content, {{WRAPPER}} .bt-store--phone a, {{WRAPPER}} .bt-store--email a',
+            ]
+        );
+
+        $this->add_control(
+            'content_color',
+            [
+                'label' => __('Color', 'freska'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .bt-content' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .bt-store--phone a' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .bt-store--email a' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -431,11 +459,14 @@ class Widget_OurStore extends Widget_Base
                                     <h3 class="bt-store--name"><?php echo esc_html($store['name']); ?></h3>
                                 <?php endif; ?>
                                 <?php if (!empty($store['address'])) : ?>
-                                    <div class="bt-store--location"><?php echo esc_html__('Address:', 'freska') . ' ' . esc_html($store['address']); ?></div>
+                                    <div class="bt-store--location">
+                                        <span class="bt-label"><?php echo esc_html__('Address:', 'freska'); ?></span>
+                                        <span class="bt-content"><?php echo esc_html($store['address']); ?></span>
+                                    </div>
                                 <?php endif; ?>
                                 <?php if (!empty($store['phone'])) : ?>
                                     <div class="bt-store--phone">
-                                        <?php echo esc_html__('Phone:', 'freska'); ?>
+                                        <span class="bt-label"><?php echo esc_html__('Phone:', 'freska'); ?></span>
                                         <a href="tel:<?php echo esc_attr(str_replace(' ', '', $store['phone'])); ?>">
                                             <?php echo esc_html($store['phone']); ?>
                                         </a>
@@ -443,7 +474,7 @@ class Widget_OurStore extends Widget_Base
                                 <?php endif; ?>
                                 <?php if (!empty($store['email'])) : ?>
                                     <div class="bt-store--email">
-                                        <?php echo esc_html__('Email:', 'freska'); ?>
+                                        <span class="bt-label"><?php echo esc_html__('Email:', 'freska'); ?></span>
                                         <a href="mailto:<?php echo esc_attr($store['email']); ?>">
                                             <?php echo esc_html($store['email']); ?>
                                         </a>
