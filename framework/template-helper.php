@@ -161,7 +161,17 @@ if (!function_exists('freska_page_title')) {
 
 /* Page breadcrumb */
 if (!function_exists('freska_page_breadcrumb')) {
-	function freska_page_breadcrumb($home_text = 'Home', $delimiter = '-')
+	function freska_page_breadcrumb($home_text = 'Homepage', $delimiter = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+																				<g clip-path="url(#clip0_4145_9660)">
+																					<path d="M3.125 10H16.875" stroke="#A0A0A0" stroke-linecap="round" stroke-linejoin="round"/>
+																					<path d="M11.25 4.375L16.875 10L11.25 15.625" stroke="#A0A0A0" stroke-linecap="round" stroke-linejoin="round"/>
+																				</g>
+																				<defs>
+																					<clipPath id="clip0_4145_9660">
+																					<rect width="20" height="20" fill="white"/>
+																					</clipPath>
+																				</defs>
+																			</svg>')
 	{
 		global $post;
 

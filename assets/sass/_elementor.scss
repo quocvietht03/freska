@@ -829,21 +829,23 @@
 
 .bt-elwg-page-breadcrumb {
   .bt-page-breadcrumb {
+    @extend .__caption_1_typo;
     position: relative;
     z-index: 3;
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    line-height: 22px;
-    color: #a0a0a0;
-    font-style: normal;
+    gap: 4px;
+    color: $color-text;
+
     a {
-      color: $color-primary;
+      @extend .__caption_1_typo;
+      color: $color-white;
     }
+
     .bt-deli {
       display: flex;
     }
+
     .current {
       color: #a0a0a0;
       display: flex;
@@ -851,11 +853,13 @@
       gap: 8px;
       flex-wrap: wrap;
     }
+
     @media (max-width: $break-sm) {
       flex-wrap: wrap;
     }
   }
 }
+
 .bt-elwg-post-loop-item {
   &--default {
     @extend .__bt-post-style-loop-default;
@@ -6035,19 +6039,20 @@
 
           .bt-member-social {
             position: absolute;
-            transform: translateX(100px);
-            right: 12px;
-            top: 12px;
+            transform: translateX(-50%) translateY(100px); 
+            left: 50%;                                     
+            bottom: 12px;                                  
             display: flex;
             gap: 12px;
             align-items: center;
-            padding: 8px;
+            padding: 8px 12px;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.95);
-            flex-direction: column;
+            flex-direction: row;                           
             transition: 0.3s ease;
             opacity: 0;
             visibility: hidden;
+            white-space: nowrap;
             a {
               display: flex;
               border: 1px solid #e9e9e9;
@@ -6061,9 +6066,8 @@
               opacity: 0;
               transition: none;
               &:hover {
-                border-color: $color-primary;
-                background: $color-primary;
-                color: #fff;
+                border-color: $color-secondary;
+                background: $color-secondary;
               }
 
               @for $i from 1 through 5 {
@@ -6076,7 +6080,7 @@
         }
 
         .bt-member-info {
-          margin-top: 24px;
+          margin-top: 20px;
 
           .bt-member-name {
             margin: 0 0 4px 0;
@@ -6120,11 +6124,10 @@
             }
 
             .bt-member-social {
-              transform: translateX(0);
+              transform: translateX(-50%) translateY(0); 
               opacity: 1;
               visibility: visible;
               a {
-                transform: translateX(0);
                 opacity: 1;
               }
             }
@@ -6133,11 +6136,10 @@
         @media (max-width: $break-xs) {
           .bt-member-image {
             .bt-member-social {
-              transform: translateX(0);
+              transform: translateX(-50%) translateY(0); 
               opacity: 1;
               visibility: visible;
               a {
-                transform: translateX(0);
                 opacity: 1;
               }
             }
@@ -12352,3 +12354,29 @@
   }
 }
 
+// Image Border Styles - About us
+.bt-image-border.bt-image-border::before {
+  top: -15px;
+  left: auto;
+  right: 0px;
+  border-top-left-radius: 15px;
+  box-shadow: -5px -5px 0 5px var(--bt-border-bg);
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: transparent;
+  transform: rotate(180deg);
+}
+
+.bt-image-border::after {
+  bottom: 0;
+  left: -15px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 5px 5px 0 5px var(--bt-border-bg);
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: transparent;
+}
