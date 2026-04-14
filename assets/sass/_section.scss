@@ -21,7 +21,20 @@ body {
         }
     }
 }
-
-.elementor-element {
-  
+.elementor {
+    .elementor-element {
+        @media (max-width: 400px) {
+            &.bt-banner-hero {
+                flex-direction: column;
+            }
+        }
+        .bt-slider-responsive-arrow {
+            @media (max-width: 1500px) and (min-width: 1367px) {
+                .elementor-swiper-button {
+                    --arrow-prev-left-position: -32px;
+                    --arrow-next-right-position: -32px;
+                }
+            }
+        }
+    }
 }

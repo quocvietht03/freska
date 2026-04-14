@@ -1,0 +1,77 @@
+{
+    "key": "group_69d8afd8f3481",
+    "title": "Options Category Product",
+    "fields": [
+        {
+            "key": "field_69d8afd9e2674",
+            "label": "Thumbnail Transparent",
+            "name": "thumbnail_transparent",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "allow_in_bindings": 1,
+            "preview_size": "thumbnail"
+        },
+        {
+            "key": "field_69d8b574a71f7",
+            "label": "Background",
+            "name": "background",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#D6EAD6",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "allow_in_bindings": 0,
+            "show_custom_palette": 0,
+            "show_color_wheel": 1,
+            "custom_palette_source": "",
+            "palette_colors": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "taxonomy",
+                "operator": "==",
+                "value": "product_cat"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1775809962
+}

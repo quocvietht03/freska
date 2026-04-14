@@ -25,11 +25,11 @@ global $product;
 if (! wc_review_ratings_enabled()) {
     return;
 }
+if (! $product->get_rating_count()) {
+    return;
+}
 ?>
-<div class="bt-product-rating woocommerce">
+<div class="bt-product-rating woocommerce product-rating">
     <?php echo wc_get_rating_html($product->get_average_rating()); ?>
-    <?php if ($product->get_rating_count()): ?>
-        <span class="bt-product-rating--average"><?php echo esc_html(number_format((float) $product->get_average_rating(), 1)); ?></span>
-        <span class="bt-product-rating--count"><?php echo esc_html('('. $product->get_rating_count() .')'); ?></span>
-    <?php endif; ?>
+   <span class="bt-product-rating--count"><?php echo esc_html('('. $product->get_rating_count() .')'); ?></span>
 </div>

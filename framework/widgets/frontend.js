@@ -67,6 +67,48 @@
 			});
 		}
 	};
+
+	const DiscountHandler = function ($scope, $) {
+		const $discountWrap = $scope.find('.bt-elwg-discount');
+		const $tooltip = $discountWrap.find('.bt-copy-tooltip');
+
+		if ($discountWrap.length > 0) {
+			$discountWrap.on('click', function () {
+				const code = $(this).data('code');
+				if (code) {
+					const performCopy = () => {
+						$tooltip.addClass('bt-visible');
+						setTimeout(function () {
+							$tooltip.removeClass('bt-visible');
+						}, 1000);
+					};
+
+					if (navigator.clipboard && window.isSecureContext) {
+						navigator.clipboard.writeText(code).then(performCopy).catch(function (err) {
+							console.error('Could not copy text: ', err);
+						});
+					} else {
+		
+						const textArea = document.createElement("textarea");
+						textArea.value = code;
+						textArea.style.position = "fixed";
+						textArea.style.left = "-999999px";
+						textArea.style.top = "-999999px";
+						document.body.appendChild(textArea);
+						textArea.focus();
+						textArea.select();
+						try {
+							document.execCommand('copy');
+							performCopy();
+						} catch (err) {
+							console.error('Fallback copy failed', err);
+						}
+						document.body.removeChild(textArea);
+					}
+				}
+			});
+		}
+	};
 	// Helper function to generate correct URL based on widget category settings
 	const generateCategoryUrl = function ($form) {
 		// Get widget category slugs from bt-widget-category-include (now contains slugs, not IDs)
@@ -3677,6 +3719,7 @@
 		elementorFrontend.hooks.addAction('frontend/element_ready/bt-megamenu.default', MegaMenuHandler);
 		elementorFrontend.hooks.addAction('frontend/element_ready/bt-location-list.default', LocationListHandler);
 		elementorFrontend.hooks.addAction('frontend/element_ready/bt-account-login.default', AccountLoginHandler);
+		elementorFrontend.hooks.addAction('frontend/element_ready/bt-discount.default', DiscountHandler);
 	});
 
 })(jQuery);

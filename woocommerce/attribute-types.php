@@ -446,7 +446,6 @@ if (!function_exists('freska_get_all_color_taxonomies')) {
 
 		$color_taxonomies = array();
 		$attribute_taxonomies = wc_get_attribute_taxonomies();
-
 		if (!empty($attribute_taxonomies)) {
 			foreach ($attribute_taxonomies as $attribute) {
 				$attribute_type = get_option('freska_attribute_type_' . $attribute->attribute_id, 'select');
@@ -473,10 +472,17 @@ if (!function_exists('freska_get_color_taxonomy')) {
 		if ($color_taxonomy !== null) {
 			return $color_taxonomy;
 		}
-
-		$color_taxonomies = freska_get_all_color_taxonomies();
+		$color_taxonomies = array();
+		$attribute_taxonomies = wc_get_attribute_taxonomies();
+		if (!empty($attribute_taxonomies)) {
+			foreach ($attribute_taxonomies as $attribute) {
+				$attribute_type = get_option('freska_attribute_type_' . $attribute->attribute_id, 'select');
+				if ($attribute_type === 'color') {
+					$color_taxonomies[] = wc_attribute_taxonomy_name($attribute->attribute_name);
+				}
+			}
+		}	
 		$color_taxonomy = !empty($color_taxonomies) ? $color_taxonomies[0] : false;
-
 		return $color_taxonomy;
 	}
 }

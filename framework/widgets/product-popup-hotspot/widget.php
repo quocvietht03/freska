@@ -412,11 +412,11 @@ class Widget_ProductPopupHotspot extends Widget_Base
                                                                 <a href="?add-to-cart=<?php echo esc_attr($product->get_id()); ?>"
                                                                     aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($product->get_id()); ?>"
                                                                     data-quantity="1"
-                                                                    class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart bt-button-hover"
+                                                                    class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart"
                                                                     data-product_id="<?php echo esc_attr($product->get_id()); ?>"
                                                                     data-product_sku=""
                                                                     rel="nofollow">
-                                                                    <?php echo esc_html__('Add to cart', 'freska'); ?>
+                                                                    <?php echo esc_html__('Add to Cart', 'freska'); ?>
                                                                 </a>
                                                             <?php else : ?>
                                                                 <a href="<?php echo esc_url($product->get_permalink()); ?>" class="bt-button bt-view-product">

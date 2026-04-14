@@ -95,7 +95,8 @@ class ElementorWidgets
 			'order-tracking',
 			'accordion-hotspot',
 			'product-testimonial-item',
-			'location-list'
+			'location-list',
+			'discount'
 
 		);
 
@@ -330,6 +331,7 @@ class ElementorWidgets
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\AccordionHotspot\Widget_AccordionHotspot());
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductTestimonialItem\Widget_ProductTestimonialItem());
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\LocationList\Widget_LocationList());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\Discount\Widget_Discount());
 
 
 		// Register widgets that require Elementor Pro
