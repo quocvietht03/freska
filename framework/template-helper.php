@@ -1138,3 +1138,28 @@ if (!function_exists('freska_add_preloader')) {
 	}
 	add_action('wp_body_open', 'freska_add_preloader', 1);
 }
+
+/**
+ * Allow ALL product categories to show in Elementor Loop Carousel on frontend.
+ * Runs at priority 999 to override WooCommerce/plugin filters that may inject
+ * display_type meta_query or set hide_empty=true.
+ */
+add_action('pre_get_terms', function ($query) {
+    if (is_admin()) return;
+
+    $taxonomies = (array) ($query->query_vars['taxonomy'] ?? []);
+    if (!in_array('product_cat', $taxonomies)) return;
+
+    // Force show all categories including empty ones
+    $query->query_vars['hide_empty'] = false;
+
+    // Remove any display_type meta_query injected by WooCommerce or plugins
+    $meta_query = $query->query_vars['meta_query'] ?? [];
+    if (!empty($meta_query)) {
+        $filtered = array_filter((array) $meta_query, function ($clause) {
+            if (!is_array($clause)) return true;
+            return ($clause['key'] ?? '') !== 'display_type';
+        });
+        $query->query_vars['meta_query'] = array_values($filtered);
+    }
+}, 999);
