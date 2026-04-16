@@ -3051,17 +3051,18 @@
       }
 
       &__categories {
-           display: -webkit-box;
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          text-decoration: none;
          @extend .__caption_2_typo;
         text-transform: uppercase;
       }
     }
 
     .bt-add-to-cart-layout-1 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      margin-left: auto;
+
       .add_to_cart_button {
           width: 40px;
           height: 40px;
