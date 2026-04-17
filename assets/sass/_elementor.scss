@@ -4896,7 +4896,7 @@
     .bt-product-category {
       &--item {
         border-radius: 12px;
-        background: var(--bt-category-bg, #d6ead6);
+        background: #d6ead6;
         padding: 24px 20px 20px;
         transition: transform 0.3s ease;
         overflow: hidden;
@@ -4973,6 +4973,97 @@
         font-style: normal;
         font-weight: 400;
         line-height: 1.57;
+        color: $color-text;
+      }
+    }
+  }
+
+  &--layout-2 {
+    .bt-product-category {
+      &--item {
+        background: $color-white;
+        border-right: 1px solid $color-line;
+        border-bottom: 1px solid $color-line;
+        padding:30px 0;
+        transition: all 0.5s ease;
+        transform: translateY(0);
+        &:hover {
+          background-color: $color-accent;
+          transform: translateY(-1px);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+          transition: all 0.5s ease;
+          .bt-product-category {
+            &--thumb .bt-cover-image img {
+              filter: brightness(0) invert(1);
+            }
+            &--name {
+              color: $color-white;
+            }
+            &--count {
+              color: $color-white;
+            }
+          }
+        }
+      }
+
+      &--link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      &--thumb {
+        width: 140px;
+        height: 140px;
+        background: $color-secondary;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .bt-cover-image {
+          width: 58%;
+          height: auto;
+          aspect-ratio: 1 / 1;
+          padding: 0 !important;
+          border-radius: 0;
+          background: transparent;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transform: none;
+          }
+        }
+      }
+
+      &--content {
+        margin-top: 0;
+        gap: 8px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      &--name {
+        margin: 0;
+        transform: none;
+        @extend .__heading_5_typo;
+        line-height: 1.25;
+        color: $color-primary;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-height: 1.2em;
+        svg {
+          display: none;
+        }
+      }
+
+      &--count {
+        @extend .__caption_1_typo;
         color: $color-text;
       }
     }

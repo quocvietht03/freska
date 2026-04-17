@@ -78,6 +78,7 @@ class Widget_ProductLoopItem extends Widget_Base
                 'options' => [
                     'default' => esc_html__( 'Default', 'freska' ),
                     'layout-1' => esc_html__( 'Style 1', 'freska' ),
+                    'layout-2' => esc_html__( 'Style 2', 'freska' ),
                 ],
             ]
         );
