@@ -481,10 +481,6 @@
     }
   }
   .bt-discount-animation-yes & {
-    &:hover {
-      transform: translateY(-1px);
-      filter: brightness(0.95);
-    }
     &:active {
       transform: translateY(0);
     }
@@ -4896,14 +4892,14 @@
     .bt-product-category {
       &--item {
         border-radius: 12px;
-        background: #d6ead6;
+        background: var(--bt-category-bg, #d6ead6);
         padding: 24px 20px 20px;
-        transition: transform 0.3s ease;
         overflow: hidden;
-
+        transition: all 0.3s ease-out;
         &:hover {
+          transform: translateY(-5px);
           .bt-product-category {
-            &--thumb .bt-cover-image img {
+             &--thumb .bt-cover-image img {
               transform: none;
             }
           }
