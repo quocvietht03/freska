@@ -78,6 +78,7 @@ class Widget_ProductCategoryItem extends Widget_Base
                 'options' => [
                     'default' => __('Default', 'freska'),
                     'layout-1' => __('Layout 1', 'freska'),
+                    'layout-2' => __('Layout 2', 'freska'),
                 ],
             ]
         );
@@ -395,10 +396,9 @@ class Widget_ProductCategoryItem extends Widget_Base
             $term_context = 'product_cat_' . $term->term_id;
             $transparent_image = 0;
 
-            if (function_exists('get_field')) {
                 $transparent_image = get_field('thumbnail_transparent', $term_context);
                 $background_color = (string) get_field('background', $term_context);
-            }
+                $thumbnail_icon = get_field('thumbnail_icon', $term_context);
 
             if (is_array($transparent_image)) {
                 $transparent_image_id = (int) ($transparent_image['ID'] ?? $transparent_image['id'] ?? 0);
@@ -410,6 +410,7 @@ class Widget_ProductCategoryItem extends Widget_Base
             $cat_thumb_id = false;
             $cat_name = __('Category Name', 'freska');
             $cat_count = 0;
+            $thumbnail_icon = '';
         }
 
         $widget_classes = [
@@ -424,19 +425,37 @@ class Widget_ProductCategoryItem extends Widget_Base
                     <div class="bt-product-category--thumb">
                         <div class="bt-cover-image">
                             <?php
-                                $display_thumb_id = ($layout === 'layout-1' && $transparent_image_id) ? $transparent_image_id : (int) $cat_thumb_id;
-                                if ($display_thumb_id) {
-                                    echo wp_get_attachment_image($display_thumb_id, $settings['thumbnail_size'], false);
-                                } else {
-                                    echo '<img src="' . esc_url(wc_placeholder_img_src('woocommerce_thumbnail')) . '" alt="' . esc_html__('Awaiting product image', 'freska') . '" class="wp-post-image" />';
+                                $display_image_html = '';
+
+                                if ($layout === 'default') {
+                                  
+                                    if ($transparent_image_id) {
+                                        $display_image_html = wp_get_attachment_image($transparent_image_id, $settings['thumbnail_size'], false);
+                                    }
+                                } elseif ($layout === 'layout-1') {
+                                   
+                                    if ($cat_thumb_id) {
+                                        $display_image_html = wp_get_attachment_image($cat_thumb_id, $settings['thumbnail_size'], false);
+                                    }
+                                } elseif ($layout === 'layout-2') {
+                                  
+                                    if (!empty($thumbnail_icon)) {
+                                        $display_image_html = '<img src="' . esc_url($thumbnail_icon) . '" alt="' . esc_attr($cat_name) . '" />';
+                                    }
                                 }
+
+                                if (empty($display_image_html)) {
+                                    $display_image_html = '<img src="' . esc_url(wc_placeholder_img_src('woocommerce_thumbnail')) . '" alt="' . esc_html__('Awaiting product image', 'freska') . '" class="wp-post-image" />';
+                                }
+
+                                echo $display_image_html;
                             ?>
                         </div>
                     </div>
                     <div class="bt-product-category--content">
                         <h5 class="bt-product-category--name">
                             <?php echo esc_html($cat_name); ?>
-                            <?php if ($layout !== 'layout-1'): ?>
+                            <?php if (!in_array($layout, ['layout-1', 'layout-2'])): ?>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M15.936 5V13.125C15.936 13.3736 15.8372 13.6121 15.6614 13.7879C15.4856 13.9637 15.2471 14.0625 14.9985 14.0625C14.7499 14.0625 14.5114 13.9637 14.3356 13.7879C14.1598 13.6121 14.061 13.3736 14.061 13.125V7.26562L5.66178 15.6633C5.48566 15.8394 5.24679 15.9383 4.99772 15.9383C4.74865 15.9383 4.50978 15.8394 4.33366 15.6633C4.15754 15.4872 4.05859 15.2483 4.05859 14.9992C4.05859 14.7501 4.15754 14.5113 4.33366 14.3352L12.7329 5.9375H6.8735C6.62486 5.9375 6.3864 5.83873 6.21059 5.66291C6.03477 5.4871 5.936 5.24864 5.936 5C5.936 4.75136 6.03477 4.5129 6.21059 4.33709C6.3864 4.16127 6.62486 4.0625 6.8735 4.0625H14.9985C15.2471 4.0625 15.4856 4.16127 15.6614 4.33709C15.8372 4.5129 15.936 4.75136 15.936 5Z"/>
                                 </svg>
@@ -458,7 +477,13 @@ class Widget_ProductCategoryItem extends Widget_Base
                                 echo '<span class="bt-product-category--count">'. $count_text .'</span>';
                             endif;
                         ?>
-                        
+                        <?php if ($layout === 'default'): ?>
+                        <span class="bt-product-category--arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M21.0459 12.7959L14.2959 19.5459C14.0846 19.7572 13.7979 19.8759 13.4991 19.8759C13.2002 19.8759 12.9135 19.7572 12.7022 19.5459C12.4908 19.3345 12.3721 19.0479 12.3721 18.749C12.3721 18.4501 12.4908 18.1635 12.7022 17.9521L17.5312 13.1249H3.75C3.45163 13.1249 3.16548 13.0064 2.9545 12.7954C2.74353 12.5844 2.625 12.2983 2.625 11.9999C2.625 11.7016 2.74353 11.4154 2.9545 11.2044C3.16548 10.9934 3.45163 10.8749 3.75 10.8749H17.5312L12.7041 6.04492C12.4927 5.83358 12.374 5.54693 12.374 5.24804C12.374 4.94916 12.4927 4.66251 12.7041 4.45117C12.9154 4.23983 13.2021 4.12109 13.5009 4.12109C13.7998 4.12109 14.0865 4.23983 14.2978 4.45117L21.0478 11.2012C21.1527 11.3058 21.2359 11.4302 21.2926 11.5671C21.3493 11.704 21.3784 11.8507 21.3782 11.9989C21.3781 12.1471 21.3486 12.2938 21.2916 12.4305C21.2346 12.5673 21.1511 12.6914 21.0459 12.7959Z" fill="#1A1A1A"/>
+                            </svg>  
+                        </span>
+                        <?php endif; ?>
                     </div>
                 </a>
             </div>

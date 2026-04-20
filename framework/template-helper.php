@@ -1138,3 +1138,4 @@ if (!function_exists('freska_add_preloader')) {
 	}
 	add_action('wp_body_open', 'freska_add_preloader', 1);
 }
+

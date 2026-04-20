@@ -53,6 +53,8 @@ class ElementorWidgets
 			'instagram-posts',
 			'recent-posts',
 			'banner-product-slider',
+			'bundle-cart',
+			'discount',
 			'page-breadcrumb',
 			'mobile-menu',
 			'megamenu',
@@ -333,6 +335,7 @@ class ElementorWidgets
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductTestimonialItem\Widget_ProductTestimonialItem());
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\LocationList\Widget_LocationList());
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\Discount\Widget_Discount());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\BundleCart\Widget_BundleCart());
 
 
 		// Register widgets that require Elementor Pro
