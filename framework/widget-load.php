@@ -96,8 +96,8 @@ class ElementorWidgets
 			'accordion-hotspot',
 			'product-testimonial-item',
 			'location-list',
-			'discount'
-
+			'discount',
+			'product-mini-item'
 		);
 
 		return $this->widgets;
@@ -298,6 +298,7 @@ class ElementorWidgets
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductCategoryItem\Widget_ProductCategoryItem());
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductWishlist\Widget_ProductWishlist());
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductCompare\Widget_ProductCompare());
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\ProductMiniItem\Widget_ProductMiniItem());
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\AccountLogin\Widget_AccountLogin());
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\SearchProduct\Widget_SearchProduct());
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Widgets\SearchProductStyle1\Widget_SearchProductStyle1());

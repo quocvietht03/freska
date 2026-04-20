@@ -21,27 +21,20 @@
 }
 
 .__product-label-style {
-  height: 22px;
+  @extend .__caption_1_typo;
   display: inline-block;
   padding: 0 8px;
   color: $color-primary;
-  background: $color-secondary;
-  border-radius: 30px;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 22px;
+  background: $color-red;
+  border-radius: 4px;
   text-transform: capitalize;
   @media (min-width: 400px) and (max-width: $break-xs) {
-    font-size: 11px;
     padding: 0 5px;
-    line-height: 18px;
-    height: 18px;
   }
+
   &.best-seller,
   &.featured {
-    color: #fff;
-    background: $color-red;
+    color: $color-white;
   }
   &.hot-deal,
   &.on-sale {

@@ -1907,7 +1907,8 @@
     }
 
     &:hover {
-      background-color: $color-secondary;
+      background-color: $color-accent;
+      color: $color-white;
     }
   }
 

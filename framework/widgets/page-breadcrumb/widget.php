@@ -4,11 +4,7 @@ namespace FreskaElementorWidgets\Widgets\PageBreadcrumb;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
-use Elementor\Repeater;
-use Elementor\Utils;
 use Elementor\Group_Control_Typography;
-use Elementor\Group_Control_Border;
-use Elementor\Group_Control_Box_Shadow;
 
 class Widget_PageBreadcrumb extends Widget_Base
 {
@@ -53,31 +49,43 @@ class Widget_PageBreadcrumb extends Widget_Base
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
-					'{{WRAPPER}} .bt-page-breadcrumb svg' => 'fill: {{VALUE}};',
+					'{{WRAPPER}} .bt-page-breadcrumb .bt-deli svg path' => 'stroke: {{VALUE}};',
 				],
 			]
 		);
 
 		$this->add_control(
-			'text_color',
+			'home_text_color',
 			[
-				'label' => __('Text Color', 'freska'),
+				'label' => __('Home Text Color', 'freska'),
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
-					'{{WRAPPER}} .bt-page-breadcrumb' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .bt-page-breadcrumb a.bt-home' => 'color: {{VALUE}};',
 				],
 			]
 		);
 
 		$this->add_control(
-			'text_color_hover',
+			'home_text_color_hover',
 			[
-				'label' => __('Text Color Hover', 'freska'),
+				'label' => __('Home Text Color Hover', 'freska'),
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
-					'{{WRAPPER}} .bt-page-breadcrumb' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .bt-page-breadcrumb a.bt-home:hover' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'current_text_color',
+			[
+				'label' => __('Current Page Text Color', 'freska'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '',
+				'selectors' => [
+					'{{WRAPPER}} .bt-page-breadcrumb .current' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -88,7 +96,7 @@ class Widget_PageBreadcrumb extends Widget_Base
 				'name' => 'text_typography',
 				'label' => __('Text Typography', 'freska'),
 				'default' => '',
-				'selector' => '{{WRAPPER}} .bt-page-breadcrumb',
+				'selector' => '{{WRAPPER}} .bt-page-breadcrumb, {{WRAPPER}} .bt-page-breadcrumb a.bt-home',
 			]
 		);
 
@@ -111,16 +119,16 @@ class Widget_PageBreadcrumb extends Widget_Base
 				<?php
 				$home_text = esc_html__('Homepage', 'freska');
 				$delimiter = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-								<g clip-path="url(#clip0_4145_9660)">
-									<path d="M3.125 10H16.875" stroke="#A0A0A0" stroke-linecap="round" stroke-linejoin="round"/>
-									<path d="M11.25 4.375L16.875 10L11.25 15.625" stroke="#A0A0A0" stroke-linecap="round" stroke-linejoin="round"/>
-								</g>
-								<defs>
-									<clipPath id="clip0_4145_9660">
-									<rect width="20" height="20" fill="white"/>
-									</clipPath>
-								</defs>
-								</svg>';
+                                <g clip-path="url(#clip0_4145_9660)">
+                                    <path d="M3.125 10H16.875" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M11.25 4.375L16.875 10L11.25 15.625" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_4145_9660">
+                                    <rect width="20" height="20" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                                </svg>';
 				echo freska_page_breadcrumb($home_text, $delimiter);
 				?>
 			</div>

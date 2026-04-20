@@ -88,26 +88,26 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Image_Size::get_type(),
 			[
-				'name' => 'thumbnail',
-				'label' => __('Image Size', 'freska'),
+				'name'       => 'thumbnail',
+				'label'      => __('Image Size', 'freska'),
 				'show_label' => true,
-				'default' => 'medium_large',
-				'exclude' => ['custom'],
+				'default'    => 'medium_large',
+				'exclude'    => ['custom'],
 			]
 		);
 
 		$this->add_responsive_control(
 			'image_ratio',
 			[
-				'label' => __('Image Ratio', 'freska'),
-				'type' => Controls_Manager::SLIDER,
+				'label'   => __('Image Ratio', 'freska'),
+				'type'    => Controls_Manager::SLIDER,
 				'default' => [
-					'size' => 0.75,
+					'size' => 0.666,
 				],
-				'range' => [
+				'range'   => [
 					'px' => [
-						'min' => 0.3,
-						'max' => 2,
+						'min'  => 0.3,
+						'max'  => 2,
 						'step' => 0.01,
 					],
 				],
@@ -120,8 +120,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'enable_title_limit',
 			[
-				'label' => esc_html__('Enable Title Limit', 'freska'),
-				'type' => Controls_Manager::SWITCHER,
+				'label'   => esc_html__('Enable Title Limit', 'freska'),
+				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			]
 		);
@@ -129,15 +129,15 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'title_line_limit',
 			[
-				'label' => esc_html__('Title Limit Lines', 'freska'),
-				'type' => Controls_Manager::SLIDER,
-				'range' => [
+				'label'     => esc_html__('Title Limit Lines', 'freska'),
+				'type'      => Controls_Manager::SLIDER,
+				'range'     => [
 					'px' => [
 						'min' => 1,
 						'max' => 10,
 					],
 				],
-				'default' => [
+				'default'   => [
 					'size' => 2,
 				],
 				'selectors' => [
@@ -152,20 +152,20 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'show_excerpt',
 			[
-				'label' => esc_html__('Show Excerpt', 'freska'),
-				'type' => Controls_Manager::SWITCHER,
-				'label_on' => esc_html__('Show', 'freska'),
+				'label'     => esc_html__('Show Excerpt', 'freska'),
+				'type'      => Controls_Manager::SWITCHER,
+				'label_on'  => esc_html__('Show', 'freska'),
 				'label_off' => esc_html__('Hide', 'freska'),
-				'default' => 'yes',
+				'default'   => 'yes',
 			]
 		);
 
 		$this->add_control(
 			'enable_excerpt_limit',
 			[
-				'label' => esc_html__('Enable Excerpt Limit', 'freska'),
-				'type' => Controls_Manager::SWITCHER,
-				'default' => 'yes',
+				'label'     => esc_html__('Enable Excerpt Limit', 'freska'),
+				'type'      => Controls_Manager::SWITCHER,
+				'default'   => 'yes',
 				'condition' => [
 					'show_excerpt' => 'yes'
 				],
@@ -175,22 +175,22 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'excerpt_line_limit',
 			[
-				'label' => esc_html__('Excerpt Limit Lines', 'freska'),
-				'type' => Controls_Manager::SLIDER,
-				'range' => [
+				'label'     => esc_html__('Excerpt Limit Lines', 'freska'),
+				'type'      => Controls_Manager::SLIDER,
+				'range'     => [
 					'px' => [
 						'min' => 1,
 						'max' => 10,
 					],
 				],
-				'default' => [
+				'default'   => [
 					'size' => 2,
 				],
 				'selectors' => [
 					'{{WRAPPER}} .bt-post--excerpt' => '-webkit-line-clamp: {{SIZE}};display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden;',
 				],
 				'condition' => [
-					'show_excerpt' => 'yes',
+					'show_excerpt'         => 'yes',
 					'enable_excerpt_limit' => 'yes'
 				],
 			]
@@ -199,45 +199,46 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'show_read_more',
 			[
-				'label' => esc_html__('Show Read More', 'freska'),
-				'type' => Controls_Manager::SWITCHER,
-				'label_on' => esc_html__('Show', 'freska'),
+				'label'     => esc_html__('Show Read More', 'freska'),
+				'type'      => Controls_Manager::SWITCHER,
+				'label_on'  => esc_html__('Show', 'freska'),
 				'label_off' => esc_html__('Hide', 'freska'),
-				'default' => 'no',
+				'default'   => 'no',
 			]
 		);
+
 		$this->add_control(
 			'read_more_text',
 			[
-				'label' => esc_html__('Read More Text', 'freska'),
-				'type' => Controls_Manager::TEXT,
-				'default' => esc_html__('Read More', 'freska'),
+				'label'     => esc_html__('Read More Text', 'freska'),
+				'type'      => Controls_Manager::TEXT,
+				'default'   => esc_html__('Read More', 'freska'),
 				'condition' => [
 					'show_read_more' => 'yes',
 				],
 			]
 		);
+
 		$this->end_controls_section();
 	}
 
 	protected function register_style_section_controls()
 	{
-
 		$this->start_controls_section(
 			'section_style_image',
 			[
 				'label' => esc_html__('Image', 'freska'),
-				'tab' => Controls_Manager::TAB_STYLE,
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
 		$this->add_control(
 			'img_border_radius',
 			[
-				'label' => __('Border Radius', 'freska'),
-				'type' => Controls_Manager::DIMENSIONS,
+				'label'      => __('Border Radius', 'freska'),
+				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', '%'],
-				'selectors' => [
+				'selectors'  => [
 					'{{WRAPPER}} .bt-post--featured .bt-cover-image' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
@@ -255,7 +256,7 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Css_Filter::get_type(),
 			[
-				'name' => 'thumbnail_filters',
+				'name'     => 'thumbnail_filters',
 				'selector' => '{{WRAPPER}} .bt-post--featured img',
 			]
 		);
@@ -287,7 +288,7 @@ class Widget_PostLoopItem extends Widget_Base
 			'section_style_content',
 			[
 				'label' => esc_html__('Content', 'freska'),
-				'tab' => Controls_Manager::TAB_STYLE,
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -295,16 +296,16 @@ class Widget_PostLoopItem extends Widget_Base
 			'date_style',
 			[
 				'label' => __('Date', 'freska'),
-				'type' => Controls_Manager::HEADING,
+				'type'  => Controls_Manager::HEADING,
 			]
 		);
 
 		$this->add_control(
 			'date_color',
 			[
-				'label' => __('Color', 'freska'),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
+				'label'     => __('Color', 'freska'),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} .bt-post--publish' => 'color: {{VALUE}};',
 				],
@@ -314,8 +315,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name' => 'date_typography',
-				'label' => __('Typography', 'freska'),
+				'name'     => 'date_typography',
+				'label'    => __('Typography', 'freska'),
 				'selector' => '{{WRAPPER}} .bt-post--publish',
 			]
 		);
@@ -323,8 +324,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'category_style',
 			[
-				'label' => __('Category', 'freska'),
-				'type' => Controls_Manager::HEADING,
+				'label'     => __('Category', 'freska'),
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
 		);
@@ -332,9 +333,9 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'category_color',
 			[
-				'label' => __('Color', 'freska'),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
+				'label'     => __('Color', 'freska'),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} .bt-post--category a' => 'color: {{VALUE}};',
 				],
@@ -344,9 +345,9 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'category_color_hover',
 			[
-				'label' => __('Color Hover', 'freska'),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
+				'label'     => __('Color Hover', 'freska'),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
 				'selectors' => [
 					'{{WRAPPER}} .bt-post--category a:hover' => 'color: {{VALUE}};',
 				],
@@ -356,8 +357,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name' => 'category_typography',
-				'label' => __('Typography', 'freska'),
+				'name'     => 'category_typography',
+				'label'    => __('Typography', 'freska'),
 				'selector' => '{{WRAPPER}} .bt-post--category a',
 			]
 		);
@@ -365,8 +366,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'post_title_heading',
 			[
-				'label' => esc_html__('Title', 'freska'),
-				'type' => Controls_Manager::HEADING,
+				'label'     => esc_html__('Title', 'freska'),
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
 		);
@@ -374,8 +375,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'title_color',
 			[
-				'label' => esc_html__('Color', 'freska'),
-				'type' => Controls_Manager::COLOR,
+				'label'     => esc_html__('Color', 'freska'),
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .bt-post--title a' => 'color: {{VALUE}};',
 				],
@@ -385,8 +386,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'title_hover_color',
 			[
-				'label' => esc_html__('Color Hover', 'freska'),
-				'type' => Controls_Manager::COLOR,
+				'label'     => esc_html__('Color Hover', 'freska'),
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .bt-post--title a:hover' => 'color: {{VALUE}};',
 				],
@@ -396,8 +397,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name' => 'title_typography',
-				'label' => esc_html__('Typography', 'freska'),
+				'name'     => 'title_typography',
+				'label'    => esc_html__('Typography', 'freska'),
 				'selector' => '{{WRAPPER}} .bt-post--title a',
 			]
 		);
@@ -406,8 +407,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'post_excerpt_heading',
 			[
-				'label' => esc_html__('Excerpt', 'freska'),
-				'type' => Controls_Manager::HEADING,
+				'label'     => esc_html__('Excerpt', 'freska'),
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => [
 					'show_excerpt' => 'yes',
@@ -418,8 +419,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'excerpt_color',
 			[
-				'label' => esc_html__('Color', 'freska'),
-				'type' => Controls_Manager::COLOR,
+				'label'     => esc_html__('Color', 'freska'),
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .bt-post--excerpt' => 'color: {{VALUE}};',
 				],
@@ -432,9 +433,9 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name' => 'excerpt_typography',
-				'label' => esc_html__('Typography', 'freska'),
-				'selector' => '{{WRAPPER}} .bt-post--excerpt',
+				'name'      => 'excerpt_typography',
+				'label'     => esc_html__('Typography', 'freska'),
+				'selector'  => '{{WRAPPER}} .bt-post--excerpt',
 				'condition' => [
 					'show_excerpt' => 'yes',
 				],
@@ -445,8 +446,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'read_more_button_heading',
 			[
-				'label' => esc_html__('Read More Button', 'freska'),
-				'type' => Controls_Manager::HEADING,
+				'label'     => esc_html__('Read More Button', 'freska'),
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => [
 					'show_read_more' => 'yes',
@@ -457,8 +458,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'read_more_color',
 			[
-				'label' => esc_html__('Color', 'freska'),
-				'type' => Controls_Manager::COLOR,
+				'label'     => esc_html__('Color', 'freska'),
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .bt-post--button a' => 'color: {{VALUE}};',
 				],
@@ -471,8 +472,8 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_control(
 			'read_more_hover_color',
 			[
-				'label' => esc_html__('Color Hover', 'freska'),
-				'type' => Controls_Manager::COLOR,
+				'label'     => esc_html__('Color Hover', 'freska'),
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .bt-post--button a:hover' => 'color: {{VALUE}};',
 				],
@@ -485,9 +486,9 @@ class Widget_PostLoopItem extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name' => 'read_more_typography',
-				'label' => esc_html__('Typography', 'freska'),
-				'selector' => '{{WRAPPER}} .bt-post--button a',
+				'name'      => 'read_more_typography',
+				'label'     => esc_html__('Typography', 'freska'),
+				'selector'  => '{{WRAPPER}} .bt-post--button a',
 				'condition' => [
 					'show_read_more' => 'yes',
 				],
@@ -507,9 +508,9 @@ class Widget_PostLoopItem extends Widget_Base
 	{
 		$settings = $this->get_settings_for_display();
 		$template_args = [
-			'image-size'   => $settings['thumbnail_size'],
-			'excerpt'      => $settings['show_excerpt'],
-			'read_more'    => $settings['show_read_more'],
+			'image-size'     => $settings['thumbnail_size'],
+			'excerpt'        => $settings['show_excerpt'],
+			'read_more'      => $settings['show_read_more'],
 			'read_more_text' => $settings['read_more_text'],
 		];
 ?>
