@@ -69,6 +69,20 @@ class Widget_ProductLoopItem extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'layout',
+            [
+                'label'   => esc_html__( 'Layout Style', 'freska' ),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'default',
+                'options' => [
+                    'default' => esc_html__( 'Default', 'freska' ),
+                    'layout-1' => esc_html__( 'Style 1', 'freska' ),
+                    'layout-2' => esc_html__( 'Style 2', 'freska' ),
+                ],
+            ]
+        );
+
 		$options = $this->get_supported_products();
 		$this->add_control(
 			'product_id',
@@ -138,6 +152,9 @@ class Widget_ProductLoopItem extends Widget_Base
 				'default'      => '',
 				'separator'    => 'before',
 				'description'  => esc_html__('Note: Enable "Manage stock?" in product settings to display stock bar', 'freska'),
+				'condition'   => [
+					'enable_manual_prd' => 'yes',
+				],
 			]
 		);
 
@@ -250,42 +267,48 @@ class Widget_ProductLoopItem extends Widget_Base
 		
 		$settings = $this->get_settings_for_display();
 		$enable_process_stock = isset($settings['enable_process_stock']) ? $settings['enable_process_stock'] : '';
+		$layout = !empty($settings['layout']) ? $settings['layout'] : 'default';
 
 		?>
-		<div class="bt-elwg-product-loop-item <?php echo esc_attr($settings['content_text_align']); ?>">
+		<div class="bt-elwg-product-loop-item bt-elwg-product-loop-item--<?php echo esc_attr($layout); ?> <?php echo esc_attr($settings['content_text_align']); ?>">
 			<?php
+				$has_product = false; 
 				if($settings['enable_manual_prd'] === 'yes' && !empty($settings['product_id'])) {
 					$product_id = (int) $settings['product_id'];
-
 					$query = new \WP_Query([
 						'post_type'      => 'product',
 						'p'              => $product_id,
 						'posts_per_page' => 1,
 					]);
+
 					if ($query->have_posts())  {
-						while ($query->have_posts()) { $query->the_post();
+						while ($query->have_posts()) { 
+							$query->the_post();
 							global $product;
+							$product = wc_get_product(get_the_ID()); 
 
 							if (empty($product) || ! $product->is_visible()) {
 								get_template_part('woocommerce/content', 'product-placeholder');
 							} else {
+								$has_product = true;
 								wc_get_template('content-product.php', array('enable_process_stock' => $enable_process_stock));
 							}
 						}
 					} else {
 						get_template_part('woocommerce/content', 'product-placeholder');
 					}
+					
+					wp_reset_postdata();
+
 				} else {
 					global $product;
-				
 					if (empty($product) || ! $product->is_visible()) {
 						get_template_part('woocommerce/content', 'product-placeholder');
 					} else {
+						$has_product = true;
 						wc_get_template('content-product.php', array('enable_process_stock' => $enable_process_stock));
 					}
 				}
-
-				
 			?>
 		</div>
 		<?php
