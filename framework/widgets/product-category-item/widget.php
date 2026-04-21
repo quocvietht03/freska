@@ -425,30 +425,35 @@ class Widget_ProductCategoryItem extends Widget_Base
                     <div class="bt-product-category--thumb">
                         <div class="bt-cover-image">
                             <?php
-                                $display_image_html = '';
-
-                                if ($layout === 'default') {
-                                  
-                                    if ($transparent_image_id) {
-                                        $display_image_html = wp_get_attachment_image($transparent_image_id, $settings['thumbnail_size'], false);
-                                    }
-                                } elseif ($layout === 'layout-1') {
-                                   
-                                    if ($cat_thumb_id) {
-                                        $display_image_html = wp_get_attachment_image($cat_thumb_id, $settings['thumbnail_size'], false);
-                                    }
-                                } elseif ($layout === 'layout-2') {
-                                  
-                                    if (!empty($thumbnail_icon)) {
-                                        $display_image_html = '<img src="' . esc_url($thumbnail_icon) . '" alt="' . esc_attr($cat_name) . '" />';
-                                    }
+                            $display_image_html = '';
+                           if ($layout === 'default') {
+                                if ($transparent_image_id) {
+                                    $display_image_html = wp_get_attachment_image($transparent_image_id, $settings['thumbnail_size'], false);
+                                } elseif ($cat_thumb_id) {
+                                    $display_image_html = wp_get_attachment_image($cat_thumb_id, $settings['thumbnail_size'], false);
+                                }
+                            } elseif ($layout === 'layout-1') {
+                                if ($transparent_image_id) {
+                                    $display_image_html = wp_get_attachment_image($transparent_image_id, $settings['thumbnail_size'], false);
+                                } elseif (!empty($thumbnail_icon)) {
+                                    $display_image_html = '<img src="' . esc_url($thumbnail_icon) . '" alt="' . esc_attr($cat_name) . '" />';
+                                } elseif ($cat_thumb_id) {
+                                    $display_image_html = wp_get_attachment_image($cat_thumb_id, $settings['thumbnail_size'], false);
                                 }
 
-                                if (empty($display_image_html)) {
-                                    $display_image_html = '<img src="' . esc_url(wc_placeholder_img_src('woocommerce_thumbnail')) . '" alt="' . esc_html__('Awaiting product image', 'freska') . '" class="wp-post-image" />';
+                            } elseif ($layout === 'layout-2') {
+                                if (!empty($thumbnail_icon)) {
+                                    $display_image_html = '<img src="' . esc_url($thumbnail_icon) . '" alt="' . esc_attr($cat_name) . '" />';
+                                } elseif ($transparent_image_id) {
+                                    $display_image_html = wp_get_attachment_image($transparent_image_id, $settings['thumbnail_size'], false);
+                                } elseif ($cat_thumb_id) {
+                                    $display_image_html = wp_get_attachment_image($cat_thumb_id, $settings['thumbnail_size'], false);
                                 }
-
-                                echo $display_image_html;
+                            }
+                            if (empty($display_image_html)) {
+                                $display_image_html = '<img src="' . esc_url(wc_placeholder_img_src('woocommerce_thumbnail')) . '" alt="' . esc_html__('Awaiting product image', 'freska') . '" class="wp-post-image" />';
+                            }
+                            echo $display_image_html;
                             ?>
                         </div>
                     </div>
@@ -465,11 +470,11 @@ class Widget_ProductCategoryItem extends Widget_Base
                             if ($settings['show_count'] === 'yes'):
 
                                 if( !empty($settings['count_unit'])) {
-                                    if ($cat_count == 1) {
-                                        $count_text = sprintf('%s ' . $settings['count_unit'], number_format_i18n($cat_count));
-                                    } else {
-                                        $count_text = sprintf('%s ' . $settings['count_unit'] . 's', number_format_i18n($cat_count));
+                                    $unit = $settings['count_unit'];
+                                    if ($cat_count !== 1 && strtolower(substr($unit, -1)) !== 's') {
+                                        $unit .= 's';
                                     }
+                                    $count_text = sprintf('%s ' . $unit, number_format_i18n($cat_count));
                                 } else {
                                     $count_text = sprintf( _n( '%s item', '%s items', $cat_count, 'freska' ), number_format_i18n( $cat_count ) );
                                 }

@@ -146,16 +146,17 @@ class Widget_BundleCart extends Widget_Base
     protected function register_style_content_section_controls()
     {
         $this->start_controls_section(
-            'section_style',
+            'section_style_header',
             [
-                'label' => __('Style', 'freska'),
+                'label' => __('Header Style', 'freska'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
+
         $this->add_control(
             'content_position',
             [
-                'label' => __('Content Position', 'freska'),
+                'label' => __('Content Alignment', 'freska'),
                 'type' => Controls_Manager::CHOOSE,
                 'options' => [
                     'left' => [
@@ -178,67 +179,140 @@ class Widget_BundleCart extends Widget_Base
                 ],
             ]
         );
+
+        $this->add_control(
+            'sub_heading_style_heading',
+            [
+                'label' => __('Sub Heading', 'freska'),
+                'type' => Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
         $this->add_control(
             'sub_heading_color',
             [
-                'label' => __('Sub Heading Color', 'freska'),
+                'label' => __('Color', 'freska'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .bt-bundle-cart__list-products .bt-list-header .bt-sub-heading' => 'color: {{VALUE}};',
                 ],
             ]
         );
+
         $this->add_group_control(
             Group_Control_Typography::get_type(),
             [
                 'name'     => 'sub_heading_typography',
-                'label'    => __('Typography', 'freska'),
-                'default'  => '',
                 'selector' => '{{WRAPPER}} .bt-bundle-cart__list-products .bt-list-header .bt-sub-heading',
             ]
         );
+
+        $this->add_control(
+            'heading_style_heading',
+            [
+                'label' => __('Main Heading', 'freska'),
+                'type' => Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
         $this->add_control(
             'heading_color',
             [
-                'label' => __('Heading Color', 'freska'),
+                'label' => __('Color', 'freska'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .bt-bundle-cart__list-products .bt-list-header .bt-heading' => 'color: {{VALUE}};',
                 ],
             ]
         );
+
         $this->add_group_control(
             Group_Control_Typography::get_type(),
             [
                 'name' => 'heading_typography',
-                'label' => __('Typography', 'freska'),
-                'default'  => '',
                 'selector' => '{{WRAPPER}} .bt-bundle-cart__list-products .bt-list-header .bt-heading',
             ]
         );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'section_style_products',
+            [
+                'label' => __('Products List Style', 'freska'),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'list_style_heading',
+            [
+                'label' => __('List Container Style', 'freska'),
+                'type' => Controls_Manager::HEADING,
+            ]
+        );
+
+        $this->add_control(
+            'list_background_color',
+            [
+                'label' => __('Background Color', 'freska'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .bt-bundle-cart-product-list' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'list_padding',
+            [
+                'label' => __('Padding', 'freska'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .bt-bundle-cart-product-list' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'list_border_radius',
+            [
+                'label' => __('Border Radius', 'freska'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .bt-bundle-cart-product-list' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'separator' => 'after',
+            ]
+        );
+
         $this->add_control(
             'category_style_heading',
             [
                 'label' => __('Category', 'freska'),
                 'type' => Controls_Manager::HEADING,
-                'separator' => 'before',
             ]
         );
+
         $this->add_control(
             'category_color',
             [
                 'label' => __('Color', 'freska'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-category' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .bt-product-category, {{WRAPPER}} .bt-product-category a' => 'color: {{VALUE}};',
                 ],
             ]
         );
+
         $this->add_group_control(
             Group_Control_Typography::get_type(),
             [
                 'name' => 'category_typography',
-                'label' => __('Typography', 'freska'),
                 'selector' => '{{WRAPPER}} .bt-product-category',
             ]
         );
@@ -246,11 +320,12 @@ class Widget_BundleCart extends Widget_Base
         $this->add_control(
             'title_style_heading',
             [
-                'label' => __('Title', 'freska'),
+                'label' => __('Product Title', 'freska'),
                 'type' => Controls_Manager::HEADING,
                 'separator' => 'before',
             ]
         );
+
         $this->add_control(
             'title_color',
             [
@@ -261,11 +336,22 @@ class Widget_BundleCart extends Widget_Base
                 ],
             ]
         );
+
+        $this->add_control(
+            'title_hover_color',
+            [
+                'label' => __('Hover Color', 'freska'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .bt-product-name a:hover' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
         $this->add_group_control(
             Group_Control_Typography::get_type(),
             [
                 'name' => 'title_typography',
-                'label' => __('Typography', 'freska'),
                 'selector' => '{{WRAPPER}} .bt-product-name a',
             ]
         );
@@ -273,46 +359,157 @@ class Widget_BundleCart extends Widget_Base
         $this->add_control(
             'price_style_heading',
             [
-                'label' => __('Price', 'freska'),
+                'label' => __('Pricing', 'freska'),
                 'type' => Controls_Manager::HEADING,
                 'separator' => 'before',
             ]
         );
+
         $this->add_control(
             'price_color',
             [
-                'label' => __('Color', 'freska'),
+                'label' => __('Sale Price Color', 'freska'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .bt-price .woocommerce-Price-amount' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .bt-price .woocommerce-Price-amount, {{WRAPPER}} .bt-price ins .woocommerce-Price-amount' => 'color: {{VALUE}};',
                 ],
             ]
         );
+
         $this->add_group_control(
             Group_Control_Typography::get_type(),
             [
                 'name' => 'price_typography',
-                'label' => __('Typography', 'freska'),
-                'selector' => '{{WRAPPER}} .bt-price .woocommerce-Price-amount',
+                'selector' => '{{WRAPPER}} .bt-price .woocommerce-Price-amount, {{WRAPPER}} .bt-price ins .woocommerce-Price-amount',
             ]
         );
 
         $this->add_control(
             'old_price_color',
             [
-                'label' => __('Old Price Color', 'freska'),
+                'label' => __('Regular Price Color', 'freska'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .bt-price del .woocommerce-Price-amount' => 'color: {{VALUE}};',
                 ],
             ]
         );
+
         $this->add_group_control(
             Group_Control_Typography::get_type(),
             [
                 'name' => 'old_price_typography',
-                'label' => __('Old Price Typography', 'freska'),
                 'selector' => '{{WRAPPER}} .bt-price del .woocommerce-Price-amount',
+            ]
+        );
+
+        $this->end_controls_section();
+
+   
+        $this->start_controls_section(
+            'section_style_button',
+            [
+                'label' => __('Button Style', 'freska'),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'button_typography',
+                'selector' => '{{WRAPPER}} .bt-button-add-set-to-cart',
+            ]
+        );
+
+        $this->start_controls_tabs('tabs_button_style');
+
+        $this->start_controls_tab(
+            'tab_button_normal',
+            [
+                'label' => __('Normal', 'freska'),
+            ]
+        );
+
+        $this->add_control(
+            'button_text_color',
+            [
+                'label' => __('Text Color', 'freska'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .bt-button-add-set-to-cart' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'button_bg_color',
+            [
+                'label' => __('Background Color', 'freska'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .bt-button-add-set-to-cart' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+            'tab_button_hover',
+            [
+                'label' => __('Hover', 'freska'),
+            ]
+        );
+
+        $this->add_control(
+            'button_hover_text_color',
+            [
+                'label' => __('Text Color', 'freska'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .bt-button-add-set-to-cart:hover' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'button_hover_bg_color',
+            [
+                'label' => __('Background Color', 'freska'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .bt-button-add-set-to-cart:hover' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        $this->add_control(
+            'button_border_radius',
+            [
+                'label' => __('Border Radius', 'freska'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .bt-button-add-set-to-cart' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'button_padding',
+            [
+                'label' => __('Padding', 'freska'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .bt-button-add-set-to-cart' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
             ]
         );
 
