@@ -6365,6 +6365,7 @@
         overflow: hidden;
         .bt-member-image {
           position: relative;
+          overflow: hidden;
           .bt-cover-image {
             border-radius: 16px;
             transition: transform 0.4s ease;
@@ -8648,6 +8649,7 @@
             flex-direction: row-reverse;
             align-items: center;
             gap: 8px;
+            margin: 0 0 0 0;
            
             del {
               @extend .__body_typo;
@@ -8927,6 +8929,18 @@
             p.stock {
               margin: 0;
             }
+
+            &-description {
+              p {
+              @extend .__body_typo;
+              margin: 12px 0 0 0;
+              color: $color-text;
+              }
+            } 
+
+            &-availability {
+              margin: 12px 0 0 0;
+            }
           }
           .woocommerce-variation-add-to-cart {
             margin: 28px 0 0 0;
@@ -8975,11 +8989,9 @@
                 }
               }
               &--value {
-                .bt-select-options {
-                  display: flex;
-                  flex-wrap: wrap;
-                  gap: 12px;
-                }
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;       
 
                 .bt-item-value {
                   @extend .__title_typo;
@@ -9387,6 +9399,23 @@
             gap: 6px 12px;
             img {
               display: block;
+            }
+          }
+        }
+
+        .bt-product-view-full-details {
+          a {
+            @extend .__title_typo;
+            color: $color-primary;
+            text-transform: capitalize;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            transition: 0.3s ease-in-out;
+
+            @media (min-width: $break-sm) {
+              &:hover {
+                border-bottom: 2px solid $color-primary;
+              }
             }
           }
         }

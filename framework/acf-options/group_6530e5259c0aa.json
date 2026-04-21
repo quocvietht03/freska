@@ -1604,9 +1604,7 @@
                                 "mattress_type": "Mattress Type",
                                 "price": "Price",
                                 "customer_rating": "Customer Rating",
-                                "text_editor": "Text Editor",
-                                "pa_size": "Size",
-                                "pa_color": "Color"
+                                "text_editor": "Text Editor"
                             },
                             "default_value": false,
                             "return_format": "value",

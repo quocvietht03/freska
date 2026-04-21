@@ -4,11 +4,7 @@ namespace FreskaElementorWidgets\Widgets\ProductShowcaseStyle2;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
-use Elementor\Group_Control_Image_Size;
-use Elementor\Group_Control_Css_Filter;
-use Elementor\Group_Control_Typography;
-use Elementor\Group_Control_Border;
-use Elementor\Group_Control_Box_Shadow;
+
 
 class Widget_ProductShowcaseStyle2 extends Widget_Base
 {
@@ -46,8 +42,8 @@ class Widget_ProductShowcaseStyle2 extends Widget_Base
 		]);
 
 		$options = [];
-		foreach ( $products as $product ) {
-			$options[ $product->get_id() ] = $product->get_name();
+		foreach ($products as $product) {
+			$options[$product->get_id()] = $product->get_name();
 		}
 
 		return $options;
@@ -77,10 +73,10 @@ class Widget_ProductShowcaseStyle2 extends Widget_Base
 			[
 				'label' => __('Select Product', 'freska'),
 				'type' => Controls_Manager::SELECT2,
-				'options' => $options, // id => title
+				'options' => $options,
 				'label_block' => true,
 				'multiple' => false,
-				'default'     => ! empty( $options ) ? array_key_first( $options ) : '',
+				'default'     => ! empty($options) ? array_key_first($options) : '',
 			]
 		);
 
@@ -88,7 +84,7 @@ class Widget_ProductShowcaseStyle2 extends Widget_Base
 			'image_ratio',
 			[
 				'label' => __('Image Ratio', 'freska'),
-				'type' => Controls_Manager::SLIDER, 
+				'type' => Controls_Manager::SLIDER,
 				'default' => [
 					'size' => 1,
 				],
@@ -106,8 +102,21 @@ class Widget_ProductShowcaseStyle2 extends Widget_Base
 			]
 		);
 
+		$this->add_control(
+			'show_view_details',
+			[
+				'label'        => __('Show View Full Details', 'freska'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __('Show', 'freska'),
+				'label_off'    => __('Hide', 'freska'),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			]
+		);
+
 		$this->end_controls_section();
 	}
+
 	protected function register_controls()
 	{
 		$this->register_layout_section_controls();
@@ -120,8 +129,7 @@ class Widget_ProductShowcaseStyle2 extends Widget_Base
 		}
 
 		$settings = $this->get_settings_for_display();
-	  
-		
+
 		$products = $settings['products'];
 
 		if (empty($products)) {
@@ -198,7 +206,6 @@ class Widget_ProductShowcaseStyle2 extends Widget_Base
 										$attachment_ids = array();
 									}
 								}
-								// If variation doesn't have custom image, use default product gallery (already set above)
 							}
 						}
 					}
@@ -232,11 +239,11 @@ class Widget_ProductShowcaseStyle2 extends Widget_Base
 												?>
 											</div>
 											<div class="swiper-button-prev"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-												<path d="M15.5312 18.9698C15.6009 19.0395 15.6562 19.1222 15.6939 19.2132C15.7316 19.3043 15.751 19.4019 15.751 19.5004C15.751 19.599 15.7316 19.6965 15.6939 19.7876C15.6562 19.8786 15.6009 19.9614 15.5312 20.031C15.4615 20.1007 15.3788 20.156 15.2878 20.1937C15.1967 20.2314 15.0991 20.2508 15.0006 20.2508C14.902 20.2508 14.8045 20.2314 14.7134 20.1937C14.6224 20.156 14.5396 20.1007 14.47 20.031L6.96996 12.531C6.90023 12.4614 6.84491 12.3787 6.80717 12.2876C6.76943 12.1966 6.75 12.099 6.75 12.0004C6.75 11.9019 6.76943 11.8043 6.80717 11.7132C6.84491 11.6222 6.90023 11.5394 6.96996 11.4698L14.47 3.96979C14.6107 3.82906 14.8016 3.75 15.0006 3.75C15.1996 3.75 15.3905 3.82906 15.5312 3.96979C15.6719 4.11052 15.751 4.30139 15.751 4.50042C15.751 4.69944 15.6719 4.89031 15.5312 5.03104L8.5609 12.0004L15.5312 18.9698Z"/>
-											</svg></div>
+													<path d="M15.5312 18.9698C15.6009 19.0395 15.6562 19.1222 15.6939 19.2132C15.7316 19.3043 15.751 19.4019 15.751 19.5004C15.751 19.599 15.7316 19.6965 15.6939 19.7876C15.6562 19.8786 15.6009 19.9614 15.5312 20.031C15.4615 20.1007 15.3788 20.156 15.2878 20.1937C15.1967 20.2314 15.0991 20.2508 15.0006 20.2508C14.902 20.2508 14.8045 20.2314 14.7134 20.1937C14.6224 20.156 14.5396 20.1007 14.47 20.031L6.96996 12.531C6.90023 12.4614 6.84491 12.3787 6.80717 12.2876C6.76943 12.1966 6.75 12.099 6.75 12.0004C6.75 11.9019 6.76943 11.8043 6.80717 11.7132C6.84491 11.6222 6.90023 11.5394 6.96996 11.4698L14.47 3.96979C14.6107 3.82906 14.8016 3.75 15.0006 3.75C15.1996 3.75 15.3905 3.82906 15.5312 3.96979C15.6719 4.11052 15.751 4.30139 15.751 4.50042C15.751 4.69944 15.6719 4.89031 15.5312 5.03104L8.5609 12.0004L15.5312 18.9698Z" />
+												</svg></div>
 											<div class="swiper-button-next"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-												<path d="M17.031 12.531L9.53104 20.031C9.46136 20.1007 9.37863 20.156 9.28759 20.1937C9.19654 20.2314 9.09896 20.2508 9.00042 20.2508C8.90187 20.2508 8.80429 20.2314 8.71324 20.1937C8.6222 20.156 8.53947 20.1007 8.46979 20.031C8.40011 19.9614 8.34483 19.8786 8.30712 19.7876C8.26941 19.6965 8.25 19.599 8.25 19.5004C8.25 19.4019 8.26941 19.3043 8.30712 19.2132C8.34483 19.1222 8.40011 19.0395 8.46979 18.9698L15.4401 12.0004L8.46979 5.03104C8.32906 4.89031 8.25 4.69944 8.25 4.50042C8.25 4.30139 8.32906 4.11052 8.46979 3.96979C8.61052 3.82906 8.80139 3.75 9.00042 3.75C9.19944 3.75 9.39031 3.82906 9.53104 3.96979L17.031 11.4698C17.1008 11.5394 17.1561 11.6222 17.1938 11.7132C17.2316 11.8043 17.251 11.9019 17.251 12.0004C17.251 12.099 17.2316 12.1966 17.1938 12.2876C17.1561 12.3787 17.1008 12.4614 17.031 12.531Z" fill="#183F91"/>
-											</svg></div>
+													<path d="M17.031 12.531L9.53104 20.031C9.46136 20.1007 9.37863 20.156 9.28759 20.1937C9.19654 20.2314 9.09896 20.2508 9.00042 20.2508C8.90187 20.2508 8.80429 20.2314 8.71324 20.1937C8.6222 20.156 8.53947 20.1007 8.46979 20.031C8.40011 19.9614 8.34483 19.8786 8.30712 19.7876C8.26941 19.6965 8.25 19.599 8.25 19.5004C8.25 19.4019 8.26941 19.3043 8.30712 19.2132C8.34483 19.1222 8.40011 19.0395 8.46979 18.9698L15.4401 12.0004L8.46979 5.03104C8.32906 4.89031 8.25 4.69944 8.25 4.50042C8.25 4.30139 8.32906 4.11052 8.46979 3.96979C8.61052 3.82906 8.80139 3.75 9.00042 3.75C9.19944 3.75 9.39031 3.82906 9.53104 3.96979L17.031 11.4698C17.1008 11.5394 17.1561 11.6222 17.1938 11.7132C17.2316 11.8043 17.251 11.9019 17.251 12.0004C17.251 12.099 17.2316 12.1966 17.1938 12.2876C17.1561 12.3787 17.1008 12.4614 17.031 12.531Z" />
+												</svg></div>
 										</div>
 										<div class="woocommerce-product-gallery__slider-thumbs">
 											<div class="swiper-wrapper">
@@ -283,6 +290,13 @@ class Widget_ProductShowcaseStyle2 extends Widget_Base
 								do_action('freska_woocommerce_template_single_add_to_cart');
 								?>
 							</div>
+							<?php if ('yes' === $settings['show_view_details']) : ?>
+								<div class="bt-product-view-full-details">
+									<a href="<?php echo esc_url($product_link); ?>">
+										<?php echo esc_html__('View Full Details', 'freska'); ?>
+									</a>
+								</div>
+							<?php endif; ?>
 						</div>
 					</div>
 			<?php
