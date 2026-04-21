@@ -403,11 +403,15 @@ class Widget_BundleCart extends Widget_Base
                                         $is_in_stock = $product->is_in_stock();
                                         $out_of_stock_class = !$is_in_stock ? ' out-of-stock' : '';
                             ?>
-                                        <li class="bt-bundle-cart-product-list__item<?php echo esc_attr($out_of_stock_class); ?>"
+                                        <li class="bt-bundle-cart-product-list__item bt-hotspot-product-list__item<?php echo esc_attr($out_of_stock_class); ?>"
                                             data-product-currency="<?php echo esc_attr($product_currencySymbol); ?>"
                                             data-product-default-price="<?php echo esc_attr($product->get_sale_price() ? $product->get_sale_price() : $product->get_regular_price()); ?>"
                                             data-product-id="<?php echo esc_attr($product_id); ?>"
-                                            data-in-stock="<?php echo esc_attr($is_in_stock ? '1' : '0'); ?>">
+                                            data-in-stock="<?php echo esc_attr($is_in_stock ? '1' : '0'); ?>"
+                                            data-product-html-price-default="<?php echo esc_attr($product->get_price_html()); ?>"
+                                            <?php if ($product->is_type('variable')) : ?>
+                                            data-product-default-attributes="<?php echo esc_attr(wp_json_encode($product->get_default_attributes())); ?>"
+                                            <?php endif; ?>>
                                             <?php if ($settings['show_numbers'] === 'yes') : ?>
                                                 <div class="bt-number-product">
                                                     <?php echo esc_html($index); ?>
@@ -453,11 +457,11 @@ class Widget_BundleCart extends Widget_Base
                                                 </div>
 
                                                 <?php
-                                                $price_class = $product->is_type( 'variable' ) ? 'bt-product-variable' : '';
+                                                $price_class = $product->is_type('variable') ? 'bt-product-variable' : '';
                                                 $price_html  = $product->get_price_html();
                                                 ?>
-                                                <p class="bt-price <?php echo esc_attr( $price_class ); ?>">
-                                                    <?php echo wp_kses_post( $price_html ); ?>
+                                                <p class="bt-price <?php echo esc_attr($price_class); ?>">
+                                                    <?php echo wp_kses_post($price_html); ?>
                                                 </p>
                                             </div>
                                         </li>
