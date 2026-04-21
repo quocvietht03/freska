@@ -395,7 +395,6 @@ class Widget_ProductCategoryItem extends Widget_Base
             $cat_count = intval($term->count);
             $term_context = 'product_cat_' . $term->term_id;
             $transparent_image = 0;
-
                 $transparent_image = get_field('thumbnail_transparent', $term_context);
                 $background_color = (string) get_field('background', $term_context);
                 $thumbnail_icon = get_field('thumbnail_icon', $term_context);

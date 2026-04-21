@@ -925,7 +925,7 @@ if (!function_exists('freska_woocommerce_custom_attributes')) {
 					?>
 					<div class="bt-attributes--value bt-value-select">
 						<div class="bt-select-box">
-							<!-- <div class="bt-select-display" tabindex="0"><?php //echo esc_html($selected_display_name ? $selected_display_name : __('Choose an option', 'freska')); ?></div> -->
+							<div class="bt-select-display" tabindex="0"><?php echo esc_html($selected_display_name ? $selected_display_name : __('Choose an option', 'freska')); ?></div>
 							<div class="bt-select-options">
 								<?php
 								foreach ($ordered_options as $option) :
