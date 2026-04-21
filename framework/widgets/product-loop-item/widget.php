@@ -140,6 +140,76 @@ class Widget_ProductLoopItem extends Widget_Base
 			]
 		);
 
+		$this->add_responsive_control(
+			'item_gap',
+			[
+				'label' => esc_html__( 'Items Gap', 'freska' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'vw', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .bt-elwg-product-loop-item--layout-1 .woocommerce-loop-product' => 'gap: {{SIZE}}{{UNIT}};',
+				],
+				'condition' => [
+					'layout' => 'layout-1',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'cta_right_offset',
+			[
+				'label' => esc_html__( 'Icon Right Offset', 'freska' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'vw', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => -50,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .bt-elwg-product-loop-item--layout-1 .bt-add-to-cart' => 'right: {{SIZE}}{{UNIT}} !important;',
+				],
+				'condition' => [
+					'layout' => 'layout-1',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'cta_top_offset',
+			[
+				'label' => esc_html__( 'Icon Top Offset', 'freska' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'vw', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .bt-elwg-product-loop-item--layout-1 .bt-add-to-cart' => 'top: {{SIZE}}{{UNIT}} !important;',
+				],
+				'condition' => [
+					'layout' => 'layout-1',
+				],
+			]
+		);
+
 		$this->add_control(
 			'enable_process_stock',
 			[

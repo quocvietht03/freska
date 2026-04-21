@@ -2942,25 +2942,40 @@
   @extend .__bt-loop-product-style;
   &.left {
     .woocommerce-loop-product__infor {
-      align-items: flex-start;
+      text-align: left ;
+      > * {
+        margin-right: auto ;
+      }
     }
-    .woocommerce-loop-product__title {
-      text-align: left;
+    .woocommerce-loop-product__title,
+    .woocommerce-loop-product__categories,
+    .bt-product-rating,
+    .price {
+      text-align: left ;
+      justify-content: flex-start ;
     }
   }
   &.center {
     .woocommerce-loop-product__infor {
+      text-align: center ;
       align-items: center;
     }
-    .woocommerce-loop-product__title {
+    .woocommerce-loop-product__title,
+    .woocommerce-loop-product__categories,
+    .bt-product-rating {
       text-align: center;
     }
   }
   &.right {
     .woocommerce-loop-product__infor {
-      align-items: flex-end;
+      text-align: right;
+      > * {
+        margin-left: auto;
+      }
     }
-    .woocommerce-loop-product__title {
+    .woocommerce-loop-product__title,
+    .woocommerce-loop-product__categories,
+    .bt-product-rating {
       text-align: right;
     }
   }
@@ -2974,20 +2989,34 @@
     max-width: 200px;
   }
 
+    .woocommerce-loop-product{
+        &__infor {
+        .bt-product-rating {
+            .star-rating {
+                order: 1;
+            }
+        }
+      }
+    }
+
   &--layout-1 {
-    width: 100%;
+    width: 100% !important;
 
     .woocommerce-loop-product {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap:20px;
+      display: flex !important;
+      flex-direction: row !important;
+      direction: ltr !important; 
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      gap: 20px;
       padding: 0;
       position: relative; 
       padding-right: 60px;
+      width: 100% !important;
 
 
       &__thumbnail {
+        order: 1 !important; 
         width: 100%;
         max-width: 118px;
         flex-shrink: 0;
@@ -3010,12 +3039,16 @@
       }
 
       &__infor {
+        order: 2 !important;
         padding: 0;
         gap: 4px;
         flex-grow: 1;
         .woocommerce-loop-product__title {
           @extend .__title_typo;
-          @extend .__bt-max-line-ellipsis ;
+          @extend .__bt-max-line-ellipsis;
+          @media (max-width: $break-xs) {
+            -webkit-line-clamp: 1;
+          }
           text-decoration: none;
           &:hover {
             text-decoration: underline !important;
@@ -3028,8 +3061,13 @@
         .bt-product-rating {
             .star-rating {
                 width: 95px;
+                @media (max-width: $break-xs) {
+                    width: 89px;
+                    font-size: 15px;
+                }
             }
             &--count {
+                 order: 2;
                 font-size: 14px;
             }
         }
@@ -3098,17 +3136,17 @@
                     
                     &::after {
                         background-image: url("../images/loading.svg");
-                        animation: bt-spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                        animation: bt-spin 1s linear infinite;
                         position: absolute;
                         top: 0 !important;
                         left: 0 !important;
                         right: 0 !important;
                         bottom: 0 !important;
                         margin: auto;
-                        width: 20px !important;
-                        height: 20px !important;
-                        max-width: 20px !important;
-                        max-height: 20px !important;
+                        width: 15px !important;
+                        height: 15px !important;
+                        max-width: 15px !important;
+                        max-height: 15px !important;
                     }
                 }
                 &.added {
@@ -3123,49 +3161,44 @@
             }
 
           .added_to_cart {
-          width: 40px;
-          height: 40px;
-          border-radius: 40px !important;
-          border: 1px solid $color-line !important ;
-          background: $color-white !important;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          transition: all 0.3s ease;
-          box-sizing: border-box;
-          font-size: 0;
-         
-         
+                width: 40px ;
+                height: 40px ;
+                border-radius: 40px !important;
+                border: 1px solid $color-accent !important;
+                background: $color-accent !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                transition: all 0.3s ease;
+                box-sizing: border-box;
+                font-size: 0;
 
-          &::after {
-            content: "";
-            width: 20px;
-            height: 20px;
-            background-image: url("../images/view-cart.svg");
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            display: block;
-            transition: all 0.2s ease;
-            filter: brightness(0);  
-            }
+                &::after {
+                    content: "";
+                    width: 20px;
+                    height: 20px;
+                    background-image: url("../images/view-cart.svg");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: contain;
+                    display: block;
+                    transition: all 0.2s ease;
+                    filter: brightness(0) invert(1) !important;
+                }
 
-          &:hover {
-            background: $color-accent !important;
-            border-color: $color-accent !important;
-            &::after {
-                filter: brightness(0) invert(1) !important; 
+                &:hover {
+                    opacity: 0.85;
+                    &::after { filter: brightness(0) invert(1); }
+                }
             }
-          }
         }
       }
     }
 
-      @keyframes bt-spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-      }
+    @keyframes bt-spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
     }
   }
 }
