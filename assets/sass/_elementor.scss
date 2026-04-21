@@ -4895,12 +4895,16 @@
         background: var(--bt-category-bg, #d6ead6);
         padding: 24px 20px 20px;
         overflow: hidden;
-        transition: all 0.3s ease-out;
+        transition: all 0.5s ease-out;
+
+        .bt-product-category--thumb .bt-cover-image img {
+          transition: transform 0.5s ease-out;
+        }
+
         &:hover {
-          transform: translateY(-5px);
           .bt-product-category {
              &--thumb .bt-cover-image img {
-              transform: none;
+              transform: scale(1.03);
             }
           }
         }
