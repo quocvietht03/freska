@@ -151,12 +151,12 @@
     .bt-text {
       overflow-wrap: break-word;
       word-break: break-word;
-      p {
-        @extend .__body_typo;
-      }
       width: 100%;
       margin: 12px 0;
       color: $color-primary;
+      p {
+        @extend .__body_typo;
+      }
       > *:first-child {
         margin-top: 0;
       }
