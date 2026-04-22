@@ -1602,13 +1602,9 @@
                                 "brand": "Brand",
                                 "price": "Price",
                                 "customer_rating": "Customer Rating",
-<<<<<<< HEAD
                                 "text_editor": "Text Editor",
                                 "shortcode": "Shortcode",
                                 "pa_weight": "Weight"
-=======
-                                "text_editor": "Text Editor"
->>>>>>> 496349811be25ef0890fa5a004af3f4612e2038b
                             },
                             "default_value": false,
                             "return_format": "value",
@@ -2949,5 +2945,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1776845513
+    "modified": 1776852042
 }
