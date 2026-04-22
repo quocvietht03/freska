@@ -65,14 +65,22 @@ if (empty($product) || ! $product->is_visible()) {
 		do_action('freska_woocommerce_template_loop_product_variation', isset($parent_id) ? $parent_id : null);
 
 		do_action('freska_woocommerce_template_loop_price');
-		
+
 		// Display stock bar if enable_process_stock is enabled
 		if (!empty($enable_process_stock) && $enable_process_stock === 'yes') {
 			do_action('freska_woocommerce_template_loop_process_stock');
 		}
-		
+
 		do_action('freska_woocommerce_template_loop_product_short_description');
+		echo '<div class="woocommerce-loop-product__actions">';
+		if (!$product->is_type('variable')) {
+			do_action('freska_woocommerce_template_loop_add_to_cart');
+		} else {
+			do_action('freska_woocommerce_template_loop_add_to_cart_variable');
+		}
+		do_action('freska_woocommerce_template_loop_list_cta_button');
+		echo '</div>';
 		?>
-		<?php do_action('freska_woocommerce_template_loop_list_cta_button'); ?>
+
 	</div>
 </div>

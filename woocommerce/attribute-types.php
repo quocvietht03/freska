@@ -652,11 +652,10 @@ if (!function_exists('freska_find_and_update_field')) {
 					'search_form' => 'Search Form',
 					'categories' => 'Product Categories',
 					'brand' => 'Brand',
-					'comfort_scale' => 'Comfort Scale',
-					'mattress_type' => 'Mattress Type',
 					'price' => 'Price',
 					'customer_rating' => 'Customer Rating',
-					'text_editor' => 'Text Editor'
+					'text_editor' => 'Text Editor',
+					'shortcode' => 'Shortcode'
 				);
 				
 				// Get all enabled WooCommerce attributes (including color)

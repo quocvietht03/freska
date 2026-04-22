@@ -4986,6 +4986,9 @@
         font-weight: 400;
         line-height: 1.57;
         color: $color-text;
+        display: block !important;
+        direction: ltr !important;
+        unicode-bidi: normal !important;
       }
     }
   }
@@ -12491,7 +12494,7 @@
   }
 }
 
-// Image Border Styles - About us
+// Image Border Styles - Bottom Right Corner
 .bt-image-border.bt-image-border::before {
   top: -15px;
   left: auto;
@@ -12511,6 +12514,34 @@
   left: -15px;
   border-bottom-right-radius: 20px;
   box-shadow: 5px 5px 0 5px var(--bt-border-bg);
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: transparent;
+}
+
+// Image Border Styles - Bottom Left Corner
+.bt-image-border-2.bt-image-border-2::before {
+  top: -15px;
+  right: auto;
+  left: 0px;                          
+  border-top-right-radius: 15px;      
+  box-shadow: 5px -5px 0 5px var(--bt-border-bg); 
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: transparent;
+  transform: rotate(180deg);
+}
+
+.bt-image-border-2::after {
+  bottom: 0; 
+  right: -15px;                      
+  left: auto;
+  border-bottom-left-radius: 20px;    
+  box-shadow: -5px 5px 0 5px var(--bt-border-bg);  
   content: "";
   position: absolute;
   width: 15px;
