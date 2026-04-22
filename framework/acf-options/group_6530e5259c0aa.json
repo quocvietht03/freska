@@ -4,7 +4,7 @@
     "fields": [
         {
             "key": "field_6530ebf032adb",
-            "label": "General Settings", 
+            "label": "General Settings",
             "name": "",
             "aria-label": "",
             "type": "tab",
@@ -2945,5 +2945,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1776845513
+    "modified": 1776852042
 }
