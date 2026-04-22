@@ -77,9 +77,9 @@
 				const code = $(this).data('code');
 				if (code) {
 					const performCopy = () => {
-						$tooltip.addClass('bt-visible');
+						$discountWrap.addClass('is-copied');
 						setTimeout(function () {
-							$tooltip.removeClass('bt-visible');
+							$discountWrap.removeClass('is-copied');
 						}, 1000);
 					};
 
