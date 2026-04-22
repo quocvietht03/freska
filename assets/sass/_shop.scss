@@ -5727,7 +5727,6 @@
         .single_variation_wrap {
           display: flex;
           flex-direction: column;
-          margin-top: 15px;
           .woocommerce-variation-add-to-cart {
             margin-top: 20px;
           }
@@ -11417,8 +11416,8 @@
               &::after {
                 content: "" !important;
                 position: absolute;
-                top: 36%;
-                left: 48%;
+                top: 50%;
+                left: 50%;
                 width: 16px;
                 height: 16px;
                 z-index: 9999;
