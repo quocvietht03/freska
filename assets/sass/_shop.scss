@@ -3123,19 +3123,19 @@
         position: absolute !important;
         right: 0;
         top: 60%;
-        transform: translateY(-50%);
+        transform: translateY(-50%) !important;
         z-index: 10;
         display: block;
         opacity: 1;
         visibility: visible;
-        transition: none;
+        transition: none !important;
         a {
           width: 40px;
           height: 40px;
           border-radius: 40px !important;
           border: 1px solid $color-line;
           background: $color-white;
-          font-size: 0;
+          font-size: 0 !important;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -3147,7 +3147,7 @@
           left: 0;
           right: 0;
           box-sizing: border-box;
-
+          transform: none !important;
           &::before {
             content: "";
             width: 20px;

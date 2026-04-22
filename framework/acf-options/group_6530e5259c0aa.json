@@ -4,7 +4,7 @@
     "fields": [
         {
             "key": "field_6530ebf032adb",
-            "label": "General Settings",
+            "label": "General Settings", 
             "name": "",
             "aria-label": "",
             "type": "tab",
@@ -1602,13 +1602,9 @@
                                 "brand": "Brand",
                                 "price": "Price",
                                 "customer_rating": "Customer Rating",
-<<<<<<< HEAD
                                 "text_editor": "Text Editor",
                                 "shortcode": "Shortcode",
                                 "pa_weight": "Weight"
-=======
-                                "text_editor": "Text Editor"
->>>>>>> 496349811be25ef0890fa5a004af3f4612e2038b
                             },
                             "default_value": false,
                             "return_format": "value",
