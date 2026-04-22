@@ -6377,6 +6377,7 @@
         overflow: hidden;
         .bt-member-image {
           position: relative;
+          overflow: hidden;
           .bt-cover-image {
             border-radius: 16px;
             transition: transform 0.4s ease;
@@ -8623,7 +8624,7 @@
             align-items: center;
             gap: 4px;
             .star-rating {
-              color: $color-accent;
+              color: $color-secondary;
             }
             .bt-product-rating--average {
               @extend .__body_typo;
@@ -8660,6 +8661,7 @@
             flex-direction: row-reverse;
             align-items: center;
             gap: 8px;
+            margin: 0 0 0 0;
            
             del {
               @extend .__body_typo;
@@ -8790,16 +8792,8 @@
             }
             @media (min-width: $break-sm) {
               &:hover:not(.disabled) {
-                background-color: $color-accent;
-                color: $color-white;
-                background-image: linear-gradient(
-                  90deg,
-                  transparent 25%,
-                  rgba(233, 233, 233, 0.39) 50%,
-                  transparent 75%
-                );
+                background-color: $color-secondary;
                 background-size: 200% 100%;
-                animation: shimmer 1.5s infinite linear;
               }
             }
             @media (max-width: $break-xs), (min-width: 768px) and (max-width: $break-md) {
@@ -8866,8 +8860,8 @@
               &::after {
                 content: "";
                 position: absolute;
-                top: 30% !important;
-                left: 30%;
+                top: 50% !important;
+                left: 50%;
                 right: auto !important;
                 bottom: auto;
                 width: 20px;
@@ -8891,9 +8885,9 @@
                 }
               }
               &.added {
-                background: $color-accent;
-                border-color: $color-accent;
-                color: $color-white;
+                background: $color-secondary;
+                border-color: $color-secondary;
+                color: $color-primary;
               }
               &.bt-product-wishlist-btn {
                 .bt-icon-added {
@@ -8906,7 +8900,7 @@
                 &.added {
                   .bt-icon-added {
                     display: block;
-                    color: $color-white;
+                    color: $color-primary;
                   }
                   .bt-icon-not-added {
                     display: none;
@@ -8929,7 +8923,6 @@
           .single_variation_wrap {
             display: flex;
             flex-direction: column;
-            margin-top: 15px;
           }
           .woocommerce-variation {
             width: 100%;
@@ -8939,6 +8932,18 @@
             line-height: 26px;
             p.stock {
               margin: 0;
+            }
+
+            &-description {
+              p {
+              @extend .__body_typo;
+              margin: 12px 0 0 0;
+              color: $color-text;
+              }
+            } 
+
+            &-availability {
+              margin: 12px 0 0 0;
             }
           }
           .woocommerce-variation-add-to-cart {
@@ -9148,8 +9153,9 @@
                     display: block;
                   }
                   &.active {
-                    border-color: $color-secondary;
-                    outline-color: $color-secondary;
+                    border-color: $color-primary;
+                    background-color: $color-primary;
+                    color: $color-white;
                   }
                   &.disabled {
                     opacity: 0.3;
@@ -9305,15 +9311,11 @@
               border: none;
               width: 100%;
               display: inline-block !important;
+              transition: none;
               &.disabled {
                 background: $color-red !important;
               }
-              @media (min-width: $break-sm) {
-                &:hover {
-                  background: $color-accent;
-                  color: #fff;
-                }
-              }
+             
               @media (max-width: $break-xs), (min-width: 768px) and (max-width: $break-md) {
                 font-size: 14px;
                 padding: 10px 20px;
@@ -9654,6 +9656,23 @@
             gap: 6px 12px;
             img {
               display: block;
+            }
+          }
+        }
+
+        .bt-product-view-full-details {
+          a {
+            @extend .__title_typo;
+            color: $color-primary;
+            text-transform: capitalize;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            transition: 0.3s ease-in-out;
+
+            @media (min-width: $break-sm) {
+              &:hover {
+                border-bottom: 2px solid $color-primary;
+              }
             }
           }
         }
