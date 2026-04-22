@@ -641,4 +641,23 @@
       transform: translateY(0);
     }
   }
+
+@media (max-width: 767px) {
+  input[type="email"] {
+    padding: 4px 66px 4px 20px !important;
+  }
+
+  .gform_footer {
+    input[type="submit"],
+    button[type="submit"] {
+      font-size: 0 !important;
+      padding: 0 !important;
+      width: 40px !important;
+      height: 40px !important;
+      background-position: center !important;
+      background-size: 20px !important;
+      min-width: unset !important;
+    }
+  }
+}
 }
