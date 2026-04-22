@@ -305,7 +305,7 @@ add_filter('woocommerce_product_loop_start', function ($html) {
 }, 20);
 
 /**
- * Prevent product_brand, comfort_scale, mattress_type query params from being treated as taxonomy archive
+ * Prevent product_brand query params from being treated as taxonomy archive
  * Remove from query vars when it's just a filter parameter
  */
 function freska_remove_brand_from_query_vars($query_vars)
@@ -313,12 +313,6 @@ function freska_remove_brand_from_query_vars($query_vars)
     if (!is_admin()) {
         if (isset($_GET['product_brand']) && isset($query_vars['product_brand'])) {
             unset($query_vars['product_brand']);
-        }
-        if (isset($_GET['comfort_scale']) && isset($query_vars['comfort_scale'])) {
-            unset($query_vars['comfort_scale']);
-        }
-        if (isset($_GET['mattress_type']) && isset($query_vars['mattress_type'])) {
-            unset($query_vars['mattress_type']);
         }
     }
     return $query_vars;
@@ -462,60 +456,6 @@ function freska_should_show_products()
     }
     return true; // Default to showing products
 }
-
-function freska_register_product_taxonomy()
-{
-    $labels = [
-        'name' => __('Comfort Scale', 'freska'),
-        'singular_name' => __('Comfort Scale', 'freska'),
-        'search_items' => __('Search Comfort Scales', 'freska'),
-        'all_items' => __('All Comfort Scales', 'freska'),
-        'edit_item' => __('Edit Comfort Scale', 'freska'),
-        'update_item' => __('Update Comfort Scale', 'freska'),
-        'add_new_item' => __('Add New Comfort Scale', 'freska'),
-        'new_item_name' => __('New Comfort Scale', 'freska'),
-        'menu_name' => __('Comfort Scale', 'freska'),
-    ];
-
-    $args = array(
-        'hierarchical' => true,
-        'labels' => $labels,
-        'show_ui' => true,
-        'show_admin_column' => false,
-        'query_var' => true,
-        'show_in_rest' => true,
-        'publicly_queryable' => false,
-    );
-
-    register_taxonomy('comfort_scale', array('product'), $args);
-
-    // Mattress Type
-    $mattress_labels = [
-        'name' => __('Mattress Type', 'freska'),
-        'singular_name' => __('Mattress Type', 'freska'),
-        'search_items' => __('Search Mattress Types', 'freska'),
-        'all_items' => __('All Mattress Types', 'freska'),
-        'edit_item' => __('Edit Mattress Type', 'freska'),
-        'update_item' => __('Update Mattress Type', 'freska'),
-        'add_new_item' => __('Add New Mattress Type', 'freska'),
-        'new_item_name' => __('New Mattress Type', 'freska'),
-        'menu_name' => __('Mattress Type', 'freska'),
-    ];
-
-    $mattress_args = array(
-        'hierarchical' => true,
-        'labels' => $mattress_labels,
-        'show_ui' => true,
-        'show_admin_column' => false,
-        'query_var' => true,
-        'show_in_rest' => true,
-        'publicly_queryable' => false,
-    );
-
-    register_taxonomy('mattress_type', array('product'), $mattress_args);
-}
-
-add_action('init', 'freska_register_product_taxonomy');
 
 /**
  * Display product meta in single product page
@@ -1860,20 +1800,6 @@ function freska_products_query_args($params = array(), $limit = 9)
             'taxonomy' => 'product_brand',
             'field' => 'slug',
             'terms' => explode(',', $params['product_brand'])
-        );
-    }
-    if (isset($params['comfort_scale']) && $params['comfort_scale'] != '') {
-        $query_tax[] = array(
-            'taxonomy' => 'comfort_scale',
-            'field' => 'slug',
-            'terms' => explode(',', $params['comfort_scale'])
-        );
-    }
-    if (isset($params['mattress_type']) && $params['mattress_type'] != '') {
-        $query_tax[] = array(
-            'taxonomy' => 'mattress_type',
-            'field' => 'slug',
-            'terms' => explode(',', $params['mattress_type'])
         );
     }
     // Handle all enabled WooCommerce attributes (non-color) dynamically

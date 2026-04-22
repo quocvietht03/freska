@@ -1600,13 +1600,11 @@
                                 "search_form": "Search Form",
                                 "categories": "Product Categories",
                                 "brand": "Brand",
-                                "comfort_scale": "Comfort Scale",
-                                "mattress_type": "Mattress Type",
                                 "price": "Price",
                                 "customer_rating": "Customer Rating",
                                 "text_editor": "Text Editor",
-                                "pa_size": "Size",
-                                "pa_color": "Color"
+                                "shortcode": "Shortcode",
+                                "pa_weight": "Weight"
                             },
                             "default_value": false,
                             "return_format": "value",
@@ -1648,6 +1646,36 @@
                             "toolbar": "full",
                             "media_upload": 1,
                             "delay": 0,
+                            "parent_repeater": "field_68f5e8c0ec75e"
+                        },
+                        {
+                            "key": "field_69e882a08375b",
+                            "label": "Shortcode",
+                            "name": "shortcode",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_68f5e9b6ea2f3",
+                                        "operator": "==",
+                                        "value": "shortcode"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
                             "parent_repeater": "field_68f5e8c0ec75e"
                         }
                     ]
@@ -2915,5 +2943,7 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1773390719
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1776845513
 }
