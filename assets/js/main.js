@@ -3085,11 +3085,13 @@
 	}
 	function FreskaProductButtonStatus() {
 		var productCompare = localStorage.getItem('productcomparelocal');
-		var productCompareArray = productCompare ? productCompare.split(',') : [];
+		var productCompareArray = productCompare ? productCompare.split(',').filter(function (item) { return item !== ''; }) : [];
 		var productWishlist = localStorage.getItem('productwishlistlocal');
-		var productWishlistArray = productWishlist ? productWishlist.split(',') : [];
-		var wishlist_count = productWishlist ? productWishlist.split(',').length : 0;
+		var productWishlistArray = productWishlist ? productWishlist.split(',').filter(function (item) { return item !== ''; }) : [];
+		var wishlist_count = productWishlistArray.length;
+		var compare_count = productCompareArray.length;
 		$('.bt-mini-wishlist .wishlist_total').html(wishlist_count);
+		$('.bt-mini-compare .compare_total').html(compare_count);
 		$('.bt-product-compare-btn').each(function () {
 			var productId = $(this).data('id');
 			if (productCompareArray.includes(productId.toString())) {

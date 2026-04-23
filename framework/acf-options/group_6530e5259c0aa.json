@@ -1427,19 +1427,14 @@
                         "brand": "Brand",
                         "stock_status": "Availability",
                         "sku": "SKU",
-                        "weight": "Weight",
-                        "dimensions": "Dimensions",
-                        "color": "Color",
-                        "size": "Size"
+                        "pa_color": "Color",
+                        "pa_size": "Size",
+                        "pa_weight": "Weight"
                     },
                     "default_value": [
                         "price",
                         "rating",
-                        "stock_status",
-                        "weight",
-                        "dimensions",
-                        "color",
-                        "size"
+                        "stock_status"
                     ],
                     "return_format": "value",
                     "allow_custom": 0,
