@@ -414,11 +414,6 @@
         height: 18px;
         border: 2px rgba(0, 0, 0, 0.1) solid;
         border-top: 2px $color-primary solid;
-        position: absolute;
-        top: 70%;
-        left: 70%;
-        transform: translate(-50%, -50%);
-        z-index: 5;
       }
       input[type="submit"],
       button[type="submit"] {
@@ -467,7 +462,7 @@
           margin-left: -9px;
           z-index: 5;
           border-radius: 50%;
-          animation: effectSpinnerRotate 0.6s infinite linear;
+          animation: effectSpinnerRotate 1.5s infinite linear;
         }
         input[type="submit"],
         button[type="submit"] {
@@ -536,12 +531,19 @@
 .bt-form-newsletter,
 .bt-form-subscribes {
   .gform_confirmation_message {
-    max-width: 300px;
-    text-align: left;
+    border-radius: 12px;
+    padding: 20px;
     font-size: 16px;
     font-weight: 400;
-    line-height: 1.6;
-    color: $color-primary;
+    color:  $color-secondary;
+    background-color: $color-accent;
+  }
+  .validation_message {
+    border-radius: 12px;
+    padding: 20px;
+    color:  $color-secondary !important;
+    background-color: $color-accent;
+    max-width: 280px;
   }
 }
 
