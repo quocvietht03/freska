@@ -548,118 +548,136 @@
 }
 
 // Subscribe form
-.gform_wrapper.subscribe-form_wrapper {
-  position: relative;
+.subscribe-form_wrapper {
+  .subscribe-form {
+    position: relative;
 
-  .gfield_label {
-    @extend .__body_typo;
-    color: $color-text;
-    margin-bottom: 8px;
-    display: block;
+    &.loading {
+      .gform_footer {
+        &::after {
+          display: block;
+        }
 
-    .gfield_required_asterisk {
-      margin-left: 2px;
-      font-size: 15px;
+        input[type="submit"],
+        button[type="submit"] {
+          pointer-events: none !important;
+        }
+      }
     }
-  }
 
-  input[type="email"] {
-    @extend .__body_typo;
-    height: 52px;
-    border-radius: 999px;
-    padding: 4px 139px 4px 20px;
-    background: #f6f6f6;
-    border: 1px solid $color-line;
-    color: $color-primary;
-    box-shadow: none;
-    width: 100%;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
-
-    &::placeholder {
+    .gfield_label {
+      @extend .__body_typo;
       color: $color-text;
-    }
-  }
+      margin-bottom: 8px;
+      display: block;
 
-  // Validation error — red border on input
-  &.gform_validation_error {
-    input[type="email"] {
-      border-color: #e53935 !important;
-      background-color: #fff8f8 !important;
-    }
-  }
-
-  .gform_footer {
-    position: absolute;
-    right: 6px;
-    top: 34px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    margin: 0 !important;
-    width: auto;
-
-    input[type="submit"],
-    button[type="submit"] {
-      padding: 9px 40px 9px 20px !important;
-      border-radius: 100px !important;
-      background-color: #285E3B !important;
-      background-image: url("../images/arrow-up-right.svg");
-      background-repeat: no-repeat;
-      background-position: right 16px center;
-      background-size: 20px;
-      color: #ffffff !important;
-      font-size: 14px !important;
-      font-weight: 700 !important;
-      line-height: 157.143% !important;
-      border: none !important;
-      width: auto !important;
-      white-space: nowrap !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      box-shadow: none !important;
-      cursor: pointer !important;
-      transition: background-color 0.2s ease !important;
-      text-transform: none !important;
-      letter-spacing: 0.01em !important;
-
-      &:hover {
-        background-color: #1e4a2e !important;
-      }
-
-      &:active {
-        background-color: #163a24 !important;
+      .gfield_required_asterisk {
+        margin-left: 2px;
+        font-size: 15px;
       }
     }
-  }
 
-  @keyframes subscribe-fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
+    .gform-body {
+      input[type="email"] {
+        @extend .__body_typo;
+        height: 52px;
+        border-radius: 999px;
+        padding: 4px 139px 4px 20px;
+        background: #f6f6f6;
+        border: 1px solid $color-line;
+        color: $color-primary;
+        box-shadow: none;
+        width: 100%;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
+
+        &::placeholder {
+          color: $color-text;
+        }
+      }
     }
 
-    to {
-      opacity: 1;
-      transform: translateY(0);
+    .gform_footer {
+      position: absolute;
+      right: 6px;
+      top: 34px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      margin: 0 !important;
+      width: auto;
+
+      &::after {
+        content: "";
+        display: none;
+        width: 18px;
+        height: 18px;
+        border: 2px rgba(255, 255, 255, 0.3) solid;
+        border-top: 2px #1A1A1A solid;
+        border-radius: 50%;
+        animation: effectSpinnerRotate 0.75s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -9px;
+        margin-left: -9px;
+        z-index: 2;
+      }
+
+      input[type="submit"],
+      button[type="submit"] {
+        padding: 9px 40px 9px 20px !important;
+        border-radius: 100px !important;
+        background-color: #285E3B !important;
+        background-image: url("../images/arrow-up-right.svg") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 16px center !important;
+        background-size: 20px !important;
+        color: #ffffff !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        line-height: 157.143% !important;
+        border: none !important;
+        width: auto !important;
+        white-space: nowrap !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        box-shadow: none !important;
+        cursor: pointer !important;
+        transition: background-color 0.2s ease !important;
+        text-transform: none !important;
+        letter-spacing: 0.01em !important;
+        position: relative;
+
+        &:hover {
+          background-color: #1e4a2e !important;
+        }
+
+        &:active {
+          background-color: #163a24 !important;
+        }
+      }
+    }
+
+    @media (max-width: 767px) {
+      .gform-body {
+        input[type="email"] {
+          padding: 4px 66px 4px 20px !important;
+        }
+      }
+
+      .gform_footer {
+
+        input[type="submit"],
+        button[type="submit"] {
+          font-size: 0 !important;
+          padding: 0 !important;
+          width: 40px !important;
+          height: 40px !important;
+          background-position: center !important;
+          background-size: 20px !important;
+          min-width: unset !important;
+        }
+      }
     }
   }
-
-@media (max-width: 767px) {
-  input[type="email"] {
-    padding: 4px 66px 4px 20px !important;
-  }
-
-  .gform_footer {
-    input[type="submit"],
-    button[type="submit"] {
-      font-size: 0 !important;
-      padding: 0 !important;
-      width: 40px !important;
-      height: 40px !important;
-      background-position: center !important;
-      background-size: 20px !important;
-      min-width: unset !important;
-    }
-  }
-}
 }
