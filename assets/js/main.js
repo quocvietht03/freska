@@ -4558,11 +4558,19 @@
 			return $widget.find('.swiper')[0] || $widget.find('.elementor-swiper, .swiper-container')[0] || $widget[0];
 		}
 
-		function applyMobileSlidesPerView() {
-			if (window.innerWidth >= 400) {
-				return;
+		function getSlidesToShowMobile($widget) {
+			var settings = $widget.data('settings') || {};
+			var value = settings.slides_to_show_mobile;
+
+			if (value === undefined || value === null || value === '') {
+				value = $widget.attr('data-slides_to_show_mobile');
 			}
 
+			value = parseInt(value, 10);
+			return isNaN(value) || value < 1 ? 1 : value;
+		}
+
+		function applyMobileSlidesPerView() {
 			$(MOBILE_SELECTOR).each(function () {
 				var $widget = $(this);
 				var swiperEl = getSwiperElement($widget);
@@ -4572,8 +4580,21 @@
 					return;
 				}
 
-				swiper.params.slidesPerView = 1;
-				swiper.params.slidesPerGroup = 1;
+				if (!swiperEl._btOriginalLoopCarouselParams) {
+					swiperEl._btOriginalLoopCarouselParams = {
+						slidesPerView: swiper.params.slidesPerView,
+						slidesPerGroup: swiper.params.slidesPerGroup
+					};
+				}
+
+				if (window.innerWidth <= 400) {
+					swiper.params.slidesPerView = 1;
+					swiper.params.slidesPerGroup = 1;
+				} else if (window.innerWidth > 400 && window.innerWidth < 768) {
+					swiper.params.slidesPerView = getSlidesToShowMobile($widget);
+					swiper.params.slidesPerGroup = 1;
+				}
+
 				if (typeof swiper.update === 'function') {
 					swiper.update();
 				}
