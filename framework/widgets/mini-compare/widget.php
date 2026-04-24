@@ -269,37 +269,6 @@ class Widget_MiniCompare extends Widget_Base
                 } ?>
             </div>
         </div>
-        <script>
-            (function() {
-                // Update compare count from localStorage
-                function updateCompareCount() {
-                    var compare_local = window.localStorage.getItem('productcomparelocal');
-                    var count = 0;
-                    if (compare_local && compare_local !== '') {
-                        var compare_arr = compare_local.split(',');
-                        count = compare_arr.filter(function(item) {
-                            return item !== '';
-                        }).length;
-                    }
-                    jQuery('.bt-mini-compare .compare_total').text(count);
-                }
-
-                // Update on page load
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', updateCompareCount);
-                } else {
-                    updateCompareCount();
-                }
-
-                // Listen for storage changes
-                window.addEventListener('storage', updateCompareCount);
-
-                // Also update when compare is modified (for same-tab updates)
-                if (typeof jQuery !== 'undefined') {
-                    jQuery(document).on('freska_compare_updated', updateCompareCount);
-                }
-            })();
-        </script>
 <?php
     }
 
