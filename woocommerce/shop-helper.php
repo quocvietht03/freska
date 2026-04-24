@@ -36,11 +36,11 @@ if (!function_exists('freska_woocommerce_template_loop_product_category')) {
     function freska_woocommerce_template_loop_product_category()
     {
         global $product;
-        
+
         if (!$product) {
             return;
         }
-        
+
         $categories = get_the_terms($product->get_id(), 'product_cat');
         if ($categories && !is_wp_error($categories)) {
             echo '<div class="woocommerce-loop-product__categories">';
@@ -218,7 +218,7 @@ if (!function_exists('freska_woocommerce_template_loop_process_stock')) {
             'status' => array('completed', 'processing'),
             'limit' => -1,
         ));
-        
+
         foreach ($orders as $order) {
             foreach ($order->get_items() as $item) {
                 if ($item->get_product_id() == $product_id || $item->get_variation_id() == $product_id) {
@@ -234,7 +234,7 @@ if (!function_exists('freska_woocommerce_template_loop_process_stock')) {
         $status_text = ($stock_status === 'instock') ? __('IN STOCK', 'freska') : __('OUT OF STOCK', 'freska');
         $status_class = ($stock_status === 'instock') ? 'in-stock' : 'out-of-stock';
 
-        ?>
+?>
         <div class="bt-product-stock-bar">
             <div class="stock-bar-wrapper">
                 <div class="stock-bar-background">
@@ -246,7 +246,7 @@ if (!function_exists('freska_woocommerce_template_loop_process_stock')) {
                 <span class="stock-status <?php echo esc_attr($status_class); ?>"><?php echo esc_html($status_text); ?></span>
             </div>
         </div>
-        <?php
+    <?php
     }
 }
 
@@ -305,7 +305,7 @@ add_filter('woocommerce_product_loop_start', function ($html) {
 }, 20);
 
 /**
- * Prevent product_brand, comfort_scale, mattress_type query params from being treated as taxonomy archive
+ * Prevent product_brand query params from being treated as taxonomy archive
  * Remove from query vars when it's just a filter parameter
  */
 function freska_remove_brand_from_query_vars($query_vars)
@@ -313,12 +313,6 @@ function freska_remove_brand_from_query_vars($query_vars)
     if (!is_admin()) {
         if (isset($_GET['product_brand']) && isset($query_vars['product_brand'])) {
             unset($query_vars['product_brand']);
-        }
-        if (isset($_GET['comfort_scale']) && isset($query_vars['comfort_scale'])) {
-            unset($query_vars['comfort_scale']);
-        }
-        if (isset($_GET['mattress_type']) && isset($query_vars['mattress_type'])) {
-            unset($query_vars['mattress_type']);
         }
     }
     return $query_vars;
@@ -463,60 +457,6 @@ function freska_should_show_products()
     return true; // Default to showing products
 }
 
-function freska_register_product_taxonomy()
-{
-    $labels = [
-        'name' => __('Comfort Scale', 'freska'),
-        'singular_name' => __('Comfort Scale', 'freska'),
-        'search_items' => __('Search Comfort Scales', 'freska'),
-        'all_items' => __('All Comfort Scales', 'freska'),
-        'edit_item' => __('Edit Comfort Scale', 'freska'),
-        'update_item' => __('Update Comfort Scale', 'freska'),
-        'add_new_item' => __('Add New Comfort Scale', 'freska'),
-        'new_item_name' => __('New Comfort Scale', 'freska'),
-        'menu_name' => __('Comfort Scale', 'freska'),
-    ];
-
-    $args = array(
-        'hierarchical' => true,
-        'labels' => $labels,
-        'show_ui' => true,
-        'show_admin_column' => false,
-        'query_var' => true,
-        'show_in_rest' => true,
-        'publicly_queryable' => false,
-    );
-
-    register_taxonomy('comfort_scale', array('product'), $args);
-
-    // Mattress Type
-    $mattress_labels = [
-        'name' => __('Mattress Type', 'freska'),
-        'singular_name' => __('Mattress Type', 'freska'),
-        'search_items' => __('Search Mattress Types', 'freska'),
-        'all_items' => __('All Mattress Types', 'freska'),
-        'edit_item' => __('Edit Mattress Type', 'freska'),
-        'update_item' => __('Update Mattress Type', 'freska'),
-        'add_new_item' => __('Add New Mattress Type', 'freska'),
-        'new_item_name' => __('New Mattress Type', 'freska'),
-        'menu_name' => __('Mattress Type', 'freska'),
-    ];
-
-    $mattress_args = array(
-        'hierarchical' => true,
-        'labels' => $mattress_labels,
-        'show_ui' => true,
-        'show_admin_column' => false,
-        'query_var' => true,
-        'show_in_rest' => true,
-        'publicly_queryable' => false,
-    );
-
-    register_taxonomy('mattress_type', array('product'), $mattress_args);
-}
-
-add_action('init', 'freska_register_product_taxonomy');
-
 /**
  * Display product meta in single product page
  */
@@ -594,7 +534,7 @@ function freska_size_guide_button_before_quantity()
     $size_guide = get_field('size_guide', 'option');
 
     if (!empty($size_guide)) {
-?>
+    ?>
         <div class="bt-size-guide-wrapper">
             <a href="#bt-size-guide-popup" class="bt-size-guide-button bt-js-open-popup-link">
                 <?php echo esc_html__('Size Guide', 'freska'); ?>
@@ -1765,7 +1705,7 @@ function freska_product_load_more_button($current_page, $total_page)
             </span>
         </button>
     </div>
-    <?php
+<?php
     return ob_get_clean();
 }
 
@@ -1860,20 +1800,6 @@ function freska_products_query_args($params = array(), $limit = 9)
             'taxonomy' => 'product_brand',
             'field' => 'slug',
             'terms' => explode(',', $params['product_brand'])
-        );
-    }
-    if (isset($params['comfort_scale']) && $params['comfort_scale'] != '') {
-        $query_tax[] = array(
-            'taxonomy' => 'comfort_scale',
-            'field' => 'slug',
-            'terms' => explode(',', $params['comfort_scale'])
-        );
-    }
-    if (isset($params['mattress_type']) && $params['mattress_type'] != '') {
-        $query_tax[] = array(
-            'taxonomy' => 'mattress_type',
-            'field' => 'slug',
-            'terms' => explode(',', $params['mattress_type'])
         );
     }
     // Handle all enabled WooCommerce attributes (non-color) dynamically
@@ -2066,381 +1992,189 @@ add_action('wp_ajax_nopriv_freska_products_filter', 'freska_products_filter');
 
 function freska_products_compare()
 {
-    $productcompare = '';
     $product_ids = array();
     $ex_items = count($product_ids) < 3 ? 3 - count($product_ids) : 0;
-    $productcompare = isset($_POST['compare_data']) ? $_POST['compare_data'] : '';
+    $productcompare = isset($_POST['compare_data']) ? sanitize_text_field(wp_unslash($_POST['compare_data'])) : '';
     if (!empty($productcompare)) {
-        $product_ids = explode(',', $productcompare);
+        $product_ids = array_filter(array_map('absint', explode(',', $productcompare)));
     }
     $ex_items = count($product_ids) < 3 ? 3 - count($product_ids) : 0;
-    ob_start();
+    $default_fields = array('short_desc', 'price', 'rating', 'brand', 'stock_status', 'sku');
     $compare_settings = get_field('compare', 'options');
-    if (!empty($compare_settings['fields_to_show_compare'])) {
-        $fields_show_compare = $compare_settings['fields_to_show_compare'];
-    } else {
-        $fields_show_compare = array('price', 'rating', 'stock_status', 'weight', 'dimensions', 'color', 'size');
-    }
-    if (!empty($product_ids)) {
+    $fields_show_compare = !empty($compare_settings['fields_to_show_compare']) && is_array($compare_settings['fields_to_show_compare'])
+        ? $compare_settings['fields_to_show_compare']
+        : $default_fields;
 
-    ?>
-        <div class="bt-table-title">
-            <h2><?php esc_html_e('Compare products', 'freska') ?></h2>
+    $field_labels = array(
+        'short_desc' => __('Short Description', 'freska'),
+        'price' => __('Price', 'freska'),
+        'rating' => __('Rating', 'freska'),
+        'brand' => __('Brand', 'freska'),
+        'stock_status' => __('Availability', 'freska'),
+        'sku' => __('SKU', 'freska'),
+    );
+
+    $valid_fields_show_compare = array();
+    foreach ((array) $fields_show_compare as $field_key) {
+        if (in_array($field_key, array('short_desc', 'price', 'rating', 'brand', 'stock_status', 'sku'), true)) {
+            $valid_fields_show_compare[] = $field_key;
+            continue;
+        }
+
+        if (taxonomy_exists($field_key)) {
+            $valid_fields_show_compare[] = $field_key;
+            continue;
+        }
+    }
+    $fields_show_compare = $valid_fields_show_compare;
+
+    foreach ((array) wc_get_attribute_taxonomies() as $attribute) {
+        $taxonomy_name = wc_attribute_taxonomy_name($attribute->attribute_name);
+        $field_labels[$taxonomy_name] = !empty($attribute->attribute_label) ? $attribute->attribute_label : $taxonomy_name;
+    }
+
+    ob_start();
+?>
+    <div class="bt-table-title">
+        <h2><?php esc_html_e('Compare products', 'freska'); ?></h2>
+    </div>
+    <div class="bt-table-compare">
+        <div class="bt-table--head">
+            <div class="bt-table--col"><?php esc_html_e('Thumbnail', 'freska'); ?></div>
+            <div class="bt-table--col"><?php esc_html_e('Product Name', 'freska'); ?></div>
+            <?php foreach ($fields_show_compare as $field_key) : ?>
+                <div class="bt-table--col<?php echo $field_key === 'color' ? ' bt-head-color' : ''; ?>"><?php echo esc_html($field_labels[$field_key] ?? $field_key); ?></div>
+            <?php endforeach; ?>
+            <div class="bt-table--col"></div>
         </div>
-        <div class="bt-wrap-compare">
-            <div class="bt-table-compare">
-                <div class="bt-table--head">
+        <div class="bt-table--body">
+            <?php if (!empty($product_ids)) : ?>
+                <?php foreach ($product_ids as $id) : ?>
+                    <?php $product = wc_get_product($id);
+                    if (!$product) {
+                        continue;
+                    } ?>
                     <?php
-                    if (!empty($fields_show_compare)) {
-                        echo '<div class="bt-table--col">' . esc_html__('Thumbnail', 'freska') . '</div>';
-                        echo '<div class="bt-table--col">' . esc_html__('Product Name', 'freska') . '</div>';
-                        if (in_array('short_desc', $fields_show_compare)) {
-                            echo '<div class="bt-table--col">' . esc_html__('Short Description', 'freska') . '</div>';
-                        }
-                        if (in_array('price', $fields_show_compare)) {
-                            echo '<div class="bt-table--col">' . esc_html__('Price', 'freska') . '</div>';
-                        }
-                        if (in_array('rating', $fields_show_compare)) {
-                            echo '<div class="bt-table--col">' . esc_html__('Rating', 'freska') . '</div>';
-                        }
-                        if (in_array('brand', $fields_show_compare)) {
-                            echo '<div class="bt-table--col">' . esc_html__('Brand', 'freska') . '</div>';
-                        }
-                        if (in_array('stock_status', $fields_show_compare)) {
-                            echo '<div class="bt-table--col">' . esc_html__('Availability', 'freska') . '</div>';
-                        }
-                        if (in_array('sku', $fields_show_compare)) {
-                            echo '<div class="bt-table--col">' . esc_html__('SKU', 'freska') . '</div>';
-                        }
-                        if (in_array('weight', $fields_show_compare)) {
-                            echo '<div class="bt-table--col">' . esc_html__('Weight', 'freska') . '</div>';
-                        }
-                        if (in_array('dimensions', $fields_show_compare)) {
-                            echo '<div class="bt-table--col">' . esc_html__('Dimensions', 'freska') . '</div>';
-                        }
-                        if (in_array('color', $fields_show_compare)) {
-                            echo '<div class="bt-table--col bt-head-color">' . esc_html__('color', 'freska') . '</div>';
-                        }
-                        if (in_array('size', $fields_show_compare)) {
-                            echo '<div class="bt-table--col">' . esc_html__('Size', 'freska') . '</div>';
+                    $product_url = get_permalink($id);
+                    $product_name = $product->get_name();
+                    $product_image = wp_get_attachment_image_src($product->get_image_id(), 'large');
+                    $product_image_url = $product_image ? $product_image[0] : wc_placeholder_img_src();
+                    $product_price = $product->get_price_html();
+                    $stock_status_custom = $product->is_on_backorder(1)
+                        ? '<p class="stock on-backorder">' . esc_html__('On Backorder', 'freska') . '</p>'
+                        : ($product->is_in_stock()
+                            ? '<p class="stock in-stock">' . esc_html__('In Stock', 'freska') . '</p>'
+                            : '<p class="stock out-of-stock">' . esc_html__('Out of Stock', 'freska') . '</p>');
+                    $brand_terms = wp_get_post_terms($id, 'product_brand', array('fields' => 'all'));
+                    $brand_links = array();
+                    foreach ($brand_terms as $brand_term) {
+                        $term_link = get_term_link($brand_term);
+                        if (!is_wp_error($term_link)) {
+                            $brand_links[] = '<a href="' . esc_url($term_link) . '">' . esc_html($brand_term->name) . '</a>';
                         }
                     }
+                    $brand_list = implode(', ', $brand_links);
                     ?>
-                    <div class="bt-table--col"></div>
-                </div>
-                <div class="bt-table--body">
-                    <?php
-                    foreach ($product_ids as $key => $id) {
-                        $product = wc_get_product($id);
-                        if ($product) {
-                            $product_url = get_permalink($id);
-                            $product_name = $product->get_name();
-                            $product_image = wp_get_attachment_image_src($product->get_image_id(), 'large');
-                            if (!$product_image) {
-                                $product_image_url = wc_placeholder_img_src();
-                            } else {
-                                $product_image_url = $product_image[0];
-                            }
-                            $product_price = $product->get_price_html();
-                            $stock_status = $product->get_stock_status();
-                            if ($stock_status == 'onbackorder') {
-                                $stock_status_custom = '<p class="stock on-backorder">' . __('On Backorder', 'freska') . '</p>';
-                            } elseif ($product->is_in_stock()) {
-                                $stock_status_custom = '<p class="stock in-stock">' . __('In Stock', 'freska') . '</p>';
-                            } else {
-                                $stock_status_custom = '<p class="stock out-of-stock">' . __('Out of Stock', 'freska') . '</p>';
-                            }
-                            $brand = wp_get_post_terms($id, 'product_brand', ['fields' => 'names']);
-                            $brand_list = !empty($brand) ? implode(', ', $brand) : '';
-
-                            $brands = wp_get_post_terms($id, 'product_brand', ['fields' => 'all']);
-                            $brand_links = [];
-                            foreach ($brands as $brand) {
-                                $brand_links[] = '<a href="' . get_term_link($brand) . '">' . esc_html($brand->name) . '</a>';
-                            }
-                            $brand_list = !empty($brand_links) ? implode(', ', $brand_links) : '';
-
-                    ?>
-                            <div class="bt-table--row">
-                                <div class="bt-table--col bt-thumb">
-                                    <div class="bt-remove-item" data-id="<?php echo esc_attr($id) ?>">
-                                        <div class="bt-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                <path d="M9.41183 8L15.6952 1.71665C15.7905 1.62455 15.8666 1.51437 15.9189 1.39255C15.9713 1.27074 15.9988 1.13972 16 1.00714C16.0011 0.874567 15.9759 0.743089 15.9256 0.620381C15.8754 0.497673 15.8013 0.386193 15.7076 0.292444C15.6138 0.198695 15.5023 0.124556 15.3796 0.0743523C15.2569 0.0241486 15.1254 -0.00111435 14.9929 3.76988e-05C14.8603 0.00118975 14.7293 0.0287337 14.6074 0.0810623C14.4856 0.133391 14.3755 0.209456 14.2833 0.30482L8 6.58817L1.71665 0.30482C1.52834 0.122941 1.27612 0.0223015 1.01433 0.0245764C0.752534 0.0268514 0.502106 0.131859 0.316983 0.316983C0.131859 0.502107 0.0268514 0.752534 0.0245764 1.01433C0.0223015 1.27612 0.122941 1.52834 0.30482 1.71665L6.58817 8L0.30482 14.2833C0.209456 14.3755 0.133391 14.4856 0.0810623 14.6074C0.0287337 14.7293 0.00118975 14.8603 3.76988e-05 14.9929C-0.00111435 15.1254 0.0241486 15.2569 0.0743523 15.3796C0.124556 15.5023 0.198695 15.6138 0.292444 15.7076C0.386193 15.8013 0.497673 15.8754 0.620381 15.9256C0.743089 15.9759 0.874567 16.0011 1.00714 16C1.13972 15.9988 1.27074 15.9713 1.39255 15.9189C1.51437 15.8666 1.62455 15.7905 1.71665 15.6952L8 9.41183L14.2833 15.6952C14.4226 15.8358 14.6006 15.9317 14.7945 15.9708C14.9885 16.0098 15.1898 15.9902 15.3726 15.9145C15.5554 15.8388 15.7115 15.7104 15.8211 15.5456C15.9306 15.3808 15.9886 15.1871 15.9877 14.9893C15.9878 14.8581 15.9619 14.7283 15.9117 14.6072C15.8615 14.4861 15.7879 14.376 15.6952 14.2833L9.41183 8Z" fill="#0C2C48" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <a href="<?php echo esc_url($product_url); ?>">
-                                        <img src="<?php echo esc_url($product_image_url); ?>" alt="<?php echo esc_attr($product_name); ?>">
-                                    </a>
+                    <div class="bt-table--row">
+                        <div class="bt-table--col bt-thumb">
+                            <div class="bt-remove-item" data-id="<?php echo esc_attr($id); ?>">
+                                <div class="bt-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M9.41183 8L15.6952 1.71665C15.7905 1.62455 15.8666 1.51437 15.9189 1.39255C15.9713 1.27074 15.9988 1.13972 16 1.00714C16.0011 0.874567 15.9759 0.743089 15.9256 0.620381C15.8754 0.497673 15.8013 0.386193 15.7076 0.292444C15.6138 0.198695 15.5023 0.124556 15.3796 0.0743523C15.2569 0.0241486 15.1254 -0.00111435 14.9929 3.76988e-05C14.8603 0.00118975 14.7293 0.0287337 14.6074 0.0810623C14.4856 0.133391 14.3755 0.209456 14.2833 0.30482L8 6.58817L1.71665 0.30482C1.52834 0.122941 1.27612 0.0223015 1.01433 0.0245764C0.752534 0.0268514 0.502106 0.131859 0.316983 0.316983C0.131859 0.502107 0.0268514 0.752534 0.0245764 1.01433C0.0223015 1.27612 0.122941 1.52834 0.30482 1.71665L6.58817 8L0.30482 14.2833C0.209456 14.3755 0.133391 14.4856 0.0810623 14.6074C0.0287337 14.7293 0.00118975 14.8603 3.76988e-05 14.9929C-0.00111435 15.1254 0.0241486 15.2569 0.0743523 15.3796C0.124556 15.5023 0.198695 15.6138 0.292444 15.7076C0.386193 15.8013 0.497673 15.8754 0.620381 15.9256C0.743089 15.9759 0.874567 16.0011 1.00714 16C1.13972 15.9988 1.27074 15.9713 1.39255 15.9189C1.51437 15.8666 1.62455 15.7905 1.71665 15.6952L8 9.41183L14.2833 15.6952C14.4226 15.8358 14.6006 15.9317 14.7945 15.9708C14.9885 16.0098 15.1898 15.9902 15.3726 15.9145C15.5554 15.8388 15.7115 15.7104 15.8211 15.5456C15.9306 15.3808 15.9886 15.1871 15.9877 14.9893C15.9878 14.8581 15.9619 14.7283 15.9117 14.6072C15.8615 14.4861 15.7879 14.376 15.6952 14.2833L9.41183 8Z" fill="#0C2C48" />
+                                    </svg></div>
+                            </div>
+                            <a href="<?php echo esc_url($product_url); ?>"><img src="<?php echo esc_url($product_image_url); ?>" alt="<?php echo esc_attr($product_name); ?>"></a>
+                        </div>
+                        <div class="bt-table--col bt-name">
+                            <h3><a href="<?php echo esc_url($product_url); ?>"><?php echo esc_html($product_name); ?></a></h3>
+                        </div>
+                        <?php foreach ($fields_show_compare as $field_key) : ?>
+                            <?php if ($field_key === 'short_desc') : ?>
+                                <div class="bt-table--col bt-description">
+                                    <p><?php echo esc_html(wp_trim_words(wp_strip_all_tags($product->get_short_description()), 20)); ?></p>
                                 </div>
-                                <div class="bt-table--col bt-name">
-                                    <h3><a href="<?php echo esc_url($product_url); ?>"><?php echo esc_html($product_name); ?></a></h3>
+                            <?php elseif ($field_key === 'price') : ?>
+                                <div class="bt-table--col bt-price">
+                                    <p><?php echo wp_kses_post($product_price); ?></p>
                                 </div>
-                                <?php if (!empty($fields_show_compare)) {
-                                    if (in_array('short_desc', $fields_show_compare)) { ?>
-                                        <div class="bt-table--col bt-description">
-                                            <?php echo '<p>' . wp_trim_words($product->get_short_description(), 20) . '</p>'; ?>
-                                        </div>
-                                    <?php } ?>
-                                    <?php if (in_array('price', $fields_show_compare)) { ?>
-                                        <div class="bt-table--col bt-price">
-                                            <?php echo '<p>' . wp_kses_post($product_price) . '</p>'; ?>
-                                        </div>
-                                    <?php } ?>
-                                    <?php if (in_array('rating', $fields_show_compare)) { ?>
-                                        <div class="bt-table--col bt-rating woocommerce">
-                                            <div class="bt-product-rating">
-                                                <?php echo wc_get_rating_html($product->get_average_rating()); ?>
-                                                <?php if ($product->get_rating_count()): ?>
-                                                    <div class="bt-product-rating--count">
-                                                        (<?php echo esc_html($product->get_rating_count()); ?>)
-                                                    </div>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
-                                    <?php if (in_array('brand', $fields_show_compare)) { ?>
-                                        <div class="bt-table--col bt-brand">
-                                            <?php echo '<p>' . $brand_list . '</p>'; ?>
-                                        </div>
-                                    <?php } ?>
-                                    <?php if (in_array('stock_status', $fields_show_compare)) { ?>
-                                        <div class="bt-table--col bt-stock">
-                                            <?php echo wp_kses_post($stock_status_custom); ?>
-                                        </div>
-                                    <?php } ?>
-                                    <?php if (in_array('sku', $fields_show_compare)) { ?>
-                                        <div class="bt-table--col bt-sku">
-                                            <?php echo '<p>' . $product->get_sku() . '</p>'; ?>
-                                        </div>
-                                    <?php } ?>
-                                    <?php if (in_array('weight', $fields_show_compare)) { ?>
-                                        <div class="bt-table--col bt-weight">
-                                            <?php echo '<p>' . $product->get_weight() . ' ' . get_option('woocommerce_weight_unit') . '</p>'; ?>
-                                        </div>
-                                    <?php } ?>
-                                    <?php if (in_array('dimensions', $fields_show_compare)) { ?>
-                                        <div class="bt-table--col bt-dimensions">
-                                            <?php echo '<p>' . wc_format_dimensions($product->get_dimensions(false)) . '</p>'; ?>
-                                        </div>
-                                    <?php } ?>
-                                    <?php if (in_array('color', $fields_show_compare)) {
-                                    ?> <div class="bt-table--col bt-color">
-                                            <?php
-                                            $color_taxonomy = freska_get_color_taxonomy();
-                                            if ($color_taxonomy) {
-                                                $colors = wp_get_post_terms($id, $color_taxonomy, ['fields' => 'ids']);
-                                                $count = 0;
-                                                foreach ($colors as $color_id) {
-                                                    if ($count >= 6) break; // Only show max 6 colors
-                                                    // Get color from metafield
-                                                    $color_value = get_term_meta($color_id, 'freska_term_color', true);
-                                                    $color = get_term($color_id, $color_taxonomy);
-                                                    if (!$color_value) {
-                                                        $color_value = $color->slug;
-                                                    }
-                                                    echo '<div class="bt-item-color"><span style="background-color: ' . esc_attr($color_value) . ';"></span>' . esc_html($color->name) . '</div>';
-                                                    $count++;
-                                                }
+                            <?php elseif ($field_key === 'rating') : ?>
+                                <div class="bt-table--col bt-rating woocommerce">
+                                    <div class="bt-product-rating"><?php echo wc_get_rating_html($product->get_average_rating()); ?><?php if ($product->get_rating_count()) : ?><div class="bt-product-rating--count">(<?php echo esc_html($product->get_rating_count()); ?>)</div><?php endif; ?></div>
+                                </div>
+                            <?php elseif ($field_key === 'brand') : ?>
+                                <div class="bt-table--col bt-brand">
+                                    <p><?php echo wp_kses_post($brand_list); ?></p>
+                                </div>
+                            <?php elseif ($field_key === 'stock_status') : ?>
+                                <div class="bt-table--col bt-stock"><?php echo wp_kses_post($stock_status_custom); ?></div>
+                            <?php elseif ($field_key === 'sku') : ?>
+                                <div class="bt-table--col bt-sku">
+                                    <p><?php echo esc_html($product->get_sku()); ?></p>
+                                </div>
+                            <?php elseif ($field_key === 'pa_color') : ?>
+                                <div class="bt-table--col bt-color">
+                                    <?php
+                                    $color_taxonomy = freska_get_color_taxonomy();
+                                    if ($color_taxonomy) {
+                                        $colors = wp_get_post_terms($id, $color_taxonomy, array('fields' => 'ids'));
+                                        $count = 0;
+                                        foreach ($colors as $color_id) {
+                                            if ($count >= 6) {
+                                                break;
                                             }
-                                            ?>
-                                        </div>
-                                    <?php
-                                    } ?>
-                                    <?php if (in_array('size', $fields_show_compare)) { ?>
-                                        <div class="bt-table--col bt-size">
-                                            <?php
-                                            $sizes = wp_get_post_terms($id, 'pa_size', ['fields' => 'names']);
-                                            echo '<p>' . (!empty($sizes) ? implode(', ', $sizes) : 'N/A') . '</p>';
-                                            ?>
-                                        </div>
-                                    <?php } ?>
-                                <?php } ?>
-                                <div class="bt-table--col bt-add-to-cart">
-                                    <?php
-                                    $product = wc_get_product($id);
-                                    if ($product->is_type('simple')) {
-                                    ?>
-                                        <a href="?add-to-cart=<?php echo esc_attr($id); ?>" aria-describedby="woocommerce_loop_add_to_cart_link_describedby_<?php echo esc_attr($id); ?>" data-quantity="1" class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo esc_attr($id); ?>" data-product_sku="" rel="nofollow"><?php echo esc_html__('Add to Cart', 'freska') ?></a>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <a href="<?php echo esc_url(get_permalink($id)); ?>" class="bt-button"><?php echo esc_html__('View Product', 'freska') ?></a>
-                                    <?php
+                                            $color_value = get_term_meta($color_id, 'freska_term_color', true);
+                                            $color = get_term($color_id, $color_taxonomy);
+                                            if ($color && !is_wp_error($color)) {
+                                                if (!$color_value) {
+                                                    $color_value = $color->slug;
+                                                }
+                                                echo '<div class="bt-item-color"><span style="background-color: ' . esc_attr($color_value) . ';"></span>' . esc_html($color->name) . '</div>';
+                                                $count++;
+                                            }
+                                        }
                                     }
                                     ?>
                                 </div>
-                            </div>
-                    <?php
-                        }
-                    }
-                    ?>
-                    <?php
-                    //     if ($ex_items > 0) {
-                    for ($i = 0; $i < 3; $i++) {
-                        $class_active = ($i < $ex_items) ? ' active' : '';
-                    ?>
-                        <div class="bt-table--row bt-product-add-compare<?php echo esc_attr($class_active); ?>">
-                            <div class="bt-table--col bt-thumb">
-                                <div class="bt-cover-image">
-                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" fill="currentColor">
-                                        <path d="M256 512a25 25 0 0 1-25-25V25a25 25 0 0 1 50 0v462a25 25 0 0 1-25 25z"></path>
-                                        <path d="M487 281H25a25 25 0 0 1 0-50h462a25 25 0 0 1 0 50z"></path>
-                                    </svg>
-                                    <span> <?php echo __('Add Product To Compare', 'freska'); ?></span>
+                            <?php elseif (taxonomy_exists($field_key)) : ?>
+                                <div class="bt-table--col bt-attribute bt-<?php echo esc_attr(sanitize_html_class(str_replace('pa_', '', $field_key))); ?>">
+                                    <?php
+                                    $attribute_terms = wp_get_post_terms($id, $field_key, array('fields' => 'all'));
+                                    $attribute_values = array();
+                                    foreach ($attribute_terms as $attribute_term) {
+                                        if ($attribute_term && !is_wp_error($attribute_term)) {
+                                            $attribute_values[] = $attribute_term->name;
+                                        }
+                                    }
+                                    echo !empty($attribute_values) ? '<p>' . esc_html(implode(', ', array_unique($attribute_values))) . '</p>' : '';
+                                    ?>
                                 </div>
-                            </div>
-                            <div class="bt-table--col bt-name"></div>
-                            <?php if (!empty($fields_show_compare)) {
-                                if (in_array('short_desc', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-description"></div>
-                                <?php } ?>
-                                <?php if (in_array('price', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-price"></div>
-                                <?php } ?>
-                                <?php if (in_array('rating', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-rating woocommerce"></div>
-                                <?php } ?>
-                                <?php if (in_array('brand', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-brand"></div>
-                                <?php } ?>
-                                <?php if (in_array('stock_status', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-stock"></div>
-                                <?php } ?>
-                                <?php if (in_array('sku', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-sku"></div>
-                                <?php } ?>
-                                <?php if (in_array('weight', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-weight"></div>
-                                <?php } ?>
-                                <?php if (in_array('dimensions', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-dimensions"></div>
-                                <?php } ?>
-                                <?php if (in_array('color', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-color"></div>
-                                <?php } ?>
-                                <?php if (in_array('size', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-size"></div>
-                                <?php } ?>
-                            <?php } ?>
-                            <div class="bt-table--col"></div>
-                        </div>
-                    <?php
-                    }
-                    //    }
-                    ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <div class="bt-table--col bt-add-to-cart"><?php if ($product->is_type('simple')) : ?><a href="?add-to-cart=<?php echo esc_attr($id); ?>" class="bt-button product_type_simple add_to_cart_button ajax_add_to_cart" data-quantity="1" data-product_id="<?php echo esc_attr($id); ?>" rel="nofollow"><?php echo esc_html__('Add to Cart', 'freska'); ?></a><?php else : ?><a href="<?php echo esc_url(get_permalink($id)); ?>" class="bt-button"><?php echo esc_html__('View Product', 'freska'); ?></a><?php endif; ?></div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <?php
+            for ($i = 0; $i < 3; $i++) :
+                $class_active = ($i < $ex_items) ? ' active' : '';
+            ?>
+                <div class="bt-table--row bt-product-add-compare<?php echo esc_attr($class_active); ?>">
+                    <div class="bt-table--col bt-thumb">
+                        <div class="bt-cover-image"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" fill="currentColor">
+                                <path d="M256 512a25 25 0 0 1-25-25V25a25 25 0 0 1 50 0v462a25 25 0 0 1-25 25z"></path>
+                                <path d="M487 281H25a25 25 0 0 1 0-50h462a25 25 0 0 1 0 50z"></path>
+                            </svg><span><?php echo esc_html__('Add Product To Compare', 'freska'); ?></span></div>
+                    </div>
+                    <div class="bt-table--col bt-name"></div>
+                    <?php foreach ($fields_show_compare as $field_key) : ?>
+                        <div class="bt-table--col bt-<?php echo esc_attr($field_key === 'short_desc' ? 'description' : $field_key); ?>"></div>
+                    <?php endforeach; ?>
+                    <div class="bt-table--col"></div>
                 </div>
-            </div>
+            <?php endfor; ?>
         </div>
+    </div>
     <?php
-        $count = count($product_ids);
-        $output['count'] = $count;
-    } else {
-    ?>
-        <div class="bt-table-title">
-            <h2><?php esc_html_e('Compare products', 'freska') ?></h2>
-        </div>
-        <div class="bt-table-compare">
-            <div class="bt-table--head">
-                <?php
-                if (!empty($fields_show_compare)) {
-                    echo '<div class="bt-table--col">' . esc_html__('Thumbnail', 'freska') . '</div>';
-                    echo '<div class="bt-table--col">' . esc_html__('Product Name', 'freska') . '</div>';
-                    if (in_array('short_desc', $fields_show_compare)) {
-                        echo '<div class="bt-table--col">' . esc_html__('Short Description', 'freska') . '</div>';
-                    }
-                    if (in_array('price', $fields_show_compare)) {
-                        echo '<div class="bt-table--col">' . esc_html__('Price', 'freska') . '</div>';
-                    }
-                    if (in_array('rating', $fields_show_compare)) {
-                        echo '<div class="bt-table--col">' . esc_html__('Rating', 'freska') . '</div>';
-                    }
-                    if (in_array('brand', $fields_show_compare)) {
-                        echo '<div class="bt-table--col">' . esc_html__('Brand', 'freska') . '</div>';
-                    }
-                    if (in_array('stock_status', $fields_show_compare)) {
-                        echo '<div class="bt-table--col">' . esc_html__('Availability', 'freska') . '</div>';
-                    }
-                    if (in_array('sku', $fields_show_compare)) {
-                        echo '<div class="bt-table--col">' . esc_html__('SKU', 'freska') . '</div>';
-                    }
-                    if (in_array('weight', $fields_show_compare)) {
-                        echo '<div class="bt-table--col">' . esc_html__('Weight', 'freska') . '</div>';
-                    }
-                    if (in_array('dimensions', $fields_show_compare)) {
-                        echo '<div class="bt-table--col">' . esc_html__('Dimensions', 'freska') . '</div>';
-                    }
-                    if (in_array('color', $fields_show_compare)) {
-                        echo '<div class="bt-table--col bt-head-color">' . esc_html__('color', 'freska') . '</div>';
-                    }
-                    if (in_array('size', $fields_show_compare)) {
-                        echo '<div class="bt-table--col">' . esc_html__('Size', 'freska') . '</div>';
-                    }
-                }
-                ?>
-                <div class="bt-table--col"></div>
-            </div>
-            <div class="bt-table--body">
-                <?php
-                if ($ex_items > 0) {
-                    for ($i = 0; $i < $ex_items; $i++) {
-                ?>
-                        <div class="bt-table--row bt-load-before bt-product-add-compare">
-                            <div class="bt-table--col bt-thumb">
-                                <div class="bt-cover-image">
-                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" fill="currentColor">
-                                        <path d="M256 512a25 25 0 0 1-25-25V25a25 25 0 0 1 50 0v462a25 25 0 0 1-25 25z"></path>
-                                        <path d="M487 281H25a25 25 0 0 1 0-50h462a25 25 0 0 1 0 50z"></path>
-                                    </svg>
-                                    <span> <?php echo __('Add Product To Compare', 'freska'); ?></span>
-                                </div>
-                            </div>
-                            <div class="bt-table--col bt-name"></div>
-                            <?php if (!empty($fields_show_compare)) {
-                                if (in_array('short_desc', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-description"></div>
-                                <?php } ?>
-                                <?php if (in_array('price', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-price"></div>
-                                <?php } ?>
-                                <?php if (in_array('rating', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-rating woocommerce"></div>
-                                <?php } ?>
-                                <?php if (in_array('brand', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-brand"></div>
-                                <?php } ?>
-                                <?php if (in_array('stock_status', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-stock"></div>
-                                <?php } ?>
-                                <?php if (in_array('sku', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-sku"></div>
-                                <?php } ?>
-                                <?php if (in_array('weight', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-weight"></div>
-                                <?php } ?>
-                                <?php if (in_array('dimensions', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-dimensions"></div>
-                                <?php } ?>
-                                <?php if (in_array('color', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-color"></div>
-                                <?php } ?>
-                                <?php if (in_array('size', $fields_show_compare)) { ?>
-                                    <div class="bt-table--col bt-size"></div>
-                                <?php } ?>
-                            <?php } ?>
-                            <div class="bt-table--col"></div>
-                        </div>
-                <?php
-                    }
-                }
-                ?>
-            </div>
-        </div>
-        <?php
-    }
     $output['product'] = ob_get_clean();
-
     wp_send_json_success($output);
     die();
 }
@@ -2460,7 +2194,7 @@ function freska_products_wishlist()
             if ($product) {
                 $product_price = $product->get_price_html();
                 $stock_status = $product->is_in_stock() ? __('In Stock', 'freska') : __('Out of Stock', 'freska');
-        ?>
+    ?>
                 <div class="bt-table--row bt-product-item">
                     <div class="bt-table--col bt-product-remove">
                         <a href="#" data-id="<?php echo esc_attr($product_id); ?>" class="bt-product-remove-wishlist">

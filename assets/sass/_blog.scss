@@ -1515,15 +1515,15 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      @media (max-width: $break-sm) {
+      @media (max-width:  $break-sm) {
+        gap:15px;
+      }
+
+      @media (max-width: 400px) {
         grid-template-columns: repeat(1, 1fr);
       }
 
 
-      @media (max-width: 400px) {
-        grid-template-columns: repeat(2, 1fr) ;
-        gap: 15px ;
-      }
     }
 
     .bt-post {
@@ -1579,10 +1579,7 @@
 
    
         @media (max-width: 400px) {
-          height: auto !important;
-          margin-bottom: 12px;
           .bt-cover-image {
-            aspect-ratio: 1/1 !important;
             border-radius: 12px;
           }
         }
@@ -1593,7 +1590,7 @@
           aspect-ratio: 4 / 3;
 
           @media (max-width: 400px) {
-            aspect-ratio: 1/1 !important;
+            aspect-ratio: 2/1 !important;
           }
         }
       }
@@ -1610,6 +1607,10 @@
         align-items: flex-start;
         padding: 24px 20px 20px 20px;
         background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 100%);
+
+        @media (max-width: 601px){
+           padding: 15px ;
+        }
 
         @media (max-width: 400px) {
           position: absolute !important;
@@ -1630,12 +1631,11 @@
         color: $color-white;
         font-family: $primary-font;
         margin-bottom: 8px;
-        @media (max-width: 400px) {
-          color: $color-white;
-          flex-wrap: wrap ; 
-          gap: 4px; 
-          margin-bottom: 10px;
+        @media (max-width: 601px) {
+           gap:5px;
+           flex-wrap: wrap;
         }
+      
 
         .bt-post--publish {
           position: relative;
@@ -1645,7 +1645,6 @@
           font-weight: 400;
           line-height: 1.571;
           @media (max-width: 400px) {
-            font-size: 12px;
             line-height: 1.2;
             padding-right: 0; 
             white-space: nowrap;
@@ -1661,7 +1660,7 @@
             transform: translateY(-53%);
             height: 11px;
             background: #fff;
-            @media (max-width: 400px) {
+            @media (max-width: 600px) {
               display: none ; 
             }
           }
@@ -1676,15 +1675,12 @@
           display: flex;
           align-items: center;
           @media (max-width: 400px) {
-            font-size: 10px;
             line-height: 1.2;
           }
-
           a {
             color: $color-white;
-
             &:hover {
-              text-decoration: none;
+              color:  $color-accent;
             }
           }
         }
@@ -1705,7 +1701,6 @@
         @media (max-width: $break-xs) {
           font-size: 18px;
               @media (max-width: 400px) {
-          font-size: 14px ;
           line-height: 1.2 ;
         }
         }

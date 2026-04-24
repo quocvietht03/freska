@@ -188,7 +188,10 @@
         li {
           display: block;
           width: 100%;
-
+          position: relative;
+          + li {
+            margin-top: 1px;
+          }
           a {
             display: block;
             padding: 10px 20px;

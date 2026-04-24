@@ -118,7 +118,6 @@ function freska_save_attribute_type($attribute_id, $data = null)
 	freska_update_acf_filter_choices();
 }
 add_action('woocommerce_attribute_added', 'freska_save_attribute_type', 10, 2);
-
 /**
  * Save attribute type when editing attribute
  */
@@ -193,6 +192,8 @@ function freska_register_existing_attribute_metafields()
 			freska_add_term_metafields($taxonomy_name, $attribute_type);
 		}
 	}
+
+	freska_update_acf_filter_choices();
 }
 add_action('init', 'freska_register_existing_attribute_metafields', 100);
 
@@ -582,11 +583,15 @@ if (!function_exists('freska_update_acf_filter_choices')) {
 			return false;
 		}
 
-		// Find the field
-		$field_found = false;
-		freska_find_and_update_field( $acf_data['fields'], 'field_68f5e9b6ea2f3', $field_found );
+		// Find and update filter/search field choices
+		$filter_field_found = false;
+		freska_find_and_update_field( $acf_data['fields'], 'field_68f5e9b6ea2f3', $filter_field_found );
 
-		if ( ! $field_found ) {
+		// Find and update compare field choices
+		$compare_field_found = false;
+		freska_find_and_update_compare_field( $acf_data['fields'], 'field_67d9281af3fd9', $compare_field_found );
+
+		if ( ! $filter_field_found && ! $compare_field_found ) {
 			return false;
 		}
 
@@ -611,6 +616,60 @@ if (!function_exists('freska_update_acf_filter_choices')) {
 	}
 }
 
+if (!function_exists('freska_get_fresh_attribute_taxonomies')) {
+	function freska_get_fresh_attribute_taxonomies()
+	{
+		global $wpdb;
+
+		$rows = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}woocommerce_attribute_taxonomies ORDER BY attribute_name ASC");
+		return !empty($rows) ? $rows : array();
+	}
+}
+if (!function_exists('freska_find_and_update_compare_field')) {
+	function freska_find_and_update_compare_field(&$fields, $target_key, &$found)
+	{
+		if ($found || empty($fields) || !is_array($fields)) {
+			return;
+		}
+
+		$choices = array(
+			'short_desc' => 'Short Description',
+			'price' => 'Price',
+			'rating' => 'Rating',
+			'brand' => 'Brand',
+			'stock_status' => 'Availability',
+			'sku' => 'SKU',
+		);
+
+		foreach ((array) freska_get_fresh_attribute_taxonomies() as $attribute) {
+			$taxonomy_name = wc_attribute_taxonomy_name($attribute->attribute_name);
+			$attribute_label = !empty($attribute->attribute_label) ? $attribute->attribute_label : $taxonomy_name;
+			$choices[$taxonomy_name] = $attribute_label;
+
+			if (get_option('freska_attribute_type_' . $attribute->attribute_id, 'select') === 'color') {
+				$choices['pa_color'] = $attribute_label;
+			}
+		}
+
+		foreach ($fields as &$field) {
+			if (empty($field['key']) || $field['key'] !== $target_key) {
+				if (!empty($field['sub_fields']) && is_array($field['sub_fields'])) {
+					freska_find_and_update_compare_field($field['sub_fields'], $target_key, $found);
+				}
+				continue;
+			}
+
+			$found = true;
+			$field['choices'] = $choices;
+			$field['default_value'] = array_values(array_intersect(
+				array('price', 'rating', 'stock_status'),
+				array_keys($choices)
+			));
+			return;
+		}
+	}
+}
+
 /**
  * Sync ACF JSON file on admin init to ensure all enabled attributes are included
  */
@@ -632,9 +691,6 @@ if (!function_exists('freska_sync_acf_filter_choices_on_init')) {
 	add_action('admin_init', 'freska_sync_acf_filter_choices_on_init');
 }
 
-/**
- * Recursively find and update field in ACF structure
- */
 if (!function_exists('freska_find_and_update_field')) {
 	function freska_find_and_update_field(&$fields, $target_key, &$found)
 	{
@@ -652,11 +708,10 @@ if (!function_exists('freska_find_and_update_field')) {
 					'search_form' => 'Search Form',
 					'categories' => 'Product Categories',
 					'brand' => 'Brand',
-					'comfort_scale' => 'Comfort Scale',
-					'mattress_type' => 'Mattress Type',
 					'price' => 'Price',
 					'customer_rating' => 'Customer Rating',
-					'text_editor' => 'Text Editor'
+					'text_editor' => 'Text Editor',
+					'shortcode' => 'Shortcode'
 				);
 				
 				// Get all enabled WooCommerce attributes (including color)

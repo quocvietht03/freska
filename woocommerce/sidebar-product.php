@@ -128,18 +128,6 @@ if ($is_taxonomy_page) {
               freska_product_field_multiple_html('product_brand', $field_name, $field_value);
               break;
 
-            case 'comfort_scale':
-              $field_name = __('Comfort Scale', 'freska');
-              $field_value = (isset($_GET['comfort_scale'])) ? $_GET['comfort_scale'] : '';
-              freska_product_field_multiple_html('comfort_scale', $field_name, $field_value);
-              break;
-
-            case 'mattress_type':
-              $field_name = __('Mattress Type', 'freska');
-              $field_value = (isset($_GET['mattress_type'])) ? $_GET['mattress_type'] : '';
-              freska_product_field_multiple_html('mattress_type', $field_name, $field_value);
-              break;
-
             case 'price':
               $field_title = __('Price', 'freska');
               $field_min_value = (isset($_GET['min_price'])) ? $_GET['min_price'] : '';
@@ -151,6 +139,16 @@ if ($is_taxonomy_page) {
               $field_name = __('Customer Rating', 'freska');
               $field_value = (isset($_GET['product_rating'])) ? $_GET['product_rating'] : '';
               freska_product_field_rating('product_rating', $field_name, $field_value);
+              break;
+            case 'shortcode':
+              $shortcode = !empty($filter['shortcode']) ? $filter['shortcode'] : '';
+              if (!empty($shortcode)) {
+              ?>
+                <div class="bt-form-field bt-field-type-shortcode">
+                  <?php echo do_shortcode($shortcode); ?>
+                </div>
+              <?php
+              }
               break;
 
             case 'text_editor':
@@ -222,14 +220,6 @@ if ($is_taxonomy_page) {
             }
           }
         }
-
-        $field_name = __('Comfort Scale', 'freska');
-        $field_value = (isset($_GET['comfort_scale'])) ? $_GET['comfort_scale'] : '';
-        freska_product_field_multiple_html('comfort_scale', $field_name, $field_value);
-
-        $field_name = __('Mattress Type', 'freska');
-        $field_value = (isset($_GET['mattress_type'])) ? $_GET['mattress_type'] : '';
-        freska_product_field_multiple_html('mattress_type', $field_name, $field_value);
 
         $field_name = __('Brand', 'freska');
         $field_value = (isset($_GET['product_brand'])) ? $_GET['product_brand'] : '';
