@@ -425,34 +425,35 @@ class Widget_ProductCategoryItem extends Widget_Base
                         <div class="bt-cover-image">
                             <?php
                             $display_image_html = '';
-                           if ($layout === 'default') {
-                                if ($transparent_image_id) {
-                                    $display_image_html = wp_get_attachment_image($transparent_image_id, $settings['thumbnail_size'], false);
-                                } elseif ($cat_thumb_id) {
-                                    $display_image_html = wp_get_attachment_image($cat_thumb_id, $settings['thumbnail_size'], false);
-                                }
-                            } elseif ($layout === 'layout-1') {
-                                if ($transparent_image_id) {
-                                    $display_image_html = wp_get_attachment_image($transparent_image_id, $settings['thumbnail_size'], false);
-                                } elseif (!empty($thumbnail_icon)) {
-                                    $display_image_html = '<img src="' . esc_url($thumbnail_icon) . '" alt="' . esc_attr($cat_name) . '" />';
-                                } elseif ($cat_thumb_id) {
-                                    $display_image_html = wp_get_attachment_image($cat_thumb_id, $settings['thumbnail_size'], false);
-                                }
+                            if ($layout === 'default') {
+                            if ($cat_thumb_id) {
+                                $display_image_html = wp_get_attachment_image($cat_thumb_id, $settings['thumbnail_size'], false);
+                            } elseif ($transparent_image_id) {
+                                $display_image_html = wp_get_attachment_image($transparent_image_id, $settings['thumbnail_size'], false);
+                            }
 
-                            } elseif ($layout === 'layout-2') {
-                                if (!empty($thumbnail_icon)) {
-                                    $display_image_html = '<img src="' . esc_url($thumbnail_icon) . '" alt="' . esc_attr($cat_name) . '" />';
-                                } elseif ($transparent_image_id) {
-                                    $display_image_html = wp_get_attachment_image($transparent_image_id, $settings['thumbnail_size'], false);
-                                } elseif ($cat_thumb_id) {
-                                    $display_image_html = wp_get_attachment_image($cat_thumb_id, $settings['thumbnail_size'], false);
-                                }
+                        } elseif ($layout === 'layout-1') {
+                            if ($transparent_image_id) {
+                                $display_image_html = wp_get_attachment_image($transparent_image_id, $settings['thumbnail_size'], false);
+                            } elseif (!empty($thumbnail_icon)) {
+                                $display_image_html = '<img src="' . esc_url($thumbnail_icon) . '" alt="' . esc_attr($cat_name) . '" />';
+                            } elseif ($cat_thumb_id) {
+                                $display_image_html = wp_get_attachment_image($cat_thumb_id, $settings['thumbnail_size'], false);
                             }
-                            if (empty($display_image_html)) {
-                                $display_image_html = '<img src="' . esc_url(wc_placeholder_img_src('woocommerce_thumbnail')) . '" alt="' . esc_html__('Awaiting product image', 'freska') . '" class="wp-post-image" />';
+
+                        } elseif ($layout === 'layout-2') {
+                            if (!empty($thumbnail_icon)) {
+                                $display_image_html = '<img src="' . esc_url($thumbnail_icon) . '" alt="' . esc_attr($cat_name) . '" />';
+                            } elseif ($transparent_image_id) {
+                                $display_image_html = wp_get_attachment_image($transparent_image_id, $settings['thumbnail_size'], false);
+                            } elseif ($cat_thumb_id) {
+                                $display_image_html = wp_get_attachment_image($cat_thumb_id, $settings['thumbnail_size'], false);
                             }
-                            echo $display_image_html;
+                        }
+                        if (empty($display_image_html)) {
+                            $display_image_html = '<img src="' . esc_url(wc_placeholder_img_src('woocommerce_thumbnail')) . '" alt="' . esc_html__('Awaiting product image', 'freska') . '" class="wp-post-image" />';
+                        }
+                                                    echo $display_image_html;
                             ?>
                         </div>
                     </div>

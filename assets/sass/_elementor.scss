@@ -4894,8 +4894,8 @@
       justify-content: center;
       flex-shrink: 0;
       opacity: 0;
-      transform: translateX(-50px); 
-      transition: all 1.5s cubic-bezier(0.165, 0.84, 0.44, 1); 
+      transform: translateX(-60px); 
+      transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1); 
       svg {
           width: 24px;
           height: 24px;
@@ -4950,7 +4950,7 @@
             height: 100%;
             object-fit: contain;
             transform: none;
-            transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
           }
         }
       }
@@ -4972,6 +4972,7 @@
         line-height: 1.25;
         color: $color-primary;
         display: -webkit-box;
+        direction: ltr;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         overflow: hidden;
@@ -5003,16 +5004,11 @@
         border-bottom: 1px solid $color-line;
         padding:30px 0;
         transition: all 0.5s ease;
-        transform: translateY(0);
         &:hover {
           background-color: $color-accent;
-          transform: translateY(-1px);
           box-shadow: 0 8px 24px rgba(0,0,0,0.08);
           transition: all 0.5s ease;
           .bt-product-category {
-            &--thumb .bt-cover-image img {
-              filter: brightness(0) invert(1);
-            }
             &--name {
               color: $color-white;
             }
@@ -5027,7 +5023,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 20px;
+        gap: 16px;
       }
 
       &--thumb {
@@ -5056,7 +5052,7 @@
 
       &--content {
         margin-top: 0;
-        gap: 8px;
+        gap: 4px;
         display: flex;
         align-items: center;
         flex-direction: column;
@@ -12625,4 +12621,33 @@
       }
     }
   }
+}
+
+.bt-elwg-background-bundle--cart{
+  .bt-content-bundle--cart{
+    @media (max-width: 1420px) {
+      padding-left: 690px !important;
+      @media (max-width: 1366px)  {
+        padding-left: 650px !important;
+        @media (max-width: 1300px)  {
+          padding-left: 600px !important;
+          @media (max-width:  $break-tl)  {
+            padding-left: 0 !important;
+          }
+        }
+      }
+    }
+  }
+  // @media (max-width: 1400px)  {
+  //   background-size: 70% auto !important;
+  //   @media (max-width: $break-lg)  {
+  //     background-size:100% auto !important;
+  //   }
+  // }
+  // @media (max-width: 600px)  {
+  //   min-height: 820px !important;
+  //   @media (max-width: 400px)  {
+  //     min-height: 720px !important;
+  //   }
+  // }
 }
