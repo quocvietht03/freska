@@ -2448,22 +2448,6 @@
               height: 14px;
             }
           }
-          .elementor-widget-loop-carousel & {
-            top: 12px;
-            right: 12px;
-            .bt-icon-btn {
-              width: 36px;
-              height: 36px;
-              svg {
-                width: 18px;
-                height: 18px;
-              }
-              &::after {
-                width: 15px;
-                height: 15px;
-              }
-            }
-          }
         }
       }
       a.button.loading {
@@ -2524,10 +2508,6 @@
           @media (max-width: $break-sm) {
             font-size: 13px;
             padding: 9px 10px;
-            .elementor-widget-loop-carousel & {
-              font-size: 14px;
-              padding: 11px 20px;
-            }
           }
           @media (max-width: $break-xs) and (min-width: 400px) {
             font-size: 12px;
@@ -2535,17 +2515,10 @@
             left: 8px;
             right: 8px;
             bottom: 8px;
-            .elementor-widget-loop-carousel & {
-              font-size: 14px;
-              padding: 11px 20px;
-              left: 12px;
-              right: 12px;
-              bottom: 10px;
-            }
           }
           &.wc-forward {
-            background: $color-accent;
-            color: $color-secondary;
+            background: $color-secondary;
+            border-color: $color-secondary;
             &::before {
               background-image: url("../images/view-cart-white.svg");
             }
@@ -3302,20 +3275,11 @@
             display: none !important;
           }
           &.added_to_cart {
-            border-color: $color-accent !important;
             &::before {
               background-image: url("../images/view-cart.svg");
-              filter: brightness(0) invert(1);
             }
           }
-          &:hover {
-            background: $color-accent !important;
-            border-color: $color-accent !important;
-            &::before,
-            &::after {
-              filter: brightness(0) invert(1);
-            }
-          }
+
         }
       }
     }
@@ -6247,7 +6211,7 @@
             }
             @media (min-width: $break-sm) {
               &:hover {
-                background: $color-secondary;
+                background: $color-accent;
                 color: #fff;
               }
             }

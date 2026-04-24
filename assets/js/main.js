@@ -1648,7 +1648,7 @@
 							if (matchingLink.length) {
 								const formField = $(`.bt-form-field[data-name="${key}"]`);
 								const attributeType = formField.attr('data-attribute-type');
-								
+
 								if (attributeType === 'color') {
 									const colortag = matchingLink.prop('outerHTML');
 									//	console.log(colortag);
@@ -4469,14 +4469,133 @@
 			});
 		}
 
-
-
 		// Initialize and re-initialize on various events
 		configureSwiperNoSwiping();
 		$(window).on('elementor/frontend/init', function () { setTimeout(configureSwiperNoSwiping, 100); });
 		$(document).ajaxComplete(function () { setTimeout(configureSwiperNoSwiping, 100); });
 
 	}
+	/* Elementor Reviews Slider - make touch swipe smoother */
+	function FreskaFixCustomerReviewsSlider() {
+		var $sliders = $('.bt-slider-customer-reviews');
+		if ($sliders.length === 0) {
+			return;
+		}
+
+		function applySliderFix(swiper) {
+			if (!swiper || !swiper.params) {
+				return false;
+			}
+
+			// Only affect the customer reviews carousel.
+			swiper.allowTouchMove = true;
+			swiper.params.threshold = 4;
+			swiper.params.touchRatio = 0.9;
+			swiper.params.shortSwipes = true;
+			swiper.params.longSwipesRatio = 0.2;
+			swiper.params.longSwipesMs = 300;
+			swiper.params.resistanceRatio = 0.15;
+			swiper.params.touchReleaseOnEdges = true;
+			swiper.params.speed = 280;
+			swiper.params.preventClicks = false;
+			swiper.params.preventClicksPropagation = false;
+
+			if (swiper.params.watchOverflow === undefined) {
+				swiper.params.watchOverflow = true;
+			}
+
+			if (swiper.params.cssMode) {
+				swiper.params.cssMode = false;
+			}
+
+			if (typeof swiper.update === 'function') {
+				swiper.update();
+			}
+
+			return true;
+		}
+
+		$sliders.each(function () {
+			var $slider = $(this);
+			var swiperEl = $slider.find('.swiper')[0] || $slider[0];
+			var observer = null;
+			var attempts = 0;
+
+			function tryApplyFix() {
+				var swiper = swiperEl && swiperEl.swiper ? swiperEl.swiper : null;
+				if (applySliderFix(swiper)) {
+					return true;
+				}
+				return false;
+			}
+
+			if (tryApplyFix()) {
+				return;
+			}
+
+			observer = new MutationObserver(function () {
+				attempts++;
+				if (tryApplyFix() || attempts > 20) {
+					observer.disconnect();
+				}
+			});
+
+			observer.observe(swiperEl, { childList: true, attributes: true, subtree: true });
+			setTimeout(function () {
+				if (observer) {
+					observer.disconnect();
+				}
+			}, 5000);
+		});
+	}
+
+	/* Elementor Loop Carousel - show 1 item below 400px only for custom mobile slider */
+	function FreskaCustomMobileLoopCarousel() {
+		var MOBILE_SELECTOR = '.elementor-widget-loop-carousel.bt-custom-slider-mobile';
+		var WINDOW_EVENT = '.freskaCustomMobileLoopCarousel';
+
+		function getSwiperElement($widget) {
+			return $widget.find('.swiper')[0] || $widget.find('.elementor-swiper, .swiper-container')[0] || $widget[0];
+		}
+
+		function applyMobileSlidesPerView() {
+			if (window.innerWidth >= 400) {
+				return;
+			}
+
+			$(MOBILE_SELECTOR).each(function () {
+				var $widget = $(this);
+				var swiperEl = getSwiperElement($widget);
+				var swiper = swiperEl && swiperEl.swiper ? swiperEl.swiper : null;
+
+				if (!swiper || !swiper.params) {
+					return;
+				}
+
+				swiper.params.slidesPerView = 1;
+				swiper.params.slidesPerGroup = 1;
+				if (typeof swiper.update === 'function') {
+					swiper.update();
+				}
+			});
+		}
+
+		if (!$(MOBILE_SELECTOR).length) {
+			return;
+		}
+
+		applyMobileSlidesPerView();
+		$(window).off('resize' + WINDOW_EVENT).on('resize' + WINDOW_EVENT, function () {
+			applyMobileSlidesPerView();
+		});
+		$(window).off('elementor/frontend/init' + WINDOW_EVENT).on('elementor/frontend/init' + WINDOW_EVENT, function () {
+			setTimeout(applyMobileSlidesPerView, 100);
+		});
+		$(document).off('ajaxComplete' + WINDOW_EVENT).on('ajaxComplete' + WINDOW_EVENT, function () {
+			setTimeout(applyMobileSlidesPerView, 100);
+		});
+	}
+
 	jQuery(document).ready(function ($) {
 		FreskaSubmenuAuto();
 		FreskaToggleMenuMobile();
@@ -4524,6 +4643,8 @@
 		FreskaMiniCartNoteHandler();	// Initialize Mini Cart Note Handler
 		FreskaPreloader(); // Initialize Preloader
 		FreskaFixElementorLoopCarouselSwiper();
+		FreskaFixCustomerReviewsSlider();
+		FreskaCustomMobileLoopCarousel();
 		// Restore product tabs/toggle when URL has comment hash (#comment-4, etc.)
 		setTimeout(FreskaRestoreProductTabsOnCommentHash, 50);
 	});
