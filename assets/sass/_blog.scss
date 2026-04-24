@@ -196,6 +196,7 @@
       align-items: flex-start;
       overflow: hidden;
       gap: 0;
+      padding-bottom: 2px;
 
       @media (max-width: $break-tl) {
         align-items: stretch;
@@ -418,6 +419,7 @@
         text-decoration: underline;
         text-decoration-thickness: 2px;
         text-underline-offset: 8px;
+        padding-bottom: 4px; 
 
         @media (max-width: $break-md) {
           margin-top: 12px;
