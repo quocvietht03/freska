@@ -434,19 +434,30 @@
 
 // Style for widget post-loop-item-style-1
 .freska-blogs-has-divider {
-  margin-left: -20px;
-
+  .elementor-grid
+ {
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+    width: calc(100% + 40px) !important;
+       @media (max-width: $break-sm) {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      width: 100% !important;
+        @media (min-width: 400px) and (max-width: $break-sm) {
+         grid-template-columns: repeat(2, 1fr) !important;
+    }
+    }
+  }
   .e-loop-item {
     padding-left: 20px;
     padding-right: 20px;
     border-right: 1px solid $color-line;
-
-    @media (max-width: $break-xs) {
+    box-sizing: border-box;
+   @media (max-width: $break-sm) {
       padding-left: 0;
       padding-right: 0;
-      border-right: none;
+      border-right: none !important;
     }
-
     &:nth-of-type(3n) {
       border-right: none;
     }
@@ -461,11 +472,6 @@
       border-right: none;
     }
 
-    @media (max-width: 767px) {
-      padding-left: 0;
-      padding-right: 0;
-      border-right: none !important;
-    }
   }
 
   .__bt-post-style-1 {
@@ -516,6 +522,11 @@
         display: flex;
         align-items: center;
         gap: 12px;
+           @media (max-width: $break-xs) {
+          flex-direction: column;
+          align-items: flex-start; 
+          gap: 4px;               
+        }
       }
 
       &--publish {
@@ -523,6 +534,10 @@
         color: $color-text;
         padding-right: 12px;
         position: relative;
+         @media (max-width: $break-xs) {
+          padding-right: 0; 
+          font-size: 14px;
+        }
 
         &::before {
           position: absolute;
@@ -533,6 +548,9 @@
           background: $color-line;
           right: 0;
           content: "";
+          @media (max-width: $break-xs) {
+            display: none;
+          }
         }
       }
 
@@ -540,6 +558,13 @@
         @extend .__caption_2_typo;
         color: $color-accent;
         text-transform: uppercase;
+        overflow: hidden;
+        display: -webkit-box; 
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+         @media (max-width: $break-xs) {
+          font-size: 12px;
+        }
       }
 
       &--title {
