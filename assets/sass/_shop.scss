@@ -3083,16 +3083,7 @@
     max-width: 200px;
   }
 
-  .woocommerce-loop-product {
-    &__infor {
-      .bt-product-rating {
-        .star-rating {
-          order: 1;
-        }
-      }
-    }
-  }
-
+  
   &--layout-1 {
     width: 100% !important;
 
@@ -11647,7 +11638,6 @@
         gap: 20px;
       }
       @media (max-width: $break-md) {
-        flex-direction: column !important;
         gap: 40px;
       }
       @media (max-width: $break-sm) {
@@ -11663,7 +11653,6 @@
           .bt-bundle-cart-product-list {
             margin: 30px 0;
             .bt-bundle-cart-product-list__item {
-              padding: 15px;
               gap: 10px;
               .bt-product-content {
                 .bt-product-content__inner {
