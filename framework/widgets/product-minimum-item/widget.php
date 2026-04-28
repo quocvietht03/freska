@@ -1,6 +1,6 @@
 <?php
 
-namespace FreskaElementorWidgets\Widgets\ProductMiniItem;
+namespace FreskaElementorWidgets\Widgets\ProductMinimumItem;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -8,17 +8,17 @@ use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 
-class Widget_ProductMiniItem extends Widget_Base
+class Widget_ProductMinimumItem extends Widget_Base
 {
 
     public function get_name()
     {
-        return 'bt-product-mini-item';
+        return 'bt-product-minimum-item';
     }
 
     public function get_title()
     {
-        return __('Product Mini Item', 'freska');
+        return __('Product Minimum Item', 'freska');
     }
 
     public function get_icon()
@@ -109,7 +109,7 @@ class Widget_ProductMiniItem extends Widget_Base
                     'unit'   => 'px',
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .bt-product-minimum-item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -125,7 +125,7 @@ class Widget_ProductMiniItem extends Widget_Base
                 ],
                 'default' => ['size' => 12, 'unit' => 'px'],
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item--link' => 'gap: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .bt-product-minimum-item--link' => 'gap: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -137,7 +137,7 @@ class Widget_ProductMiniItem extends Widget_Base
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '#FFFFFF',
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .bt-product-minimum-item' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -146,7 +146,7 @@ class Widget_ProductMiniItem extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name'     => 'card_border',
-                'selector' => '{{WRAPPER}} .bt-product-mini-item',
+                'selector' => '{{WRAPPER}} .bt-product-minimum-item',
             ]
         );
 
@@ -164,7 +164,7 @@ class Widget_ProductMiniItem extends Widget_Base
                     'unit'   => 'px',
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .bt-product-minimum-item' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -173,7 +173,7 @@ class Widget_ProductMiniItem extends Widget_Base
             Group_Control_Box_Shadow::get_type(),
             [
                 'name'     => 'card_box_shadow',
-                'selector' => '{{WRAPPER}} .bt-product-mini-item',
+                'selector' => '{{WRAPPER}} .bt-product-minimum-item',
             ]
         );
 
@@ -198,7 +198,7 @@ class Widget_ProductMiniItem extends Widget_Base
                 ],
                 'default'   => ['size' => 60, 'unit' => 'px'],
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item--image' => 'width: {{SIZE}}{{UNIT}}; min-width: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .bt-product-minimum-item--image' => 'width: {{SIZE}}{{UNIT}}; min-width: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -214,7 +214,7 @@ class Widget_ProductMiniItem extends Widget_Base
                 ],
                 'default'   => ['size' => 60, 'unit' => 'px'],
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item--image' => 'height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .bt-product-minimum-item--image' => 'height: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -229,7 +229,7 @@ class Widget_ProductMiniItem extends Widget_Base
                     'top' => '4', 'right' => '4', 'bottom' => '4', 'left' => '4', 'unit' => 'px',
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item--image img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .bt-product-minimum-item--image img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -250,7 +250,7 @@ class Widget_ProductMiniItem extends Widget_Base
                 'label'     => __('Color', 'freska'),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item--title' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .bt-product-minimum-item--title' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -261,7 +261,7 @@ class Widget_ProductMiniItem extends Widget_Base
                 'label'     => __('Hover Color', 'freska'),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item--link:hover .bt-product-mini-item--title' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .bt-product-minimum-item--link:hover .bt-product-minimum-item--title' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -270,7 +270,7 @@ class Widget_ProductMiniItem extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'     => 'title_typography',
-                'selector' => '{{WRAPPER}} .bt-product-mini-item--title',
+                'selector' => '{{WRAPPER}} .bt-product-minimum-item--title',
             ]
         );
 
@@ -284,7 +284,7 @@ class Widget_ProductMiniItem extends Widget_Base
                     'bottom' => '4', 'unit' => 'px', 'isLinked' => false,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item--title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .bt-product-minimum-item--title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -305,7 +305,7 @@ class Widget_ProductMiniItem extends Widget_Base
                 'label'     => __('Color', 'freska'),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item--price' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .bt-product-minimum-item--price' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -314,7 +314,7 @@ class Widget_ProductMiniItem extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name'     => 'price_typography',
-                'selector' => '{{WRAPPER}} .bt-product-mini-item--price',
+                'selector' => '{{WRAPPER}} .bt-product-minimum-item--price',
             ]
         );
 
@@ -324,7 +324,7 @@ class Widget_ProductMiniItem extends Widget_Base
                 'label'     => __('Regular Price Color (del)', 'freska'),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .bt-product-mini-item--price del' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .bt-product-minimum-item--price del' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -353,23 +353,23 @@ class Widget_ProductMiniItem extends Widget_Base
 
         $image_size = !empty($settings['image_size']) ? sanitize_key($settings['image_size']) : 'thumbnail';
         ?>
-        <div class="bt-elwg-product-mini-item">
-            <div class="bt-product-mini-item">
-                <a class="bt-product-mini-item--link" href="<?php echo esc_url($product->get_permalink()); ?>">
-                    <div class="bt-product-mini-item--image">
+        <div class="bt-elwg-product-minimum-item">
+            <div class="bt-product-minimum-item">
+                <a class="bt-product-minimum-item--link" href="<?php echo esc_url($product->get_permalink()); ?>">
+                    <div class="bt-product-minimum-item--image">
                         <?php
                         if (has_post_thumbnail($product_id)) {
-                            echo get_the_post_thumbnail($product_id, $image_size);
+                            echo get_the_post_thumbnail($product_id, $image_size);      
                         } else {
                             echo '<img src="' . esc_url(wc_placeholder_img_src('woocommerce_thumbnail')) . '" alt="' . esc_attr($product->get_name()) . '" class="wp-post-image" />';
                         }
                         ?>
                     </div>
-                    <div class="bt-product-mini-item--info">
-                        <div class="bt-product-mini-item--title">
+                    <div class="bt-product-minimum-item--info">
+                        <div class="bt-product-minimum-item--title">
                             <?php echo esc_html($product->get_name()); ?>
                         </div>
-                        <div class="bt-product-mini-item--price">
+                        <div class="bt-product-minimum-item--price">
                             <?php echo wp_kses_post($product->get_price_html()); ?>
                         </div>
                     </div>
