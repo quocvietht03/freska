@@ -11312,7 +11312,25 @@
                   @extend .__bt-max-line-ellipsis;
                 }
                 .stock {
-                  display: none;
+                     display: inline-flex;
+                  margin: 0;
+                  padding: 0 8px;
+                  font-size: 14px !important;
+                  font-weight: 400;
+                  line-height: 22px;
+                  text-transform: capitalize;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  color: #fff;
+                  width: auto;
+                  background-color: #3dab25;
+                  &.out-of-stock {
+                    background-color: #f03e3e;
+                  }
+                  &.available-on-backorder {
+                    background-color: #f0a750;
+                  }
                 }
                 .variations_form {
                   > * {
