@@ -4409,18 +4409,16 @@
 		var CAROUSEL_CONTAINERS = '.elementor-loop-container, .elementor-widget-loop-carousel';
 		var INTERACTIVE_ELEMENTS = [
 			'.bt-js-item', '.bt-item-color', '.bt-item-image', '.bt-attributes--item',
-			'.quantity', '.qty', '.single_add_to_cart_button', '.bt-js-add-to-cart-variable', '.add_to_cart_button', 'woocommerce-loop-product__infor',
+			'.quantity', '.qty', '.single_add_to_cart_button', '.bt-js-add-to-cart-variable', '.add_to_cart_button', '.woocommerce-loop-product__infor',
 			'.bt-product-wishlist-btn', '.bt-product-compare-btn', '.bt-product-quick-view-btn',
 			'[data-attribute-name]', '[data-value]'
 		];
 
-		// Stop event propagation
 		function stopSlideInteraction(e) {
 			if (e && e.stopPropagation) e.stopPropagation();
 			if (window.event && window.event.stopPropagation) window.event.stopPropagation();
 		}
 
-		// Check if element is interactive
 		function isInteractiveElement($target) {
 			for (var i = 0; i < INTERACTIVE_ELEMENTS.length; i++) {
 				if ($target.is(INTERACTIVE_ELEMENTS[i]) || $target.closest(INTERACTIVE_ELEMENTS[i]).length > 0) {
@@ -4430,6 +4428,23 @@
 			return false;
 		}
 
+		function refreshSwiperLayout(swiper) {
+			if (!swiper || typeof swiper.update !== 'function') {
+				return;
+			}
+
+			swiper.update();
+			if (typeof swiper.updateSlides === 'function') swiper.updateSlides();
+			if (typeof swiper.updateSize === 'function') swiper.updateSize();
+			if (typeof swiper.updateSlidesClasses === 'function') swiper.updateSlidesClasses();
+		}
+
+		function refreshAllLoopCarousels() {
+			$(CAROUSEL_CONTAINERS + ' .swiper').each(function () {
+				refreshSwiperLayout(this.swiper);
+			});
+		}
+
 		// Handle clicks on carousel slides
 		$(document).on('click', CAROUSEL_CONTAINERS + ' .swiper-slide', function (e) {
 			if (isInteractiveElement($(e.target))) {
@@ -4437,7 +4452,6 @@
 			}
 		});
 
-		// Configure Swiper instances
 		function configureSwiperNoSwiping() {
 			$(CAROUSEL_CONTAINERS + ' .swiper').each(function () {
 				var $swiper = $(this);
@@ -4448,32 +4462,46 @@
 				var noSwipingSelector = INTERACTIVE_ELEMENTS.join(', ');
 
 				if (swiperInstance && swiperInstance.params) {
-					// Configure existing Swiper - ensure allowTouchMove stays true
 					swiperInstance.allowTouchMove = true;
 					swiperInstance.params.noSwiping = true;
 					swiperInstance.params.noSwipingSelector = noSwipingSelector;
+					refreshSwiperLayout(swiperInstance);
 				} else {
-					// Wait for Swiper to be initialized
 					var observer = new MutationObserver(function () {
 						if ($swiper[0].swiper && $swiper[0].swiper.params) {
 							var swiper = $swiper[0].swiper;
-							swiper.allowTouchMove = true; // Ensure touch is enabled
+							swiper.allowTouchMove = true;
 							swiper.params.noSwiping = true;
 							swiper.params.noSwipingSelector = noSwipingSelector;
+							refreshSwiperLayout(swiper);
 							observer.disconnect();
 						}
 					});
-					observer.observe($swiper[0], { attributes: true, childList: true });
+					observer.observe($swiper[0], { attributes: true, childList: true, subtree: true });
 				}
-
 			});
 		}
 
-		// Initialize and re-initialize on various events
-		configureSwiperNoSwiping();
-		$(window).on('elementor/frontend/init', function () { setTimeout(configureSwiperNoSwiping, 100); });
-		$(document).ajaxComplete(function () { setTimeout(configureSwiperNoSwiping, 100); });
+		function runDeferredRefresh(delay) {
+			setTimeout(function () {
+				configureSwiperNoSwiping();
+				refreshAllLoopCarousels();
+			}, delay || 0);
+		}
 
+		configureSwiperNoSwiping();
+		runDeferredRefresh(50);
+		runDeferredRefresh(250);
+
+		$(window).on('elementor/frontend/init', function () { runDeferredRefresh(150); });
+		$(window).on('load', function () { runDeferredRefresh(150); });
+		$(document).ajaxComplete(function () { runDeferredRefresh(150); });
+
+		if (document.fonts && document.fonts.ready) {
+			document.fonts.ready.then(function () {
+				runDeferredRefresh(0);
+			});
+		}
 	}
 	/* Elementor Reviews Slider - make touch swipe smoother */
 	function FreskaFixCustomerReviewsSlider() {
