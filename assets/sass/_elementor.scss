@@ -4912,11 +4912,13 @@
         padding: 24px 20px 20px;
         overflow: hidden;
         transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
-        
         &:hover {
           .bt-product-category {
              &--thumb .bt-cover-image img {
               transform: scale(1.2);
+              @media (max-width: $break-xs) {
+                transform: none;
+              }
             }
           }
         }
@@ -4951,6 +4953,9 @@
             object-fit: contain;
             transform: none;
             transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            @media (max-width: $break-xs) {
+              transition: none;
+            }
           }
         }
       }
@@ -4980,6 +4985,9 @@
         min-height: 1.2em;
         svg {
           display: none;
+        }
+        @media (max-width: $break-xs) {
+          font-size: 16px;
         }
       }
 
@@ -13010,8 +13018,8 @@
 }
 
 // Product Spotlight Item Widget
-.bt-elwg-product-mini-item {
-  .bt-product-mini-item {
+.bt-elwg-product-minimum-item {
+  .bt-product-minimum-item {
     &--link {
       display: flex;
       align-items: center;

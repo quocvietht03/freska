@@ -1647,7 +1647,7 @@
             font-size: 16px;
             height: 20px;
             width: 95px;
-            color: $color-accent;
+            color: $color-rating;
             letter-spacing: 2px;
           }
           &--count {
@@ -3062,11 +3062,8 @@
     width: 100% !important;
 
     .woocommerce-loop-product {
-      display: flex !important;
-      flex-direction: row !important;
-      direction: ltr !important;
-      flex-wrap: nowrap !important;
-      align-items: center !important;
+      display: flex;
+      align-items: center;
       gap: 20px;
       padding: 0;
       position: relative;
@@ -3116,13 +3113,6 @@
         }
 
         .bt-product-rating {
-          .star-rating {
-            width: 95px;
-            @media (max-width: $break-xs) {
-              width: 89px;
-              font-size: 15px;
-            }
-          }
           &--count {
             order: 2;
             font-size: 14px;
@@ -3245,9 +3235,10 @@
             }
           }
         }
-      }
     }
   }
+}
+
 }
 
 .bt-notification-form {
