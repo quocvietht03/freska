@@ -78,6 +78,7 @@ class Widget_ProductLoopItem extends Widget_Base
                 'options' => [
                     'default' => esc_html__( 'Default', 'freska' ),
                     'layout-1' => esc_html__( 'Style 1', 'freska' ),
+                    'layout-2' => esc_html__( 'Style 2', 'freska' ),
                 ],
             ]
         );
@@ -222,7 +223,7 @@ class Widget_ProductLoopItem extends Widget_Base
 				'separator'    => 'before',
 				'description'  => esc_html__('Note: Enable "Manage stock?" in product settings to display stock bar', 'freska'),
 				'condition'   => [
-					'layout' => 'default',
+					'layout' => ['default', 'layout-2'],
 				],
 			]
 		);
@@ -336,7 +337,7 @@ class Widget_ProductLoopItem extends Widget_Base
 		
 		$settings = $this->get_settings_for_display();
 		$layout = !empty($settings['layout']) ? $settings['layout'] : 'default';
-		$enable_process_stock = ($layout === 'default') ? (isset($settings['enable_process_stock']) ? $settings['enable_process_stock'] : '') : '';
+		$enable_process_stock = ($layout === 'default' || $layout === 'layout-2') ? (isset($settings['enable_process_stock']) ? $settings['enable_process_stock'] : '') : '';
 
 		?>
 		<div class="bt-elwg-product-loop-item bt-elwg-product-loop-item--<?php echo esc_attr($layout); ?> <?php echo esc_attr($settings['content_text_align']); ?>">

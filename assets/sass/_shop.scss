@@ -3272,8 +3272,17 @@
           }
 
         }
-      }
     }
+  }
+}
+
+  &--layout-2 {
+    @extend .__bt-loop-product-style;
+     .woocommerce-loop-product{
+      &__thumbnail{
+        border-radius: 12px;
+      }
+     }
   }
 }
 

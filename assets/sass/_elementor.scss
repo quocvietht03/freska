@@ -4986,6 +4986,9 @@
         svg {
           display: none;
         }
+        @media (max-width: $break-xs) {
+          font-size: 16px;
+        }
       }
 
       &--count {
