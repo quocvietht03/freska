@@ -29,7 +29,7 @@ if (! $product->get_rating_count()) {
     return;
 }
 ?>
-<div class="bt-product-rating woocommerce product-rating">
-    <?php echo wc_get_rating_html($product->get_average_rating()); ?>
+<div class="bt-product-rating ">
+    <?php  echo wc_get_rating_html( $product->get_average_rating() ); ?>
    <span class="bt-product-rating--count"><?php echo esc_html('('. $product->get_rating_count() .')'); ?></span>
 </div>

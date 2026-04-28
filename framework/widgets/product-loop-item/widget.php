@@ -77,7 +77,7 @@ class Widget_ProductLoopItem extends Widget_Base
                 'default' => 'default',
                 'options' => [
                     'default' => esc_html__( 'Default', 'freska' ),
-                    'layout-1' => esc_html__( 'Style 1', 'freska' ),
+                    'layout-1' => esc_html__( 'Style 1', 'freska' )
                 ],
             ]
         );
@@ -222,7 +222,7 @@ class Widget_ProductLoopItem extends Widget_Base
 				'separator'    => 'before',
 				'description'  => esc_html__('Note: Enable "Manage stock?" in product settings to display stock bar', 'freska'),
 				'condition'   => [
-					'layout' => 'default',
+					'layout' => ['default'],
 				],
 			]
 		);

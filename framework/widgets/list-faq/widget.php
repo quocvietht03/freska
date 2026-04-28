@@ -281,7 +281,8 @@ class Widget_ListFaq extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '',
                 'selectors' => [
-                    '{{WRAPPER}} .bt-item-content' => 'color: {{VALUE}};',
+                '{{WRAPPER}} .bt-item-content, {{WRAPPER}} .bt-item-content p' => 'color: {{VALUE}};'
+
                 ],
             ]
         );
@@ -291,7 +292,7 @@ class Widget_ListFaq extends Widget_Base
                 'name' => 'list_content_typography',
                 'label' => __('Typography', 'freska'),
                 'default' => '',
-                'selector' => '{{WRAPPER}} .bt-item-content',
+                'selector' => '{{WRAPPER}} .bt-item-content, {{WRAPPER}} .bt-item-content p'
             ]
         );
         $this->end_controls_section();
