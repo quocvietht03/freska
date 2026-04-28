@@ -1598,7 +1598,8 @@
                                 "price": "Price",
                                 "customer_rating": "Customer Rating",
                                 "text_editor": "Text Editor",
-                                "shortcode": "Shortcode"
+                                "shortcode": "Shortcode",
+                                "pa_weight": "Weight"
                             },
                             "default_value": false,
                             "return_format": "value",
