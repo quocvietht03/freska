@@ -3052,51 +3052,51 @@
 
 .bt-elwg-product-loop-item {
   @extend .__bt-loop-product-style;
-  // &.left {
-  //   .woocommerce-loop-product__infor {
-  //     text-align: left;
-  //     > * {
-  //       margin-right: auto;
-  //     }
-  //   }
-  //   .woocommerce-loop-product__title,
-  //   .woocommerce-loop-product__categories,
-  //   .bt-product-rating,
-  //   .price {
-  //     text-align: left;
-  //     justify-content: flex-start;
-  //   }
-  // }
-  // &.center {
-  //   .woocommerce-loop-product__infor {
-  //     text-align: center;
-  //     align-items: center;
-  //   }
-  //   .woocommerce-loop-product__title,
-  //   .woocommerce-loop-product__categories,
-  //   .bt-product-rating {
-  //     text-align: center;
-  //   }
-  // }
-  // &.right {
-  //   .woocommerce-loop-product__infor {
-  //     text-align: right;
-  //     > * {
-  //       margin-left: auto;
-  //     }
-  //   }
-  //   .woocommerce-loop-product__title,
-  //   .woocommerce-loop-product__categories,
-  //   .bt-product-rating {
-  //     text-align: right;
-  //   }
-  // }
-  // .woocommerce-loop-product .bt-product-rating .star-rating {
-  //   word-break: normal;
-  //   span {
-  //     word-break: normal;
-  //   }
-  // }
+  &.left {
+    .woocommerce-loop-product__infor {
+      text-align: left;
+      > * {
+        margin-right: auto;
+      }
+    }
+    .woocommerce-loop-product__title,
+    .woocommerce-loop-product__categories,
+    .bt-product-rating,
+    .price {
+      text-align: left;
+      justify-content: flex-start;
+    }
+  }
+  &.center {
+    .woocommerce-loop-product__infor {
+      text-align: center;
+      align-items: center;
+    }
+    .woocommerce-loop-product__title,
+    .woocommerce-loop-product__categories,
+    .bt-product-rating {
+      text-align: center;
+    }
+  }
+  &.right {
+    .woocommerce-loop-product__infor {
+      text-align: right;
+      > * {
+        margin-left: auto;
+      }
+    }
+    .woocommerce-loop-product__title,
+    .woocommerce-loop-product__categories,
+    .bt-product-rating {
+      text-align: right;
+    }
+  }
+  .woocommerce-loop-product .bt-product-rating .star-rating {
+    word-break: normal;
+    span {
+      word-break: normal;
+    }
+  }
   .woocommerce-loop-product__thumbnail .button {
     max-width: 200px;
   }
@@ -3292,14 +3292,6 @@
   }
 }
 
-  &--layout-2 {
-    @extend .__bt-loop-product-style;
-     .woocommerce-loop-product{
-      &__thumbnail{
-        border-radius: 12px;
-      }
-     }
-  }
 }
 
 .bt-notification-form {
