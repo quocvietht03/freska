@@ -455,3 +455,13 @@ nav .elementor-nav-menu .sub-arrow {
     }
   }
 }
+
+.bt-header--bar {
+    &, > .e-con-inner {
+        @media (max-width: 453px) {
+            justify-content: center !important;
+        }
+    }
+}
+
+
