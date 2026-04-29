@@ -923,10 +923,7 @@ function freska_woocommerce_item_sold($product_id)
 }
 
 add_action('freska_woocommerce_shop_loop_item_sold', 'freska_woocommerce_item_sold', 10, 2);
-
-/* Add Sold Product affer Quanty Single Product */
-function freska_display_sold_after_rating()
-{
+add_action('freska_woocommerce_template_single_rating', function () {
     global $product;
 
     // Get product if global is not set
@@ -940,20 +937,36 @@ function freska_display_sold_after_rating()
     }
 
     freska_woocommerce_item_sold($product->get_id());
-}
-
-add_action('freska_woocommerce_template_single_rating', 'freska_display_sold_after_rating', 15);
+}, 15);
 /* custom the "Additional information" tab title */
 add_filter('woocommerce_product_tabs', 'freska_woocommerce_custom_additional_information_tab_title');
 
 function freska_woocommerce_custom_additional_information_tab_title($tabs)
 {
     if (isset($tabs['additional_information'])) {
-        $tabs['additional_information']['title'] = esc_html__('Information', 'freska');
+        global $product;
+        $mobile_text = '<span class="mobile-text">' . esc_html__('Information', 'freska') . '</span>';
+        $tabs['additional_information']['title'] = sprintf(
+            esc_html__('Additional Information', 'freska')
+        ) . ' ' . $mobile_text;
     }
     return $tabs;
 }
 
+/* Custom the "Review" tab title */
+add_filter('woocommerce_product_tabs', 'freska_woocommerce_custom_reviews_tab_title');
+
+function freska_woocommerce_custom_reviews_tab_title($tabs)
+{
+    if (isset($tabs['reviews'])) {
+        global $product;
+        $mobile_text = '<span class="mobile-text">' . esc_html__('Reviews', 'freska') . '</span>';
+        $tabs['reviews']['title'] = sprintf(
+            esc_html__('Customer Reviews', 'freska')
+        ) . ' ' . $mobile_text;
+    }
+    return $tabs;
+}
 
 // Add meta box for review title
 function freska_add_review_title_meta_box()
@@ -3318,8 +3331,8 @@ if (!function_exists('freska_product_share_render')) {
                 </div>
 
                 <a href="#bt_product_share" class="bt-product-share__link bt-js-open-popup-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M7.926 10.898 15 7.727m-7.074 5.39L15 16.29M8 12a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm12 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm0-11a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M13.7526 12.5005C13.3357 12.5004 12.923 12.5839 12.5389 12.7462C12.1549 12.9084 11.8073 13.1461 11.5167 13.4451L7.91513 11.1302C8.19843 10.4038 8.19843 9.59734 7.91513 8.87086L11.5167 6.55602C12.0577 7.11017 12.7851 7.44372 13.5581 7.49198C14.331 7.54024 15.0943 7.29978 15.7 6.81723C16.3057 6.33467 16.7107 5.64439 16.8364 4.88023C16.9621 4.11606 16.7995 3.33245 16.3803 2.68131C15.9611 2.03017 15.315 1.5579 14.5673 1.35606C13.8196 1.15421 13.0236 1.23718 12.3337 1.58887C11.6437 1.94057 11.1089 2.53592 10.8329 3.25953C10.557 3.98313 10.5596 4.78342 10.8401 5.50524L7.23857 7.82008C6.80487 7.37483 6.24824 7.06902 5.63985 6.94175C5.03145 6.81449 4.39892 6.87154 3.82312 7.10563C3.24731 7.33971 2.7544 7.74019 2.40738 8.25586C2.06036 8.77154 1.875 9.37898 1.875 10.0005C1.875 10.6221 2.06036 11.2296 2.40738 11.7452C2.7544 12.2609 3.24731 12.6614 3.82312 12.8955C4.39892 13.1296 5.03145 13.1866 5.63985 13.0593C6.24824 12.9321 6.80487 12.6263 7.23857 12.181L10.8401 14.4959C10.5989 15.1181 10.5632 15.8013 10.7382 16.4454C10.9133 17.0894 11.29 17.6605 11.8132 18.075C12.3363 18.4894 12.9784 18.7255 13.6454 18.7487C14.3124 18.7718 14.9694 18.5808 15.52 18.2036C16.0706 17.8264 16.4859 17.2828 16.7053 16.6524C16.9246 16.0221 16.9363 15.338 16.7387 14.7005C16.5412 14.063 16.1447 13.5055 15.6074 13.1096C15.07 12.7137 14.4201 12.5003 13.7526 12.5005ZM13.7526 2.50055C14.1235 2.50055 14.486 2.61052 14.7943 2.81654C15.1027 3.02257 15.343 3.31541 15.4849 3.65802C15.6268 4.00063 15.6639 4.37763 15.5916 4.74134C15.5193 5.10506 15.3407 5.43915 15.0785 5.70137C14.8162 5.9636 14.4821 6.14217 14.1184 6.21452C13.7547 6.28687 13.3777 6.24974 13.0351 6.10782C12.6925 5.96591 12.3997 5.72559 12.1936 5.41724C11.9876 5.1089 11.8776 4.74639 11.8776 4.37555C11.8776 3.87827 12.0752 3.40135 12.4268 3.04972C12.7784 2.69809 13.2553 2.50055 13.7526 2.50055ZM5.00263 11.8755C4.63179 11.8755 4.26928 11.7656 3.96093 11.5596C3.65259 11.3535 3.41227 11.0607 3.27036 10.7181C3.12844 10.3755 3.09131 9.99847 3.16366 9.63475C3.236 9.27104 3.41458 8.93695 3.6768 8.67472C3.93903 8.4125 4.27312 8.23392 4.63683 8.16158C5.00055 8.08923 5.37755 8.12636 5.72016 8.26827C6.06277 8.41019 6.35561 8.65051 6.56163 8.95885C6.76766 9.2672 6.87763 9.62971 6.87763 10.0005C6.87763 10.4978 6.68008 10.9747 6.32845 11.3264C5.97682 11.678 5.49991 11.8755 5.00263 11.8755ZM13.7526 17.5005C13.3818 17.5005 13.0193 17.3906 12.7109 17.1846C12.4026 16.9785 12.1623 16.6857 12.0204 16.3431C11.8784 16.0005 11.8413 15.6235 11.9137 15.2598C11.986 14.896 12.1646 14.5619 12.4268 14.2997C12.689 14.0375 13.0231 13.8589 13.3868 13.7866C13.7505 13.7142 14.1275 13.7514 14.4702 13.8933C14.8128 14.0352 15.1056 14.2755 15.3116 14.5839C15.5177 14.8922 15.6276 15.2547 15.6276 15.6255C15.6276 16.1228 15.4301 16.5997 15.0785 16.9514C14.7268 17.303 14.2499 17.5005 13.7526 17.5005Z" fill="#1A1A1A" />
                     </svg>
                     <?php echo esc_html__('Share', 'freska'); ?>
                 </a>
@@ -4144,8 +4157,8 @@ function freska_woocommerce_single_product_more_information()
     <div class="bt-more-information">
         <?php if ($estimated_delivery) { ?>
             <div class="bt-estimated-delivery">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M10 3.125C8.51664 3.125 7.0666 3.56487 5.83323 4.38898C4.59986 5.21309 3.63856 6.38443 3.07091 7.75487C2.50325 9.12532 2.35472 10.6333 2.64411 12.0882C2.9335 13.543 3.64781 14.8794 4.6967 15.9283C5.7456 16.9772 7.08197 17.6915 8.53683 17.9809C9.99168 18.2703 11.4997 18.1218 12.8701 17.5541C14.2406 16.9864 15.4119 16.0251 16.236 14.7918C17.0601 13.5584 17.5 12.1084 17.5 10.625C17.4977 8.63657 16.7068 6.73024 15.3008 5.32421C13.8948 3.91818 11.9884 3.12727 10 3.125ZM10 16.875C8.76387 16.875 7.5555 16.5084 6.52769 15.8217C5.49988 15.1349 4.6988 14.1588 4.22576 13.0168C3.75271 11.8747 3.62894 10.6181 3.8701 9.40569C4.11125 8.19331 4.70651 7.07966 5.58059 6.20558C6.45466 5.3315 7.56831 4.73625 8.78069 4.49509C9.99307 4.25393 11.2497 4.37771 12.3918 4.85075C13.5338 5.3238 14.5099 6.12488 15.1967 7.15269C15.8834 8.18049 16.25 9.38887 16.25 10.625C16.2481 12.282 15.5891 13.8707 14.4174 15.0424C13.2457 16.2141 11.657 16.8731 10 16.875ZM13.5672 7.05781C13.6253 7.11586 13.6714 7.18479 13.7029 7.26066C13.7343 7.33654 13.7505 7.41787 13.7505 7.5C13.7505 7.58214 13.7343 7.66346 13.7029 7.73934C13.6714 7.81521 13.6253 7.88414 13.5672 7.94219L10.4422 11.0672C10.3841 11.1253 10.3152 11.1713 10.2393 11.2027C10.1634 11.2342 10.0821 11.2503 10 11.2503C9.91788 11.2503 9.83656 11.2342 9.76069 11.2027C9.68482 11.1713 9.61589 11.1253 9.55782 11.0672C9.49975 11.0091 9.45368 10.9402 9.42226 10.8643C9.39083 10.7884 9.37466 10.7071 9.37466 10.625C9.37466 10.5429 9.39083 10.4616 9.42226 10.3857C9.45368 10.3098 9.49975 10.2409 9.55782 10.1828L12.6828 7.05781C12.7409 6.9997 12.8098 6.9536 12.8857 6.92215C12.9615 6.8907 13.0429 6.87451 13.125 6.87451C13.2071 6.87451 13.2885 6.8907 13.3643 6.92215C13.4402 6.9536 13.5091 6.9997 13.5672 7.05781ZM7.5 1.25C7.5 1.08424 7.56585 0.925269 7.68306 0.808058C7.80027 0.690848 7.95924 0.625 8.125 0.625H11.875C12.0408 0.625 12.1997 0.690848 12.3169 0.808058C12.4342 0.925269 12.5 1.08424 12.5 1.25C12.5 1.41576 12.4342 1.57473 12.3169 1.69194C12.1997 1.80915 12.0408 1.875 11.875 1.875H8.125C7.95924 1.875 7.80027 1.80915 7.68306 1.69194C7.56585 1.57473 7.5 1.41576 7.5 1.25Z" fill="#1A1A1A" />
                 </svg>
                 <?php echo '<span>' . $estimated_delivery . '</span>'; ?>
             </div>
@@ -4153,8 +4166,8 @@ function freska_woocommerce_single_product_more_information()
 
         <?php if ($product_return) { ?>
             <div class="bt-product-return">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3M3.22302 14C4.13247 18.008 7.71683 21 12 21c4.9706 0 9-4.0294 9-9 0-4.97056-4.0294-9-9-9-3.72916 0-6.92858 2.26806-8.29409 5.5M7 9H3V5" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M18.7504 4.3743V8.1243C18.7504 8.29006 18.6846 8.44903 18.5674 8.56624C18.4501 8.68345 18.2912 8.7493 18.1254 8.7493H14.3754C14.2097 8.7493 14.0507 8.68345 13.9335 8.56624C13.8163 8.44903 13.7504 8.29006 13.7504 8.1243C13.7504 7.95854 13.8163 7.79957 13.9335 7.68236C14.0507 7.56515 14.2097 7.4993 14.3754 7.4993H16.516L14.4387 5.59617L14.4192 5.57742C13.5505 4.70905 12.4452 4.1159 11.2413 3.87207C10.0375 3.62823 8.78847 3.74452 7.65033 4.20641C6.51219 4.66829 5.53538 5.4553 4.84193 6.46911C4.14847 7.48292 3.76911 8.67859 3.75124 9.90675C3.73338 11.1349 4.07779 12.3411 4.74145 13.3747C5.40512 14.4082 6.35862 15.2233 7.48284 15.7181C8.60706 16.2129 9.85215 16.3655 11.0626 16.1568C12.273 15.9481 13.3951 15.3873 14.2887 14.5446C14.4092 14.4306 14.57 14.3692 14.7358 14.3738C14.9016 14.3784 15.0587 14.4487 15.1727 14.5692C15.2866 14.6897 15.3481 14.8505 15.3435 15.0163C15.3388 15.1821 15.2686 15.3392 15.1481 15.4532C13.7586 16.771 11.9154 17.5036 10.0004 17.4993H9.89729C8.66896 17.4825 7.46357 17.1642 6.38705 16.5724C5.31054 15.9806 4.39587 15.1335 3.72343 14.1054C3.05099 13.0774 2.64137 11.8999 2.53057 10.6764C2.41977 9.45301 2.61119 8.22109 3.088 7.08895C3.56481 5.95682 4.31241 4.95913 5.26509 4.18359C6.21778 3.40805 7.34638 2.87839 8.5517 2.64117C9.75703 2.40395 11.0022 2.46643 12.1777 2.82311C13.3532 3.1798 14.4231 3.81978 15.2934 4.6868L17.5004 6.70242V4.3743C17.5004 4.20854 17.5663 4.04957 17.6835 3.93236C17.8007 3.81515 17.9597 3.7493 18.1254 3.7493C18.2912 3.7493 18.4501 3.81515 18.5674 3.93236C18.6846 4.04957 18.7504 4.20854 18.7504 4.3743Z" fill="#1A1A1A" />
                 </svg>
                 <?php echo '<span>' . $product_return . '</span>'; ?>
             </div>
@@ -4210,8 +4223,15 @@ function freska_woocommerce_single_product_more_information()
                             <?php echo '<div class="bt-delivery-return__content mfp-content__inner">' . $delivery_return . '</div>'; ?>
                         </div>
                         <a href="#bt_delivery_return" class="bt-delivery-return__link bt-js-open-popup-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <g clip-path="url(#clip0_2134_20057)">
+                                    <path d="M19.9547 9.14062L18.8609 6.40625C18.7682 6.1749 18.608 5.97674 18.4013 5.83745C18.1946 5.69815 17.9508 5.62414 17.7016 5.625H15V5C15 4.83424 14.9342 4.67527 14.8169 4.55806C14.6997 4.44085 14.5408 4.375 14.375 4.375H2.5C2.16848 4.375 1.85054 4.5067 1.61612 4.74112C1.3817 4.97554 1.25 5.29348 1.25 5.625V14.375C1.25 14.7065 1.3817 15.0245 1.61612 15.2589C1.85054 15.4933 2.16848 15.625 2.5 15.625H3.82813C3.96581 16.1628 4.27856 16.6394 4.71707 16.9798C5.15558 17.3202 5.69489 17.5049 6.25 17.5049C6.80511 17.5049 7.34443 17.3202 7.78293 16.9798C8.22144 16.6394 8.53419 16.1628 8.67188 15.625H12.5781C12.7158 16.1628 13.0286 16.6394 13.4671 16.9798C13.9056 17.3202 14.4449 17.5049 15 17.5049C15.5551 17.5049 16.0944 17.3202 16.5329 16.9798C16.9714 16.6394 17.2842 16.1628 17.4219 15.625H18.75C19.0815 15.625 19.3995 15.4933 19.6339 15.2589C19.8683 15.0245 20 14.7065 20 14.375V9.375C20.0002 9.29468 19.9848 9.21508 19.9547 9.14062ZM15 6.875H17.7016L18.4516 8.75H15V6.875ZM2.5 5.625H13.75V10.625H2.5V5.625ZM6.25 16.25C6.00277 16.25 5.7611 16.1767 5.55554 16.0393C5.34998 15.902 5.18976 15.7068 5.09515 15.4784C5.00054 15.2499 4.97579 14.9986 5.02402 14.7561C5.07225 14.5137 5.1913 14.2909 5.36612 14.1161C5.54093 13.9413 5.76366 13.8222 6.00614 13.774C6.24861 13.7258 6.49995 13.7505 6.72835 13.8451C6.95676 13.9398 7.15199 14.1 7.28934 14.3055C7.42669 14.5111 7.5 14.7528 7.5 15C7.5 15.3315 7.3683 15.6495 7.13388 15.8839C6.89946 16.1183 6.58152 16.25 6.25 16.25ZM12.5781 14.375H8.67188C8.53419 13.8372 8.22144 13.3606 7.78293 13.0202C7.34443 12.6798 6.80511 12.4951 6.25 12.4951C5.69489 12.4951 5.15558 12.6798 4.71707 13.0202C4.27856 13.3606 3.96581 13.8372 3.82813 14.375H2.5V11.875H13.75V12.8367C13.4626 13.0028 13.211 13.2243 13.0099 13.4884C12.8087 13.7525 12.662 14.0538 12.5781 14.375ZM15 16.25C14.7528 16.25 14.5111 16.1767 14.3055 16.0393C14.1 15.902 13.9398 15.7068 13.8452 15.4784C13.7505 15.2499 13.7258 14.9986 13.774 14.7561C13.8223 14.5137 13.9413 14.2909 14.1161 14.1161C14.2909 13.9413 14.5137 13.8222 14.7561 13.774C14.9986 13.7258 15.2499 13.7505 15.4784 13.8451C15.7068 13.9398 15.902 14.1 16.0393 14.3055C16.1767 14.5111 16.25 14.7528 16.25 15C16.25 15.3315 16.1183 15.6495 15.8839 15.8839C15.6495 16.1183 15.3315 16.25 15 16.25ZM18.75 14.375H17.4219C17.2825 13.8385 16.9692 13.3635 16.5309 13.0242C16.0927 12.6849 15.5543 12.5005 15 12.5V10H18.75V14.375Z" fill="#1A1A1A" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_2134_20057">
+                                        <rect width="20" height="20" fill="white" />
+                                    </clipPath>
+                                </defs>
                             </svg>
                             <?php echo esc_html__('Delivery & Return', 'freska'); ?>
                         </a>
@@ -4224,9 +4244,9 @@ function freska_woocommerce_single_product_more_information()
                             <?php echo '<div class="bt-ask-a-question__content mfp-content__inner">' . do_shortcode($ask_a_question) . '</div>'; ?>
                         </div>
                         <a href="#bt_ask_a_question" class="bt-ask-a-question__link bt-js-open-popup-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.529 9.988a2.502 2.502 0 1 1 5 .191A2.441 2.441 0 0 1 12 12.582V14m-.01 3.008H12M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10.9375 14.0625C10.9375 14.2479 10.8825 14.4292 10.7795 14.5833C10.6765 14.7375 10.5301 14.8577 10.3588 14.9286C10.1875 14.9996 9.99896 15.0182 9.81711 14.982C9.63525 14.9458 9.4682 14.8565 9.33709 14.7254C9.20598 14.5943 9.11669 14.4273 9.08052 14.2454C9.04434 14.0635 9.06291 13.875 9.13387 13.7037C9.20482 13.5324 9.32499 13.386 9.47916 13.283C9.63333 13.18 9.81458 13.125 10 13.125C10.2486 13.125 10.4871 13.2238 10.6629 13.3996C10.8387 13.5754 10.9375 13.8139 10.9375 14.0625ZM10 5.625C8.27657 5.625 6.875 6.88672 6.875 8.4375V8.75C6.875 8.91576 6.94085 9.07473 7.05806 9.19194C7.17527 9.30915 7.33424 9.375 7.5 9.375C7.66576 9.375 7.82474 9.30915 7.94195 9.19194C8.05916 9.07473 8.125 8.91576 8.125 8.75V8.4375C8.125 7.57812 8.96641 6.875 10 6.875C11.0336 6.875 11.875 7.57812 11.875 8.4375C11.875 9.29688 11.0336 10 10 10C9.83424 10 9.67527 10.0658 9.55806 10.1831C9.44085 10.3003 9.375 10.4592 9.375 10.625V11.25C9.375 11.4158 9.44085 11.5747 9.55806 11.6919C9.67527 11.8092 9.83424 11.875 10 11.875C10.1658 11.875 10.3247 11.8092 10.4419 11.6919C10.5592 11.5747 10.625 11.4158 10.625 11.25V11.1938C12.05 10.932 13.125 9.79531 13.125 8.4375C13.125 6.88672 11.7234 5.625 10 5.625ZM18.125 10C18.125 11.607 17.6485 13.1779 16.7557 14.514C15.8629 15.8502 14.594 16.8916 13.1093 17.5065C11.6247 18.1215 9.99099 18.2824 8.4149 17.9689C6.8388 17.6554 5.39106 16.8815 4.25476 15.7452C3.11846 14.6089 2.34463 13.1612 2.03112 11.5851C1.71762 10.009 1.87852 8.37535 2.49348 6.8907C3.10844 5.40605 4.14985 4.1371 5.486 3.24431C6.82214 2.35152 8.39303 1.875 10 1.875C12.1542 1.87727 14.2195 2.73403 15.7427 4.25727C17.266 5.78051 18.1227 7.84581 18.125 10ZM16.875 10C16.875 8.64025 16.4718 7.31104 15.7164 6.18045C14.9609 5.04987 13.8872 4.16868 12.631 3.64833C11.3747 3.12798 9.99238 2.99183 8.65876 3.2571C7.32514 3.52237 6.10013 4.17716 5.13864 5.13864C4.17716 6.10013 3.52238 7.32513 3.2571 8.65875C2.99183 9.99237 3.12798 11.3747 3.64833 12.6309C4.16868 13.8872 5.04987 14.9609 6.18046 15.7164C7.31105 16.4718 8.64026 16.875 10 16.875C11.8227 16.8729 13.5702 16.1479 14.8591 14.8591C16.1479 13.5702 16.8729 11.8227 16.875 10Z" fill="#1A1A1A" />
+                        </svg>
                             <?php echo esc_html__('Ask A Question', 'freska'); ?>
                         </a>
                     </div>
@@ -4486,186 +4506,6 @@ function freska_render_product_info_toggle()
     </div>
 <?php
 }
-
-/**
- * Remove reviews tab from product tabs
- * This allows reviews to be rendered separately
- *
- * @param array $tabs Product tabs
- * @return array
- */
-function freska_remove_reviews_from_tabs($tabs)
-{
-    // Bypass removal when we're fetching full tabs for freska_render_product_reviews
-    if (!empty($GLOBALS['freska_fetching_reviews_tab'])) {
-        return $tabs;
-    }
-
-    if (is_product() && isset($tabs['reviews'])) {
-        unset($tabs['reviews']);
-    }
-
-    return $tabs;
-}
-add_filter('woocommerce_product_tabs', 'freska_remove_reviews_from_tabs', 98);
-
-/**
- * Render product reviews separately
- * This function can be called anywhere you want to display reviews
- */
-add_action('woocommerce_after_single_product_summary', 'freska_render_product_reviews', 19);
-add_action('freska_woocommerce_single_product_after_summary', 'freska_render_product_reviews', 19);
-function freska_render_product_reviews()
-{
-    global $product;
-
-    if (!$product) {
-        return;
-    }
-
-    // Check if comments are open
-    if (!comments_open()) {
-        return;
-    }
-
-    // Fetch full tabs (including reviews) by temporarily bypassing our removal filter
-    $GLOBALS['freska_fetching_reviews_tab'] = true;
-    $product_tabs = apply_filters('woocommerce_product_tabs', array());
-    unset($GLOBALS['freska_fetching_reviews_tab']);
-
-    // Check if reviews tab exists
-    if (!isset($product_tabs['reviews'])) {
-        return;
-    }
-
-    $reviews_tab = $product_tabs['reviews'];
-
-    // Default: "Customer Reviews" + "Share your thoughts with other customers!"
-    $reviews_title   = __('Customer Reviews', 'freska');
-    $reviews_subtitle = __('Share your thoughts with other customers!', 'freska');
-
-    // Override from Theme Options > Single Products > Customer Reviews
-    if (function_exists('get_field')) {
-        $customer_reviews = get_field('customer_reviews', 'option');
-        if (!empty($customer_reviews['enable_custom_reviews'])) {
-            if (!empty($customer_reviews['heading'])) {
-                $reviews_title = $customer_reviews['heading'];
-            }
-            if (isset($customer_reviews['description']) && $customer_reviews['description'] !== '') {
-                $reviews_subtitle = $customer_reviews['description'];
-            }
-        }
-    }
-    $reviews_title = apply_filters('woocommerce_product_reviews_tab_title', $reviews_title);
-
-    $reviews_callback = isset($reviews_tab['callback']) ? $reviews_tab['callback'] : 'comments_template';
-?>
-    <section class="freska-product-reviews">
-        <?php if (!empty($reviews_title)) : ?>
-            <h3 class="freska-reviews-title"><?php echo wp_kses_post($reviews_title); ?></h3>
-        <?php endif; ?>
-        <?php if (!empty($reviews_subtitle)) : ?>
-            <p class="freska-reviews-subtitle"><?php echo wp_kses_post($reviews_subtitle); ?></p>
-        <?php endif; ?>
-        <div class="freska-reviews-content">
-            <?php
-            if (is_callable($reviews_callback)) {
-                call_user_func($reviews_callback, 'reviews', $reviews_tab);
-            }
-            ?>
-        </div>
-    </section>
-<?php
-}
-
-/**
- * Render benefits tab content
- * 
- * @param string $key Tab key
- * @param array $tab Tab data
- */
-function freska_render_benefits_tab($key, $tab)
-{
-    global $product;
-
-    if (!$product || !function_exists('get_field')) {
-        return;
-    }
-
-    // Get list_benefits field from product
-    $list_benefits = get_field('list_benefits', $product->get_id());
-
-    if (empty($list_benefits) || !is_array($list_benefits)) {
-        return;
-    }
-?>
-    <div class="benefits-list">
-        <?php foreach ($list_benefits as $benefit) :
-            $icon = isset($benefit['icon']) ? $benefit['icon'] : '';
-            $heading = isset($benefit['heading']) ? $benefit['heading'] : '';
-            $description = isset($benefit['description']) ? $benefit['description'] : '';
-
-            if (empty($heading) && empty($description)) {
-                continue;
-            }
-        ?>
-            <div class="benefit-item">
-                <?php if (!empty($icon)) :
-                    $icon_url = is_array($icon) ? $icon['url'] : $icon;
-                    $icon_alt = is_array($icon) ? $icon['alt'] : '';
-                ?>
-                    <div class="benefit-icon">
-                        <img src="<?php echo esc_url($icon_url); ?>" alt="<?php echo esc_attr($icon_alt); ?>" />
-                    </div>
-                <?php endif; ?>
-
-                <div class="benefit-content">
-                    <?php if (!empty($heading)) : ?>
-                        <h4 class="benefit-heading"><?php echo esc_html($heading); ?></h4>
-                    <?php endif; ?>
-
-                    <?php if (!empty($description)) : ?>
-                        <div class="benefit-description"><?php echo wp_kses_post(nl2br($description)); ?></div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-
-<?php
-}
-
-/**
- * Add Benefits tab to WooCommerce product tabs
- * 
- * @param array $tabs Existing tabs
- * @return array Modified tabs
- */
-function freska_add_benefits_tab($tabs)
-{
-    global $product;
-
-    if (!is_product() || !$product || !function_exists('get_field')) {
-        return $tabs;
-    }
-
-    // Check if product has benefits
-    $list_benefits = get_field('list_benefits', $product->get_id());
-
-    if (empty($list_benefits) || !is_array($list_benefits)) {
-        return $tabs;
-    }
-
-    // Add Benefits tab - priority 5 to appear first
-    $tabs['benefits'] = array(
-        'title'    => __('Benefits', 'freska'),
-        'priority' => 5,
-        'callback' => 'freska_render_benefits_tab',
-    );
-
-    return $tabs;
-}
-add_filter('woocommerce_product_tabs', 'freska_add_benefits_tab', 5);
 
 /**
  * Add or modify placeholders for existing WooCommerce checkout fields
