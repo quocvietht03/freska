@@ -721,7 +721,7 @@
         right: 12px;
       }
       a {
-        background: $color-accent;
+        background: $color-secondary;
         color: #fff;
         font-size: 0;
         position: absolute;
@@ -745,9 +745,6 @@
             width: 16px;
             height: 16px;
           }
-        }
-        &:hover {
-          background: $color-accent;
         }
         &::before {
           content: "";
@@ -2622,8 +2619,6 @@
               cursor: not-allowed;
               opacity: 0.5;
               &::after {
-                top: 32% !important;
-                left: 44% !important;
                 width: 16px;
                 height: 16px;
               }
@@ -5509,8 +5504,8 @@
               &::after {
                 content: "" !important;
                 position: absolute;
-                top: 36%;
-                left: 48%;
+                top: 50%;
+                left: 50%;
                 width: 16px;
                 height: 16px;
                 z-index: 9999;
@@ -5673,8 +5668,8 @@
                 &::after {
                   content: "" !important;
                   position: absolute;
-                  top: 36%;
-                  left: 48%;
+                  top: 50%;
+                  left: 50%;
                   width: 16px;
                   height: 16px;
                   z-index: 9999;
@@ -7616,8 +7611,8 @@
             &::after {
               content: "" !important;
               position: absolute;
-              top: 36%;
-              left: 48%;
+              top: 50%;
+              left: 50%;
               width: 16px;
               height: 16px;
               z-index: 9999;
@@ -12497,17 +12492,21 @@
       top: 20px;
       background-color: #f6f6f6;
       background-image: url("../images/close.svg");
-      background-size: 20px;
+      background-size: 16px;
       background-position: center;
       opacity: 1;
       width: 40px;
       height: 40px;
       border-radius: 50%;
+      transition: all 0.3s ease;
       @media (max-width: $break-xs) {
         right: 10px;
         top: 10px;
         width: 30px;
         height: 30px;
+      }
+      &:hover {
+        transform: rotate(90deg);
       }
     }
     .bt-popup-inner {
@@ -12534,7 +12533,7 @@
           position: relative;
           font-size: 40px;
           font-style: normal;
-          font-weight: 500;
+          font-weight: 700;
           line-height: 48px; /* 120% */
           text-transform: capitalize;
           color: $color-primary;
@@ -12578,7 +12577,7 @@
           font-weight: 400;
           line-height: 26px;
           color: $color-text;
-          margin: 0 0 12px 0;
+          margin: 0 0 8px 0;
           @media (max-width: $break-sm) {
             margin: 0 0 6px 0;
           }
@@ -12600,11 +12599,11 @@
           background: #ffffff;
           box-sizing: border-box;
           color: $color-primary;
-          border-radius: 8px;
+          border-radius: 12px;
           &:focus {
             outline: none;
-            border-color: $color-accent;
-            box-shadow: 0 0 0 1px $color-accent;
+            border-color: $color-secondary;
+            box-shadow: 0 0 0 1px $color-secondary;
           }
 
           &::placeholder {
@@ -12657,15 +12656,16 @@
           display: flex;
           align-items: center;
           cursor: pointer;
-          font-size: 16px;
+          font-size: 14px;
           font-style: normal;
           font-weight: 400;
-          line-height: 26px;
+          line-height: 22px;
           margin: 0;
           color: $color-primary;
           a {
             margin-left: 4px;
             text-decoration: underline;
+            font-weight: 700;
           }
           input[type="checkbox"] {
             margin: 0;
@@ -12706,10 +12706,10 @@
         }
 
         .bt-forgot-password {
-          font-size: 16px;
+          font-size: 14px;
           font-style: normal;
-          font-weight: 500;
-          line-height: 26px; /* 162.5% */
+          font-weight: 700;
+          line-height: 22px; 
           text-decoration-line: underline;
           text-decoration-style: solid;
           text-decoration-skip-ink: none;
@@ -12727,31 +12727,36 @@
         .bt-register-btn {
           width: 100%;
           padding: 12px 20px;
-          background: $color-accent;
+          background: $color-secondary;
           color: $color-primary;
           border: none;
-          border-radius: 8px;
+          border-radius: 100px;
           font-size: 16px;
           font-style: normal;
-          font-weight: 500;
+          font-weight: 700;
           line-height: 26px;
           cursor: pointer;
           transition: none;
           position: relative;
           &:hover:not(:disabled) {
-            background: $color-primary;
-            color: $color-accent;
+            background: $color-accent;
+            color: $color-white;
+            &.bt-loading {
+              &::before{
+                background-image: url("../images/loading-white.svg");
+              }
+            }
           }
           &:disabled {
             opacity: 0.7;
             cursor: not-allowed;
           }
           &.bt-loading {
-            color: transparent;
+            color: transparent !important;
             &::before {
               content: "" !important;
               position: absolute;
-              top: 31% !important;
+              top: 50%;
               left: 50%;
               width: 20px;
               height: 20px;
@@ -12777,10 +12782,10 @@
           margin: 0;
           padding: 12px 16px;
           border-radius: 4px;
-          font-size: 16px;
+          font-size: 14px;
           font-style: normal;
           font-weight: 400;
-          line-height: 26px;
+          line-height: 22px;
           color: $color-text;
         }
 
@@ -12808,17 +12813,18 @@
       .bt-register-link {
         text-align: center;
         margin-top: 12px;
-        font-size: 16px;
+        font-size: 14px;
         font-style: normal;
         font-weight: 400;
-        line-height: 26px;
+        line-height: 22px;
         color: $color-text;
         a {
-          font-size: 16px;
+          font-size: 14px;
           font-style: normal;
-          font-weight: 500;
-          line-height: 26px; /* 162.5% */
+          font-weight: 700;
+          line-height: 22px;
           color: $color-primary;
+          margin-left: 4px;
           text-decoration-line: underline;
           text-decoration-style: solid;
           text-decoration-skip-ink: auto;
@@ -12832,17 +12838,18 @@
       .bt-login-link {
         text-align: center;
         margin-top: 12px;
-        font-size: 16px;
+        font-size: 14px;
         font-style: normal;
         font-weight: 400;
-        line-height: 26px;
+        line-height: 22px;
         color: $color-text;
         a {
-          font-size: 16px;
+          font-size: 14px;
           font-style: normal;
-          font-weight: 500;
-          line-height: 26px; /* 162.5% */
+          font-weight: 700;
+          line-height: 22px; 
           color: $color-primary;
+          margin-left: 4px;
           text-decoration-line: underline;
           text-decoration-style: solid;
           text-decoration-skip-ink: auto;
