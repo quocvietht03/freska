@@ -294,7 +294,7 @@ if (!function_exists('freska_woocommerce_loop_add_to_cart_link')) {
 remove_action('woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15);
 
 add_action('freska_woocommerce_template_upsell_products', 'woocommerce_upsell_display', 20);
-add_action('woocommerce_before_add_to_cart_quantity', 'freska_display_frequently_bought_together', 10);
+add_action('freska_woocommerce_template_frequently_bought_together', 'freska_display_frequently_bought_together', 10);
 
 //Remove categories from product loop
 add_filter('woocommerce_product_loop_start', function ($html) {
@@ -5255,7 +5255,7 @@ function freska_single_product_sticky_bar()
                             <div class="bt-single-product-sticky-bar__variation-name">
                                 <?php
                                 foreach ($default_variation_labels_full as $item) {
-                                    echo '<div class="bt-single-product-sticky-bar__variation-row"><strong>' . esc_html($item['label'] . ':') . '</strong> <span>' . esc_html($item['value']) . '</span></div>';
+                                    echo '<div class="bt-single-product-sticky-bar__variation-row"><span>' . esc_html($item['label'] . ':') . '</span> <strong>' . esc_html($item['value']) . '</strong></div>';
                                 }
                                 ?>
                             </div>
@@ -5357,7 +5357,6 @@ function freska_get_frequently_bought_together($product_id = null)
 
     return $products;
 }
-
 /**
  * Display Frequently Bought Together products section
  * 
@@ -5393,111 +5392,202 @@ function freska_display_frequently_bought_together($product_id = null)
     $thousand_separator = wc_get_price_thousand_separator();
 
 ?>
-    <div class="freska-frequently-bought-together">
+    <section class="freska-frequently-bought-together">
         <?php
-        // Get heading from product meta
-        $custom_heading = get_post_meta($product_id, '_frequently_bought_together_title', true);
+        // Get heading from theme options
+        $fbt_options = get_field('frequently_bought_together', 'option');
+        $custom_heading = '';
+        if ($fbt_options && isset($fbt_options['enable_frequently_bought_together']) && $fbt_options['enable_frequently_bought_together']) {
+            if (!empty($fbt_options['heading'])) {
+                $custom_heading = $fbt_options['heading'];
+            }
+        }
 
         // Use custom heading if available, otherwise use default
-        $default_heading = __('Adjustable Base and Box Spring:', 'freska');
+        $default_heading = __('Frequently Bought Together', 'freska');
         $heading = !empty($custom_heading) ? $custom_heading : $default_heading;
 
         // Allow filtering
-        $heading = apply_filters('freska_product_frequently_bought_together_heading', $heading, $product_id);
+        $heading = apply_filters('freska_product_frequently_bought_together_heading', $heading);
 
         if ($heading) :
         ?>
             <h2 class="fbt-heading"><?php echo esc_html($heading); ?></h2>
         <?php endif; ?>
 
-        <div class="fbt-products-select-wrapper">
-            <select class="fbt-products-select"
-                id="fbt-products-select"
-                name="fbt_product_id"
-                data-main-product-id="<?php echo esc_attr($product_id); ?>"
-                data-currency="<?php echo esc_attr($currency_symbol); ?>"
-                data-decimal-separator="<?php echo esc_attr($decimal_separator); ?>"
-                data-thousand-separator="<?php echo esc_attr($thousand_separator); ?>">
-                <option value=""><?php esc_html_e('No Thanks', 'freska'); ?></option>
-                <?php
-                // Display frequently bought together products only
-                foreach ($fbt_products as $fbt_product) :
-                    if (empty($fbt_product) || !$fbt_product->is_visible()) {
-                        continue;
+        <div class="fbt-products-list"
+            data-currency="<?php echo esc_attr($currency_symbol); ?>"
+            data-decimal-separator="<?php echo esc_attr($decimal_separator); ?>"
+            data-thousand-separator="<?php echo esc_attr($thousand_separator); ?>">
+
+            <?php
+            // Display current product first (always checked, disabled)
+            $current_price = $product->get_price();
+            $current_regular_price = $product->get_regular_price() ? $product->get_regular_price() : $current_price;
+            $is_variable = $product->is_type('variable');
+            $data_variable = $is_variable ? '1' : '0';
+            $current_name = $product->get_name();
+
+            // If it's a variable product, we'll need to get the selected variation via JS
+            $current_product_id = $product->get_id();
+            ?>
+
+            <div class="fbt-product-item fbt-current-product"
+                data-product-id="<?php echo esc_attr($current_product_id); ?>"
+                data-is-variable="<?php echo esc_attr($data_variable); ?>"
+                data-price="<?php echo esc_attr($current_price); ?>"
+                data-regular-price="<?php echo esc_attr($current_regular_price); ?>">
+                <div class="fbt-product-checkbox">
+                    <input type="checkbox"
+                        id="fbt-product-current"
+                        value="<?php echo esc_attr($current_product_id); ?>"
+                        checked
+                        disabled>
+                    <label for="fbt-product-current"></label>
+                </div>
+                <div class="fbt-product-image">
+                    <?php echo '<a href="' . esc_url($product->get_permalink()) . '">' . $product->get_image('woocommerce_gallery_thumbnail') . '</a>'; ?>
+                </div>
+                <div class="fbt-product-details">
+                    <h3 class="fbt-product-name">
+                        <a href="<?php echo esc_url($product->get_permalink()); ?>">
+                            <?php echo esc_html($current_name); ?>
+                            <?php if ($is_variable) : ?>
+                                <span class="fbt-variation-text"></span>
+                            <?php endif; ?>
+                        </a>
+
+                    </h3>
+                    <div class="fbt-product-price">
+                        <?php
+                        $price_html  = $product->get_price_html();
+                        echo wp_kses_post($price_html);
+                        ?>
+                    </div>
+                </div>
+            </div>
+
+            <?php
+            // Display frequently bought together products
+            foreach ($fbt_products as $fbt_product) :
+                if (empty($fbt_product) || !$fbt_product->is_visible()) {
+                    continue;
+                }
+
+                $fbt_price = $fbt_product->get_price();
+                $fbt_regular_price = $fbt_product->get_regular_price() ? $fbt_product->get_regular_price() : $fbt_price;
+                $is_variation = $fbt_product->is_type('variation');
+                $product_name = $fbt_product->get_name();
+
+                if ($is_variation) {
+                    $parent_id = $fbt_product->get_parent_id();
+                    $parent = wc_get_product($parent_id);
+                    $attributes = $fbt_product->get_attributes();
+                    $attr_labels = [];
+
+                    foreach ($attributes as $attr_name => $attr_value) {
+                        if (taxonomy_exists($attr_name)) {
+                            $term = get_term_by('slug', $attr_value, $attr_name);
+                            $attr_value = $term ? $term->name : $attr_value;
+                        }
+                        $attr_labels[] = ucfirst($attr_value);
                     }
 
-                    $fbt_price = $fbt_product->get_price();
-                    $fbt_regular_price = $fbt_product->get_regular_price() ? $fbt_product->get_regular_price() : $fbt_price;
-                    $is_variation = $fbt_product->is_type('variation');
-                    $product_name = $fbt_product->get_name();
-
-                    if ($is_variation) {
-                        $parent_id = $fbt_product->get_parent_id();
-                        $parent = wc_get_product($parent_id);
-                        $attributes = $fbt_product->get_attributes();
-                        $attr_labels = [];
-
-                        foreach ($attributes as $attr_name => $attr_value) {
-                            if (taxonomy_exists($attr_name)) {
-                                $term = get_term_by('slug', $attr_value, $attr_name);
-                                $attr_value = $term ? $term->name : $attr_value;
-                            }
-                            $attr_labels[] = ucfirst($attr_value);
-                        }
-
-                        if (!empty($attr_labels)) {
-                            $product_name = $parent->get_name() . ' - ' . implode('/', $attr_labels);
-                        }
+                    if (!empty($attr_labels)) {
+                        $product_name = $parent->get_name() . ' - ' . implode('/', $attr_labels);
                     }
+                }
+            ?>
 
-                    // Format: Product Name - $Price
-                    $formatted_price = wc_price($fbt_price);
-                    $formatted_price = strip_tags($formatted_price); // Remove HTML tags from price
-                    $option_text = $product_name . ' - ' . $formatted_price;
-                ?>
-                    <option value="<?php echo esc_attr($fbt_product->get_id()); ?>"
-                        data-product-id="<?php echo esc_attr($fbt_product->get_id()); ?>"
-                        data-price="<?php echo esc_attr($fbt_price); ?>"
-                        data-regular-price="<?php echo esc_attr($fbt_regular_price); ?>">
-                        <?php echo esc_html($option_text); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+                <div class="fbt-product-item"
+                    data-product-id="<?php echo esc_attr($fbt_product->get_id()); ?>"
+                    data-price="<?php echo esc_attr($fbt_price); ?>"
+                    data-regular-price="<?php echo esc_attr($fbt_regular_price); ?>">
+                    <div class="fbt-product-checkbox">
+                        <input type="checkbox"
+                            id="fbt-product-<?php echo esc_attr($fbt_product->get_id()); ?>"
+                            value="<?php echo esc_attr($fbt_product->get_id()); ?>"
+                            checked>
+                        <label for="fbt-product-<?php echo esc_attr($fbt_product->get_id()); ?>"></label>
+                    </div>
+                    <div class="fbt-product-image">
+                        <?php echo '<a href="' . esc_url($fbt_product->get_permalink()) . '">' . $fbt_product->get_image('woocommerce_gallery_thumbnail') . '</a>'; ?>
+                    </div>
+                    <div class="fbt-product-details">
+                        <h3 class="fbt-product-name">
+                            <a href="<?php echo esc_url($fbt_product->get_permalink()); ?>">
+                                <?php echo esc_html($product_name); ?>
+                            </a>
+                        </h3>
+                        <div class="fbt-product-price"><?php echo wp_kses_post($fbt_product->get_price_html()); ?></div>
+                    </div>
+                </div>
+
+            <?php endforeach; ?>
         </div>
-    </div>
+
+        <div class="fbt-summary">
+            <div class="fbt-total-price">
+                <span class="fbt-total-label"><?php _e('Total Price:', 'freska'); ?></span>
+                <span class="fbt-total-amount"></span>
+            </div>
+            <button type="button" class="fbt-add-to-cart-btn" disabled>
+                <?php _e('Add Selected to Cart', 'freska'); ?>
+            </button>
+        </div>
+    </section>
 
     <?php
+    wp_reset_postdata();
 }
 
-// Hook to automatically add FBT product when main product is added to cart
-add_action('woocommerce_add_to_cart', 'freska_auto_add_fbt_product', 10, 6);
+// AJAX handler for adding Frequently Bought Together products to cart
+add_action('wp_ajax_freska_add_fbt_to_cart', 'freska_add_fbt_to_cart');
+add_action('wp_ajax_nopriv_freska_add_fbt_to_cart', 'freska_add_fbt_to_cart');
 
-function freska_auto_add_fbt_product($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data)
+function freska_add_fbt_to_cart()
 {
-    // Check if FBT product ID is provided from form submission
-    if (isset($_REQUEST['fbt_product_id']) && !empty($_REQUEST['fbt_product_id'])) {
-        $fbt_product_id = intval($_REQUEST['fbt_product_id']);
+    if (!isset($_POST['product_ids']) || empty($_POST['product_ids'])) {
+        wp_send_json_error(array('message' => __('No products selected', 'freska')));
+        return;
+    }
 
-        // Verify it's a valid product
-        $fbt_product = wc_get_product($fbt_product_id);
+    $product_ids = array_map('intval', $_POST['product_ids']);
+    $added_products = array();
+    $failed_products = array();
 
-        if ($fbt_product && $fbt_product->is_purchasable() && $fbt_product->is_in_stock()) {
-            // Check if FBT product is not already in cart to avoid duplicates
-            $cart = WC()->cart->get_cart();
-            $already_in_cart = false;
+    foreach ($product_ids as $product_id) {
+        $product = wc_get_product($product_id);
 
-            foreach ($cart as $item_key => $item) {
-                if ($item['product_id'] == $fbt_product_id || $item['variation_id'] == $fbt_product_id) {
-                    $already_in_cart = true;
-                    break;
-                }
-            }
-
-            // Add FBT product to cart if not already there
-            if (!$already_in_cart) {
-                WC()->cart->add_to_cart($fbt_product_id, 1);
-            }
+        if (!$product) {
+            $failed_products[] = $product_id;
+            continue;
         }
+
+        // Check if product can be added to cart
+        if (!$product->is_purchasable() || !$product->is_in_stock()) {
+            $failed_products[] = $product_id;
+            continue;
+        }
+
+        // Add product to cart
+        $cart_item_key = WC()->cart->add_to_cart($product_id, 1);
+
+        if ($cart_item_key) {
+            $added_products[] = $product_id;
+        } else {
+            $failed_products[] = $product_id;
+        }
+    }
+
+    if (!empty($added_products)) {
+        wp_send_json_success(array(
+            'message' => sprintf(__('%d product(s) added to cart', 'freska'), count($added_products)),
+            'added' => $added_products,
+            'failed' => $failed_products
+        ));
+    } else {
+        wp_send_json_error(array('message' => __('Failed to add products to cart', 'freska')));
     }
 }
 

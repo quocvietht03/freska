@@ -1305,7 +1305,6 @@
 								$('.bt-quickview-product .variations_form').wc_variation_form();
 							}
 							FreskaProductVariationHandler();
-							FreskaFrequentlyBoughtTogether();
 						} else {
 							console.log('error');
 						}
@@ -3114,7 +3113,7 @@
 		var searchTerm = '{Year}',
 			replaceWith = new Date().getFullYear();
 
-		$('.elementor-element, .bt-elwg-site-copyright').each(function () {
+		$('.bt-elwg-site-copyright').each(function () {
 			this.innerHTML = this.innerHTML.replace(searchTerm, replaceWith);
 		});
 	}
@@ -3857,7 +3856,7 @@
 				if ($variationNameEl.length && labelsFull && labelsFull[variationId]) {
 					var html = '';
 					labelsFull[variationId].forEach(function (item) {
-						html += '<div class="bt-single-product-sticky-bar__variation-row"><strong>' + (item.label + ':') + '</strong> <span>' + item.value + '</span></div>';
+						html += '<div class="bt-single-product-sticky-bar__variation-row"><span>' + (item.label + ':') + '</span> <strong>' + item.value + '</strong></div>';
 					});
 					$variationNameEl.html(html);
 				} else {
@@ -4163,50 +4162,203 @@
 		const $fbtSection = $('.freska-frequently-bought-together');
 		if ($fbtSection.length === 0) return;
 
-		const $fbtSelect = $fbtSection.find('.fbt-products-select');
-		if ($fbtSelect.length === 0) return;
+		const $productsList = $fbtSection.find('.fbt-products-list');
+		const $totalAmount = $fbtSection.find('.fbt-total-amount');
+		const $addToCartBtn = $fbtSection.find('.fbt-add-to-cart-btn');
+		const $currentProduct = $productsList.find('.fbt-current-product');
+		const isVariable = $currentProduct.data('is-variable') === 1;
 
-		// Initialize select2 (responsive to viewport)
-		const $wrapper = $('.fbt-products-select-wrapper');
-		$('.fbt-products-select').select2({
-			dropdownParent: $wrapper,
-			minimumResultsForSearch: Infinity,
-			width: '100%'
+		// Get currency settings
+		const currencySymbol = $productsList.data('currency') || '$';
+		const decimalSeparator = $productsList.data('decimal-separator') || '.';
+		const thousandSeparator = $productsList.data('thousand-separator') || ',';
+
+		let currentVariationId = null;
+		let currentVariationSelected = !isVariable; // If not variable, consider as selected
+
+		// Function to parse price from HTML
+		function parsePrice(priceText) {
+			return parseFloat(
+				priceText
+					.replace(new RegExp('[^0-9' + thousandSeparator + decimalSeparator + ']+', 'g'), '')
+					.replace(new RegExp('\\' + thousandSeparator, 'g'), '')
+					.replace(new RegExp('\\' + decimalSeparator, 'g'), '.')
+			) || 0;
+		}
+
+		// Function to format price
+		function formatPrice(price) {
+			const parts = price.toFixed(2).split('.');
+			parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator);
+			return currencySymbol + parts.join(decimalSeparator);
+		}
+
+		// Function to calculate total
+		function calculateTotal() {
+			let totalPrice = 0;
+			let regularTotalPrice = 0;
+			let checkedCount = 0;
+
+			$productsList.find('.fbt-product-item').each(function () {
+				const $item = $(this);
+				const $checkbox = $item.find('input[type="checkbox"]');
+
+				if ($checkbox.is(':checked')) {
+					const price = parseFloat($item.data('price')) || 0;
+					const regularPrice = parseFloat($item.data('regular-price')) || price;
+
+					totalPrice += price;
+					regularTotalPrice += regularPrice;
+
+					// Count only non-disabled checkboxes
+					if (!$checkbox.is(':disabled')) {
+						checkedCount++;
+					}
+				}
+			});
+
+			// Update total display
+			if (regularTotalPrice > totalPrice) {
+				$totalAmount.html('<del>' + formatPrice(regularTotalPrice) + '</del> ' + formatPrice(totalPrice));
+			} else {
+				$totalAmount.text(formatPrice(totalPrice));
+			}
+
+			// Enable/disable button
+			// Disabled if: variable product without selection OR no other products checked
+			if (!currentVariationSelected || checkedCount === 0) {
+				$addToCartBtn.prop('disabled', true).addClass('disabled');
+			} else {
+				$addToCartBtn.prop('disabled', false).removeClass('disabled');
+			}
+		}
+
+		// Handle checkbox change
+		$productsList.on('change', 'input[type="checkbox"]:not(:disabled)', function () {
+			calculateTotal();
 		});
 
-		// Sync dropdown width with wrapper on resize or open
-		function syncFbtSelect2Width() {
-			if ($wrapper.length === 0) return;
-			var w = $wrapper.outerWidth();
-			$wrapper.find('.select2-container').css('width', '100%');
-			$wrapper.find('.select2-dropdown').css('width', w + 'px');
+		// Listen to WooCommerce variation changes
+		if (isVariable) {
+			$('.variations_form').on('found_variation', function (event, variation) {
+				currentVariationId = variation.variation_id;
+				currentVariationSelected = true;
+
+				// Update current product data
+				$currentProduct.data('product-id', variation.variation_id);
+				$currentProduct.attr('data-product-id', variation.variation_id);
+				$currentProduct.data('price', variation.display_price);
+				$currentProduct.data('regular-price', variation.display_regular_price || variation.display_price);
+
+				// Update checkbox value
+				$currentProduct.find('input[type="checkbox"]').val(variation.variation_id);
+
+				// Update price display
+				const $priceDiv = $currentProduct.find('.fbt-product-price');
+				if (variation.price_html) {
+					$priceDiv.html(variation.price_html);
+				}
+
+				// Update variation text
+				let variationText = '';
+				if (variation.attributes) {
+					const attrValues = [];
+					for (let key in variation.attributes) {
+						if (variation.attributes.hasOwnProperty(key)) {
+							let value = variation.attributes[key];
+							// Capitalize first letter
+							value = value.charAt(0).toUpperCase() + value.slice(1);
+							attrValues.push(value);
+						}
+					}
+					if (attrValues.length > 0) {
+						variationText = ' - ' + attrValues.join('/');
+					}
+				}
+				$currentProduct.find('.fbt-variation-text').text(variationText);
+
+				// Recalculate total
+				calculateTotal();
+			});
+
+			$('.variations_form').on('reset_data', function () {
+				currentVariationId = null;
+				currentVariationSelected = false;
+
+				// Reset variation text
+				$currentProduct.find('.fbt-variation-text').text('');
+
+				// Disable button
+				calculateTotal();
+			});
 		}
-		$fbtSelect.on('select2:open', syncFbtSelect2Width);
-		$(window).on('resize', syncFbtSelect2Width);
-		syncFbtSelect2Width();
 
-		// Add hidden input to form when select changes
-		const $addToCartForm = $('form.cart');
-		const $buttonAddToCart = $addToCartForm.find('button[type="submit"]');
+		// Handle add to cart button click
+		$addToCartBtn.on('click', function (e) {
+			e.preventDefault();
 
-		// Create hidden input if not exists
-		if ($addToCartForm.find('input[name="fbt_product_id"]').length === 0) {
-			$buttonAddToCart.before('<input type="hidden" name="fbt_product_id" value="">');
-		}
+			if ($(this).prop('disabled')) {
+				return;
+			}
+			if ($(this).hasClass('bt-view-cart')) {
+				window.location.href = AJ_Options.cart;
+				return;
+			}
+			const productIds = [];
+			$productsList.find('.fbt-product-item input[type="checkbox"]:checked').each(function () {
+				const productId = $(this).val();
+				// For current product, use variation ID if selected
+				if ($(this).closest('.fbt-current-product').length && currentVariationId) {
+					productIds.push(currentVariationId);
+				} else {
+					productIds.push(productId);
+				}
+			});
 
-		const $hiddenInput = $addToCartForm.find('input[name="fbt_product_id"]');
+			if (productIds.length === 0) {
+				return;
+			}
 
-		// Update hidden input when select changes
-		$fbtSelect.on('change', function () {
-			const fbtProductId = $(this).val();
-			$hiddenInput.val(fbtProductId);
+			// Disable button and show loading
+
+			$addToCartBtn.prop('disabled', true).addClass('loading');
+
+			$.ajax({
+				url: AJ_Options.ajax_url,
+				type: 'POST',
+				data: {
+					action: 'freska_add_fbt_to_cart',
+					product_ids: productIds
+				},
+				success: function (response) {
+					if (response.success) {
+						// Handle cart action for each added product with sequential delay
+						if (response.data.added && response.data.added.length > 0) {
+							response.data.added.forEach((productId, idx) => {
+								setTimeout(() => {
+									FreskaHandleCartAction(productId);
+								}, idx * 300);
+							});
+						}
+
+						// Trigger WooCommerce added_to_cart event
+						$(document.body).trigger('wc_fragment_refresh');
+						$addToCartBtn.text('View Cart').prop('disabled', false).addClass('bt-view-cart');
+					}
+
+					// Reset button
+					$addToCartBtn.prop('disabled', false).removeClass('loading');
+					calculateTotal(); // Recheck state
+				},
+				error: function () {
+					$addToCartBtn.prop('disabled', false).removeClass('loading');
+					calculateTotal(); // Recheck state
+				}
+			});
 		});
 
-		// Set initial value if already selected
-		const initialValue = $fbtSelect.val();
-		if (initialValue) {
-			$hiddenInput.val(initialValue);
-		}
+		// Calculate initial total on page load
+		calculateTotal();
 	}
 
 	/* Elementor Slider Control - Button click to trigger slider arrows */
@@ -4441,8 +4593,8 @@
 		function configureSwiperNoSwiping() {
 			$(CAROUSEL_CONTAINERS + ' .swiper').each(function () {
 				var $swiper = $(this);
-				if ($swiper.data('woozio-fixed')) return;
-				$swiper.data('woozio-fixed', true);
+				if ($swiper.data('freska-fixed')) return;
+				$swiper.data('freska-fixed', true);
 
 				var swiperInstance = this.swiper;
 				var noSwipingSelector = INTERACTIVE_ELEMENTS.join(', ');

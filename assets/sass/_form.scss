@@ -300,21 +300,21 @@
       width: fit-content !important;
       align-items: center !important;
       padding: 11px 30px !important;
-      font-weight: 500 !important;
+      font-weight: 700 !important;
       text-transform: capitalize !important;
       font-size: 16px !important;
       line-height: 26px !important;
       color: $color-primary !important;
       border-radius: 8px !important;
-      background-color: $color-accent !important;
+      background-color: $color-secondary !important;
       font-family: $primary-font !important;
       white-space: nowrap !important;
       border: none !important;
       width: 100% !important;
       @media (min-width: $break-sm) {
         &:hover {
-          background-color: $color-primary !important;
-          color: $color-accent !important;
+          background-color: $color-accent !important;
+          color: $color-white !important;
         }
       }
       &:focus {
@@ -365,6 +365,7 @@
     transform: rotate(359deg);
   }
 }
+
 .bt-form-newsletter_wrapper {
   .bt-form-newsletter {
     &.loading {
@@ -372,13 +373,16 @@
         &::after {
           display: block;
         }
+
         input[type="submit"],
         button[type="submit"] {
-          opacity: 0.7 !important;
           pointer-events: none !important;
+          color: transparent !important;
+          background-image: none !important;
         }
       }
     }
+
     .gform-body {
       input[type="email"] {
         padding: 11px 80px 11px 24px;
@@ -394,27 +398,42 @@
         box-shadow: none;
         color: $color-text;
         font-family: $primary-font !important;
+
         &:focus {
           outline: none;
           box-shadow: none;
         }
+
         &::placeholder {
           color: #a0a0a0;
         }
       }
     }
+
     .gform_footer {
       position: absolute;
       top: 6px;
       margin: 0 !important;
       right: 8px;
       width: auto;
+
       &::after {
+        content: "";
+        display: none;
         width: 18px;
         height: 18px;
         border: 2px rgba(0, 0, 0, 0.1) solid;
         border-top: 2px $color-primary solid;
+        border-radius: 50%;
+        animation: effectSpinnerRotate 0.75s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -9px;
+        margin-left: -9px;
+        z-index: 2;
       }
+
       input[type="submit"],
       button[type="submit"] {
         box-shadow: none !important;
@@ -422,6 +441,7 @@
         border: none !important;
         color: $color-primary !important;
         font-size: 14px !important;
+        outline: none !important; 
         font-weight: 700 !important;
         line-height: 1.57 !important;
         height: 40px !important;
@@ -432,6 +452,7 @@
         background-position: right 16px center !important;
         background-repeat: no-repeat !important;
         background-size: 20px !important;
+
         @media (max-width: $break-xs) {
           font-size: 0 !important;
           width: 40px !important;
@@ -442,6 +463,7 @@
     }
   }
 }
+
 .bt-form-subscribes_wrapper {
   margin-bottom: 0 !important;
   .bt-form-subscribes {
@@ -528,20 +550,32 @@
   }
 }
 
-.bt-form-newsletter,
+.bt-form-newsletter {
+  .gform_confirmation_message {
+    padding: 20px;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .validation_message {
+    max-width: 280px;
+  }
+}
+
 .bt-form-subscribes {
   .gform_confirmation_message {
     border-radius: 12px;
     padding: 20px;
     font-size: 16px;
     font-weight: 400;
-    color:  $color-secondary;
+    color: $color-secondary;
     background-color: $color-accent;
   }
+
   .validation_message {
     border-radius: 12px;
     padding: 20px;
-    color:  $color-secondary !important;
+    color: $color-secondary !important;
     background-color: $color-accent;
     max-width: 280px;
   }
@@ -561,6 +595,8 @@
         input[type="submit"],
         button[type="submit"] {
           pointer-events: none !important;
+          color: transparent !important;
+          background-image: none !important;
         }
       }
     }
@@ -611,8 +647,8 @@
         display: none;
         width: 18px;
         height: 18px;
-        border: 2px rgba(255, 255, 255, 0.3) solid;
-        border-top: 2px #1A1A1A solid;
+        border: 2px rgba(0, 0, 0, 0.1) solid;
+        border-top: 2px $color-primary solid;
         border-radius: 50%;
         animation: effectSpinnerRotate 0.75s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         position: absolute;
