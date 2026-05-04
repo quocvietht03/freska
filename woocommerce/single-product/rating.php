@@ -37,7 +37,6 @@ if ($rating_count < 1) {
 <div class="bt-product-rating woocommerce-product-rating">
     <?php echo wc_get_rating_html($average, $rating_count); ?>
     <?php if ($rating_count): ?>
-        <span class="bt-product-rating--average"><?php echo esc_html(number_format((float) $average, 1)); ?></span>
-        <span class="bt-product-rating--count"><?php echo esc_html('('. $rating_count .')'); ?></span>
+        <span class="bt-product-rating--count"><?php echo esc_html('(' . $rating_count . ' ' . ($rating_count == 1 ? 'review' : 'reviews') . ')'); ?></span>
     <?php endif; ?>
 </div>

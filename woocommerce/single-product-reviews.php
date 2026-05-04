@@ -40,8 +40,8 @@ if (!empty($rating_counts)) {
     }
 }
 ?>
-<div id="reviews" class="woocommerce-Reviews">
-    <div id="comments" class="<?php echo esc_attr(($product->get_average_rating() > 0) ? 'bt-has-comments' : 'bt-no-comments'); ?>">
+<div id="reviews" class="woocommerce-Reviews <?php echo esc_attr(($product->get_average_rating() > 0) ? 'bt-has-comments' : 'bt-no-comments'); ?>">
+    <div id="comments">
         <?php if ($product->get_average_rating() > 0) { ?>
             <div class="bt-summary-rating">
                 <div class="bt-left-summary">
@@ -63,7 +63,6 @@ if (!empty($rating_counts)) {
                         <?php endif; ?>
                     </div>
                 </div>
-                <div class="bt-summary-rating--divider"></div>
                 <div class="bt-center-summary">
                     <?php
                     if (!empty($distribution)) {
@@ -86,7 +85,6 @@ if (!empty($rating_counts)) {
                     }
                     ?>
                 </div>
-                <div class="bt-summary-rating--divider"></div>
                 <div class="bt-right-summary">
                     <a href="#" class="bt-action-review"><?php echo esc_html__('Write a review', 'freska') ?></a>
                 </div>
