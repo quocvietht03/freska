@@ -159,11 +159,9 @@ class Widget_CountDown extends Widget_Base
 			[
 				'label' => __('Label Color', 'freska'),
 				'type' => Controls_Manager::COLOR,
+				'separator' => 'before',
 				'selectors' => [
 					'{{WRAPPER}} .bt-countdown--label' => 'color: {{VALUE}};',
-				],
-				'condition' => [
-					'layout' => 'default',
 				],
 			]
 		);
@@ -173,9 +171,6 @@ class Widget_CountDown extends Widget_Base
 			[
 				'name' => 'label_typography',
 				'selector' => '{{WRAPPER}} .bt-countdown--label',
-				'condition' => [
-					'layout' => 'default',
-				],
 			]
 		);
 
@@ -184,6 +179,7 @@ class Widget_CountDown extends Widget_Base
 			[
 				'label' => __('Delimiter Color', 'freska'),
 				'type' => Controls_Manager::COLOR,
+				'separator' => 'before',
 				'selectors' => [
 					'{{WRAPPER}} .bt-delimiter' => 'color: {{VALUE}};',
 				],

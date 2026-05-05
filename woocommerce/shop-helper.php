@@ -4999,12 +4999,12 @@ function freska_load_product_toast()
                 <div class="bt-product-toast--button<?php echo esc_attr($tools === 'cart' ? ' bt-button-cart' : ''); ?>">
                     <?php
                     if ($tools === 'wishlist') {
-                        echo '<a href="' . esc_url($wishlist_url) . '" class="bt-btn bt-button-hover">' . esc_html__('View Wishlist', 'freska') . '</a>';
+                        echo '<a href="' . esc_url($wishlist_url) . '" class="bt-btn">' . esc_html__('View Wishlist', 'freska') . '</a>';
                     } else if ($tools === 'compare') {
-                        echo '<a href="' . esc_url($compare_url) . '" class="bt-btn bt-button-hover">' . esc_html__('View Compare', 'freska') . '</a>';
+                        echo '<a href="' . esc_url($compare_url) . '" class="bt-btn">' . esc_html__('View Compare', 'freska') . '</a>';
                     } else {
-                        echo '<a href="' . esc_url($cart_url) . '" class="bt-btn bt-button-hover">' . esc_html__('View Cart', 'freska') . '</a>';
-                        echo '<a href="' . esc_url($checkout_url) . '" class="bt-btn bt-button-hover">' . esc_html__('Checkout', 'freska') . '</a>';
+                        echo '<a href="' . esc_url($cart_url) . '" class="bt-btn">' . esc_html__('View Cart', 'freska') . '</a>';
+                        echo '<a href="' . esc_url($checkout_url) . '" class="bt-btn">' . esc_html__('Checkout', 'freska') . '</a>';
                     }
                     ?>
                 </div>
@@ -5110,7 +5110,7 @@ function freska_woocommerce_after_add_to_cart_button()
 
     if ($product->is_type('simple')) {
         echo '<a href="#"
-        class="single_add_to_cart_button bt-button-hover bt-js-add-to-cart-simple"
+        class="single_add_to_cart_button bt-js-add-to-cart-simple"
         data-product-id="' . esc_attr($product->get_id()) . '"
         data-sold-individually="' . ($is_sold_individually ? '1' : '0') . '"
         data-in-cart-ids="' . esc_attr($in_cart_ids_json) . '">' . esc_html__('Add to Cart', 'freska') . '</a>';
@@ -5130,7 +5130,7 @@ function freska_woocommerce_after_add_to_cart_button()
                 $has_valid_default = true;
                 $price_html = $variation_product->get_price_html();
                 if ($price_html) {
-                    $add_to_cart_text .= '<span class="bt-price-add-cart"> - ' . wp_kses_post($price_html) . '</span>';
+                    $add_to_cart_text .= '<span class="bt-price-add-cart"> - <span class="price">' . wp_kses_post($price_html) . '</span></span>';
                 }
             }
         }
@@ -5138,7 +5138,7 @@ function freska_woocommerce_after_add_to_cart_button()
         $disabled_class = $has_valid_default ? '' : ' disabled';
         $output_variation_id = $has_valid_default ? $effective_variation_id : $variation_id;
         echo '<a href="#"
-        class="bt-btn-add-to-cart-variable single_add_to_cart_button bt-button-hover bt-js-add-to-cart-variable' . esc_attr($disabled_class) . '"
+        class="bt-btn-add-to-cart-variable single_add_to_cart_button bt-js-add-to-cart-variable' . esc_attr($disabled_class) . '"
         data-product-quantity="1"
         data-product-id="' . esc_attr($product->get_id()) . '"
         data-variation="' . esc_attr($output_variation_id) . '"
@@ -5148,7 +5148,7 @@ function freska_woocommerce_after_add_to_cart_button()
             '</a>';
 
         echo '<a href="' . esc_url($product->get_permalink()) . '" 
-        class="bt-btn-read-more bt-button-hover" 
+        class="bt-btn-read-more" 
         rel="nofollow">' . esc_html__('Read more', 'freska') . '</a>';
     }
 }
@@ -5269,7 +5269,7 @@ function freska_single_product_sticky_bar()
             <div class="bt-single-product-sticky-bar__action">
                 <?php if ($is_variable) { ?>
                     <div class="bt-single-product-sticky-bar__add-to-cart-wrap bt-single-product-no-quantity" data-mode="select-options">
-                        <a href="#" class="bt-single-product-sticky-bar__btn bt-js-sticky-add-to-cart bt-button-hover" data-product-id="<?php echo esc_attr($product_id); ?>" data-type="variable" data-label-add="<?php echo esc_attr($btn_label_add); ?>" data-label-select="<?php echo esc_attr($btn_label_select); ?>"><?php echo esc_html($btn_label_select); ?></a>
+                        <a href="#" class="bt-single-product-sticky-bar__btn bt-js-sticky-add-to-cart" data-product-id="<?php echo esc_attr($product_id); ?>" data-type="variable" data-label-add="<?php echo esc_attr($btn_label_add); ?>" data-label-select="<?php echo esc_attr($btn_label_select); ?>"><?php echo esc_html($btn_label_select); ?></a>
                     </div>
                 <?php } ?>
                 <div class="bt-single-product-sticky-bar__add-to-cart-wrap bt-single-product-sticky-bar__add-to-cart-wrap--ready <?php echo esc_attr($is_sold_individually ? 'bt-single-product-no-quantity' : ''); ?>" data-mode="add-to-cart" <?php if ($is_variable) {
@@ -5286,7 +5286,7 @@ function freska_single_product_sticky_bar()
                                 </svg></span>
                         </div>
                     <?php } ?>
-                    <a href="#" class="bt-single-product-sticky-bar__btn bt-js-sticky-add-to-cart bt-js-sticky-add-to-cart-ready bt-button-hover bt-style-add-to-cart" data-product-id="<?php echo esc_attr($product_id); ?>" data-type="<?php echo esc_attr($is_simple ? 'simple' : 'variable'); ?>" data-label-add="<?php echo esc_attr($btn_label_add); ?>" data-label-select="<?php echo esc_attr($btn_label_select); ?>" data-price-text="<?php echo esc_attr($price_html); ?>"><?php echo esc_html($btn_label_add); ?></a>
+                    <a href="#" class="bt-single-product-sticky-bar__btn bt-js-sticky-add-to-cart bt-js-sticky-add-to-cart-ready bt-style-add-to-cart" data-product-id="<?php echo esc_attr($product_id); ?>" data-type="<?php echo esc_attr($is_simple ? 'simple' : 'variable'); ?>" data-label-add="<?php echo esc_attr($btn_label_add); ?>" data-label-select="<?php echo esc_attr($btn_label_select); ?>" data-price-text="<?php echo esc_attr($price_html); ?>"><?php echo esc_html($btn_label_add); ?></a>
                 </div>
             </div>
         </div>
