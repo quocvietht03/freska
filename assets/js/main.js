@@ -4065,6 +4065,95 @@
 			});
 		});
 	}
+
+	/* add to cart ajax product grouped */
+	function FreskaAddToCartGrouped() {
+		$(document).on('click', '.bt-js-add-to-cart-grouped', function (e) {
+			e.preventDefault();
+
+			var $button = $(this);
+			var $form = $button.closest('form.cart');
+
+			// Collect items: each grouped row with qty > 0 (and checkbox checked if present)
+			var items = [];
+			$form.find('.woocommerce-grouped-product-list-item').each(function () {
+				var $row = $(this);
+				if ($row.hasClass('outofstock')) return;
+				var $checkbox = $row.find('input[type="checkbox"]');
+				if ($checkbox.length && !$checkbox.is(':checked')) return;
+				var $qtyInput = $row.find('input.qty, .quantity input');
+				var qty = $qtyInput.length ? parseInt($qtyInput.val(), 10) : 1;
+				if (isNaN(qty) || qty < 1) return;
+				// Extract product ID from input name="quantity[{id}]"
+				var pid = null;
+				if ($qtyInput.length) {
+					var namePart = $qtyInput.attr('name');
+					if (namePart) {
+						var match = namePart.match(/quantity\[(\d+)\]/);
+						if (match) pid = parseInt(match[1], 10);
+					}
+				}
+				if (!pid) pid = $row.data('product-id');
+				if (pid) {
+					items.push({ product_id: parseInt(pid, 10), quantity: qty });
+				}
+			});
+
+			if (items.length === 0) return;
+
+			$button.addClass('loading');
+			var product_id = $button.data('product-id');
+
+			$.ajax({
+				type: 'POST',
+				dataType: 'json',
+				url: AJ_Options.ajax_url,
+				data: {
+					action: 'freska_products_add_to_cart_grouped',
+					product_id: product_id,
+					items: items
+				},
+				success: function (response) {
+					if (response.success) {
+						$button.removeClass('loading');
+						$.ajax({
+							url: wc_cart_fragments_params.wc_ajax_url.toString().replace('%%endpoint%%', 'get_refreshed_fragments'),
+							type: 'POST',
+							success: function (fragResponse) {
+								if (fragResponse && fragResponse.fragments) {
+									$.each(fragResponse.fragments, function (key, value) {
+										$(key).replaceWith(value);
+									});
+									var cartCount = parseInt($('.bt-mini-cart .cart_total').text());
+									if (cartCount === 0) {
+										$(".bt-mini-cart-sidebar .bt-progress-content").addClass("bt-hide");
+									} else {
+										$(".bt-mini-cart-sidebar .bt-progress-content").removeClass("bt-hide");
+									}
+									$(document.body).trigger('wc_fragments_refreshed');
+									if (product_id) {
+										FreskaHandleCartAction(product_id);
+									}
+									FreskaFreeShippingMessage();
+								}
+							},
+							error: function () {
+								console.error('Failed to update mini cart.');
+							}
+						});
+					} else {
+						$button.removeClass('loading');
+						console.log('Grouped add to cart failed.');
+					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					$button.removeClass('loading');
+					console.log('The following error occured: ' + textStatus, errorThrown);
+				}
+			});
+		});
+	}
+
 	/* Load data for default active variation items */
 	function FreskaLoadDefaultActiveVariations(context) {
 		// If context is provided, search within that context, otherwise search globally
@@ -4809,6 +4898,7 @@
 		FreskaUpdateBodyWidthVariable();
 		FreskaAddToCartVariable();
 		FreskaAddToCartSimple();
+		FreskaAddToCartGrouped();
 		FreskaSingleProductStickyBar();
 		FreskaLoadDefaultActiveVariations(); // Load data for default active variations
 		FreskaFrequentlyBoughtTogether();
