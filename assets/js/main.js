@@ -4065,6 +4065,7 @@
 			});
 		});
 	}
+
 	/* Load data for default active variation items */
 	function FreskaLoadDefaultActiveVariations(context) {
 		// If context is provided, search within that context, otherwise search globally

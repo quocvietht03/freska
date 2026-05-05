@@ -1,18 +1,14 @@
 .__onsale-style {
+  @extend .__button_small_typo;
   position: static;
   min-height: auto;
   min-width: auto;
   display: inline-block;
   padding: 0 8px;
-  border-radius: 7px;
+  border-radius: 100px;
   color: #fff;
   background: $color-red;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 20px;
   letter-spacing: 0.96px;
-  text-transform: uppercase;
-  border-radius: 30px;
   @media (min-width: 400px) and (max-width: $break-xs) {
     font-size: 11px;
     padding: 0 5px;
