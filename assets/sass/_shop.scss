@@ -2388,7 +2388,7 @@
             filter: none;
           }
         }
-        @media (max-width: 1366px) {
+        @media (min-width: 1366px) {
           .bt-product-many-items & {
             top: 10px;
             right: 12px;
@@ -2424,6 +2424,7 @@
         @media (max-width: $break-xs) and (min-width: 400px) {
           top: 8px;
           right: 8px;
+          gap: 4px;
           .bt-icon-btn {
             width: 28px;
             height: 28px;
@@ -2516,7 +2517,7 @@
           &.product_type_external,
           &.bt-btn-add-to-cart-link {
             &::before {
-              background-image: url("../images/view-product-white.svg");
+              background-image: url("../images/view-product.svg");
             }
           }
           @media (max-width: $break-sm) {
@@ -2870,6 +2871,7 @@
       gap: 8px;
       align-items: baseline;
       color: $color-primary;
+      line-height: 1;
       .woocommerce-Price-amount {
         font-size: 16px;
         font-weight: 700;
