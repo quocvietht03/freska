@@ -192,11 +192,7 @@ pre {
   margin: 32px 0;
 }
 p {
-  margin: 0 0 16px 0;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 28px; /* 155.556% */
+  margin: 16px 0;
   &:empty {
     display: none;
   }
