@@ -8876,21 +8876,24 @@
           &__slider-thumbs {
             flex-basis: 80px;
             max-width: 80px;
+            overflow: hidden;
             margin-top: 0;
             cursor: pointer;
 
             .swiper-slide-thumb-active {
+              position: relative;
+              z-index: 1;
+
               >div::before {
                 content: "";
-                right: 0;
-                left: 0;
-                bottom: 0;
                 top: 0;
-                display: flex;
+                right: 0;
+                bottom: 0;
+                left: 0;
                 border: 2px solid $color-primary;
                 border-radius: 4px;
                 position: absolute;
-                z-index: 1;
+                z-index: 2;
                 box-sizing: border-box;
                 pointer-events: none;
               }
@@ -8919,7 +8922,7 @@
               flex-direction: row-reverse;
             }
           }
-          
+
           &.bt-bottom-thumbnail {
             .woocommerce-product-gallery__wrapper {
               flex-direction: column;
@@ -9008,7 +9011,7 @@
           .price {
             @extend .__heading_4_typo;
             display: flex;
-            flex-direction: row-reverse;
+            flex-direction: row;
             align-items: center;
             gap: 8px;
             margin: 0 0 0 0;
@@ -9016,10 +9019,12 @@
             del {
               @extend .__body_typo;
               color: #A0A0A0;
+              order: 2;
             }
 
             ins {
               text-decoration: none;
+              order: 1;
             }
           }
 
@@ -9054,7 +9059,7 @@
           }
         }
 
-                .bt-countdown-product-sale {
+        .bt-countdown-product-sale {
           display: flex;
           justify-content: space-between;
           gap: 8px;
@@ -9092,7 +9097,7 @@
               align-items: center;
               width: 60px;
               height: 60px;
-              background-color: #f6f6f6;
+              background-color: $color-accent;
               border-radius: 8px;
             }
 
@@ -9101,6 +9106,7 @@
               font-style: normal;
               font-weight: 500;
               line-height: 120%;
+              color: #fff;
             }
 
             &--label {
@@ -9108,7 +9114,7 @@
               font-style: normal;
               font-weight: 400;
               line-height: 120%;
-              color: $color-text;
+              color: $color-white;
             }
 
             .bt-delimiter {
@@ -9118,10 +9124,12 @@
               font-weight: 500;
               line-height: 30px;
               text-transform: capitalize;
+              color: $color-primary;
             }
           }
 
-          @media (max-width: $break-xs), (min-width: 768px) and (max-width: $break-md) {
+          @media (max-width: $break-xs),
+          (min-width: 768px) and (max-width: $break-md) {
             flex-direction: column;
             align-items: start;
             max-width: 320px;
@@ -9178,8 +9186,13 @@
             max-width: 380px;
 
             @keyframes progress-bar-stripes {
-              from { background-position: 1rem 0; }
-              to { background-position: 0 0; }
+              from {
+                background-position: 1rem 0;
+              }
+
+              to {
+                background-position: 0 0;
+              }
             }
 
             .bt-progress {
@@ -9196,16 +9209,14 @@
               width: 0%;
               transition: width 1s ease;
               position: relative;
-              background-image: linear-gradient(
-                45deg,
-                rgba(255, 255, 255, 0.3) 25%,
-                transparent 25%,
-                transparent 50%,
-                rgba(255, 255, 255, 0.3) 50%,
-                rgba(255, 255, 255, 0.3) 75%,
-                transparent 75%,
-                transparent
-              );
+              background-image: linear-gradient(45deg,
+                  rgba(255, 255, 255, 0.3) 25%,
+                  transparent 25%,
+                  transparent 50%,
+                  rgba(255, 255, 255, 0.3) 50%,
+                  rgba(255, 255, 255, 0.3) 75%,
+                  transparent 75%,
+                  transparent);
               background-size: 1rem 1rem;
               animation: 1s linear 0s infinite normal none running progress-bar-stripes;
             }
@@ -9227,7 +9238,8 @@
             }
           }
 
-          @media (max-width: $break-xs), (min-width: 768px) and (max-width: $break-md) {
+          @media (max-width: $break-xs),
+          (min-width: 768px) and (max-width: $break-md) {
             flex-direction: column;
             align-items: start;
 
@@ -9348,14 +9360,42 @@
             color: $color-primary;
             background: $color-secondary;
             padding: 14px 40px;
+            transition: background-color 0.4s ease, color 0.4s ease;
 
             &.disabled {
-              background: $color-secondary !important;
-              color: $color-white !important;
+              background: rgba(255, 201, 25, 0.5) !important;
+              color: $color-primary !important;
             }
 
             &.added {
               display: none;
+            }
+
+            .price {
+              display: inline-flex;
+              align-items: center;
+              gap: 8px;
+
+              ins {
+                float: none;
+                text-decoration: none;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 24px;
+                color: inherit;
+                order: 1;
+              }
+
+              del {
+                opacity: 0.5;
+                color: inherit;
+                line-height: 24px;
+                font-size: 14px;
+                font-weight: 400;
+                text-decoration: line-through;
+                order: 2;
+              }
             }
 
             ins {
@@ -9364,7 +9404,8 @@
 
             @media (min-width: $break-sm) {
               &:hover:not(.disabled) {
-                background-size: 200% 100%;
+                background-color: $color-accent;
+                color: $color-white;
               }
             }
 
@@ -9564,7 +9605,7 @@
             width: 100%;
 
             &.in-stock {
-              color: $color-green; 
+              color: $color-green;
             }
 
             &.available-on-backorder {
@@ -9757,6 +9798,7 @@
                           background-color: rgba(0, 0, 0, 0.06);
                           border-color: transparent;
                           outline: none;
+                          color: $color-primary;
                         }
 
                         &.disabled {
@@ -9974,7 +10016,8 @@
               transition: none;
 
               &.disabled {
-                background: $color-red !important;
+                background: rgba(240, 62, 62, 0.5) !important;
+                color: $color-white !important;
               }
 
               @media (max-width: $break-xs),
