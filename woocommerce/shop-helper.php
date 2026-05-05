@@ -5080,7 +5080,6 @@ function freska_woocommerce_after_add_to_cart_button()
 {
     global $product;
 
-    // Check if product exists
     if (empty($product) || ! is_a($product, 'WC_Product')) {
         return;
     }
@@ -5090,7 +5089,6 @@ function freska_woocommerce_after_add_to_cart_button()
         $variation_id = intval($_REQUEST['variation_id']);
     }
 
-    // Check sold-individually and cart state
     $is_sold_individually = $product->is_sold_individually();
     $in_cart_ids = array();
     if ($is_sold_individually && WC()->cart) {
@@ -5116,7 +5114,6 @@ function freska_woocommerce_after_add_to_cart_button()
         data-in-cart-ids="' . esc_attr($in_cart_ids_json) . '">' . esc_html__('Add to Cart', 'freska') . '</a>';
     }
     if ($product->is_type('variable')) {
-        // Use default variation when no variation from request (initial load)
         $effective_variation_id = $variation_id;
         if (!$effective_variation_id && function_exists('get_default_variation_id')) {
             $effective_variation_id = get_default_variation_id($product);
