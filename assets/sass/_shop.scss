@@ -6,6 +6,7 @@
   display: inline-block;
   padding: 0 8px;
   border-radius: 100px;
+  text-transform: uppercase;
   color: #fff;
   background: $color-red;
   letter-spacing: 0.96px;
@@ -8038,7 +8039,7 @@
     &.bt-loop-add-to-cart-btn {
       position: relative;
       &.loading {
-        color: transparent;
+        color: transparent !important;
         &::after {
           content: "" !important;
           position: absolute;
@@ -10075,7 +10076,7 @@
         border-radius: 15px;
       }
       &.is-active a {
-        color: $color-primary;
+        color: $color-white;
         background: $color-accent;
       }
     }

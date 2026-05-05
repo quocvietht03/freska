@@ -3455,7 +3455,7 @@ function freska_search_live()
                             </a>
                         </h3>
                         <?php if ($product_price) : ?>
-                            <span><?php echo wp_kses_post($product_price); ?></span>
+                            <span class="price"><?php echo wp_kses_post($product_price); ?></span>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -3589,7 +3589,7 @@ function freska_search_live_style1()
                                 </a>
                             </h3>
                             <?php if ($product_price) : ?>
-                                <span><?php echo wp_kses_post($product_price); ?></span>
+                                <span class="price"><?php echo wp_kses_post($product_price); ?></span>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -3866,7 +3866,7 @@ function freska_load_products_display()
                                 </a>
                             </h3>
                             <?php if ($product_price) : ?>
-                                <span><?php echo wp_kses_post($product_price); ?></span>
+                                <span class="price"><?php echo wp_kses_post($product_price); ?></span>
                             <?php endif; ?>
                         </div>
                     </div>
