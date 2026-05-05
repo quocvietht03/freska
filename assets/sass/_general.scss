@@ -1598,8 +1598,8 @@
 // icon close popup elementor
 .elementor-popup-modal {
   .dialog-close-button.dialog-lightbox-close-button {
-    width: 21px;
-    height: 21px;
+    width: 16px;
+    height: 16px;
     background-image: url("../images/close-white.svg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -1611,8 +1611,8 @@
 
   &.bt-menu-mobile-popup {
     .dialog-close-button.dialog-lightbox-close-button {
-      width: 24px;
-      height: 24px;
+      width: 16px;
+      height: 16px;
       background-image: url(../images/close.svg);
     }
   }
@@ -1620,8 +1620,8 @@
 
 .elementor-lightbox {
   .dialog-close-button.dialog-lightbox-close-button {
-    width: 21px;
-    height: 21px;
+    width: 16px;
+    height: 16px;
     background-image: url("../images/close-white.svg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -1629,7 +1629,7 @@
 
     svg {
       display: none;
-    }
+    } 
   }
 }
 
@@ -1893,7 +1893,7 @@
     color: $color-primary;
     background-color: rgba($color-white, 0.16);
     backdrop-filter: blur(8px);
-    border-radius: 8px;
+    border-radius: 100px;
     box-shadow: 0 0 5px 0 rgba($color-black, 0.16);
     transition: all 0.3s ease;
 

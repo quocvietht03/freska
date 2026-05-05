@@ -3244,16 +3244,16 @@
             a {
               font-size: 16px;
               display: flex;
-              background: $color-accent;
+              background: $color-secondary;
               border-radius: 4px;
               justify-content: center;
               line-height: 35px;
-              color: #fff;
+              color: $color-primary;
               padding: 0;
               font-weight: 400;
               width: 130px;
               &::after {
-                background-image: url("../images/loading-white.svg");
+                background-image: url("../images/loading.svg");
               }
               &.loading {
                 color: transparent;
@@ -6367,7 +6367,7 @@
         justify-content: center;
         align-items: center;
         min-width: 45px;
-        padding: 6px 10px;
+        padding: 8px 10px 4px;
         border-radius: 5px;
         background: $color-secondary;
       }
@@ -6382,7 +6382,10 @@
       }
 
       &--label {
-        display: none;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1.57;
+        color: $color-primary;
       }
 
       .bt-delimiter {
@@ -6703,9 +6706,11 @@
       color: $color-primary;
       text-transform: capitalize;
       line-height: 24px;
-      padding: 12px 0;
-      margin: -12px 0;
+      padding: 10px 0;
       display: inline-block;
+      @media (max-width: $break-sm) {
+        margin: -12px 0;
+      }
       > a {
         display: flex;
         align-items: center;
