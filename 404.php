@@ -13,7 +13,7 @@ get_header();
 				</div>
 				<h3><?php esc_html_e("That Page Cant Be Found.", "freska"); ?></h3>
 				<p><?php esc_html_e("It looks like nothing was found at this location. Maybe try to search for what you are looking for?", "freska") ?></p>
-				<a href="<?php echo esc_url(home_url()); ?>" class="bt-primary-btn bt-button bt-button-hover">
+				<a href="<?php echo esc_url(home_url()); ?>" class="bt-primary-btn bt-button">
 					<?php echo esc_html_e('Go To Homepage', 'freska'); ?>
 					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
 						<g id="ArrowUpRight">

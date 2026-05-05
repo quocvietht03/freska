@@ -127,14 +127,14 @@ if ('yes' !== get_option('woocommerce_enable_myaccount_registration')) : ?>
 					<h2><?php echo esc_html__('Already have an account?', 'freska') ?></h2>
 					<p><?php echo esc_html__('Welcome back. Sign in to access your personalized experience, saved preferences, and more. We are thrilled to have you with us again!', 'freska') ?></p>
 
-					<a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>" class="bt-button-hover bt-button"><?php echo esc_html__('Login', 'freska') ?></a>
+					<a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>" class="bt-button"><?php echo esc_html__('Login', 'freska') ?></a>
 				<?php
 				} else {
 				?>
 					<h2><?php echo esc_html__('New Customer', 'freska') ?></h2>
 					<p><?php echo esc_html__('Be part of our growing family of new customers! Join us today and unlock a world of exclusive benefits, offers, and personalized experiences.', 'freska') ?></p>
 
-					<a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>/?register=true" class="bt-button-hover bt-button"><?php echo esc_html__('Register', 'freska') ?></a>
+					<a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>/?register=true" class="bt-button"><?php echo esc_html__('Register', 'freska') ?></a>
 				<?php
 				}
 				?>
