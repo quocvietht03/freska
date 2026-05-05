@@ -3256,34 +3256,6 @@ function freska_products_add_to_cart_simple()
 add_action('wp_ajax_freska_products_add_to_cart_simple', 'freska_products_add_to_cart_simple');
 add_action('wp_ajax_nopriv_freska_products_add_to_cart_simple', 'freska_products_add_to_cart_simple');
 
-/* ajax add to cart grouped */
-
-function freska_products_add_to_cart_grouped()
-{
-    $product_id = intval($_POST['product_id']);
-    $items = isset($_POST['items']) && is_array($_POST['items']) ? $_POST['items'] : array();
-
-    $added = false;
-    foreach ($items as $item) {
-        $pid = intval($item['product_id']);
-        $qty = max(1, intval($item['quantity']));
-        $product = wc_get_product($pid);
-        if ($product && $product->is_purchasable() && $product->is_in_stock()) {
-            WC()->cart->add_to_cart($pid, $qty);
-            $added = true;
-        }
-    }
-
-    if ($added) {
-        wp_send_json_success(array('success' => true));
-    } else {
-        wp_send_json_error();
-    }
-    wp_die();
-}
-add_action('wp_ajax_freska_products_add_to_cart_grouped', 'freska_products_add_to_cart_grouped');
-add_action('wp_ajax_nopriv_freska_products_add_to_cart_grouped', 'freska_products_add_to_cart_grouped');
-
 /* Ensure shipping is calculated before mini cart is rendered */
 function freska_calculate_shipping_before_mini_cart()
 {
@@ -5175,13 +5147,6 @@ function freska_woocommerce_after_add_to_cart_button()
         echo '<a href="' . esc_url($product->get_permalink()) . '" 
         class="bt-btn-read-more bt-button-hover" 
         rel="nofollow">' . esc_html__('Read more', 'freska') . '</a>';
-    }
-    if ($product->is_type('grouped')) {
-        echo '<a href="#"
-        class="single_add_to_cart_button bt-button-hover bt-js-add-to-cart-grouped"
-        data-product-id="' . esc_attr($product->get_id()) . '">'
-            . esc_html__('Add to Cart', 'freska') .
-            '</a>';
     }
 }
 
